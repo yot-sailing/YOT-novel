@@ -61,30 +61,79 @@ admin
 
 users  
 - user_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
-- user_name 
-- user_image
-- email
-- password
-- asktheme
-- created_at
-- deleted_at
+- user_name VARCHAR(255) NOT NULL
+- user_image VARCHAR(255)
+- email VARCHAR(255) NOT NULL, UNIQUE KEY
+- password VARCHAR(255) NOT NULL
+- asktheme BIT(1) NOT NULL
+- created_at DATESTAMP NOT NULL
+- deleted_at DATESTAMP
 
 novels  
+- novel_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- novel_title VARCHAR(255) NOT NULL
+- writer_id INT UNSIGNED
+- category_id INT UNSIGNED
+- overview TEXT NOT NULL
+- content VARCHAR(255) NOT NULL
+- rating_average FLOAT(2,1) UNSIGNED
+- created_at DATESTAMP NOT NULL
+- updated_at DATESTAMP
+- deleted_at DATESTAMP
+- FOREIGN KEY (writer_id) REFERENCES users(user_id) ON DELETE CASCADE
+- FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL
+
+novel_tags  
+- novel_id INT UNSIGNED, PRIMARY KEY
+- novel_tag_id INT UNSIGNED
+- tag_id INT UNSIGNED
+- PRIMARY KEY (novel_id, novel_tag_id)
+- FOREIGN KEY (novel_id) REFERENCES novels(novel_id) ON DELETE CASCADE
+- FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON DELETE CASCADE
 
 favorites  
+- favorite_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- reader_id INT NOT NULL
+- novel_id INT NOT NULL
+- FOREIGN KEY (reader_id) REFERENCES users(user_id) ON DELETE CASCADE
+- FOREIGN KEY (novel_id) REFERENCES novels(novel_id) ON DELETE CASCADE
 
 reviews  
+- review_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- reader_id INT UNSIGNED NOT NULL
+- novel_id INT UNSIGNED NOT NULL
+- rating_score FLOAT(2,1) UNSIGNED NOT NULL
+- comment TEXT
+- FOREIGN KEY (reader_id) REFERENCES users(user_id) ON DELETE CASCADE
+- FOREIGN KEY (novel_id) REFERENCES novels(novel_id) ON DELETE CASCADE
 
 follows  
+- follow_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- user_id INT UNSIGNED NOT NULL
+- target_user_id INT UNSIGNED NOT NULL
+- FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+- FOREIGN KEY (target_user_id) REFERENCES users(user_id) ON DELETE CASCADE
 
 themerequests  
-- themerequest_id
-- user_id(書き手)
-- user_id(読み手)
-- リクエスト内容
+- themerequest_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- writer_id INT UNSIGNED NOT NULL
+- reader_id INT UNSIGNED NOT NULL
+- reqest_content TEXT NOT NULL
+- FOREIGN KEY (writer_id) REFERENCES users(user_id) ON DELETE CASCADE
+- FOREIGN KEY (reader_id) REFERENCES users(user_id) ON DELETE CASCADE
 
 categories  
+- category_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- category_name VARCHAR(255) NOT NULL, UNIQUE
 
 tags  
+- tag_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- tag_name VARCHAR(255) NOT NULL, UNIQUE
 
-histories  
+histories(閲覧履歴)  
+- history_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- reader_id INT NOT NULL
+- novel_id INT NOT NULL
+- read_at DATESTAMP NOT NULL
+- FOREIGN KEY (reader_id) REFERENCES users(user_id) ON DELETE CASCADE
+- FOREIGN KEY (novel_id) REFERENCES novels(novel_id) ON DELETE CASCADE
