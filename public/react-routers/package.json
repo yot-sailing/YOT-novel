@@ -8,10 +8,12 @@
     "react-scripts": "3.4.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "build": "webpack --mode production"
   },
   "scripts": {
-    "start": "webpack-dev-server --content-base src --mode development --inline"
+    "start": "webpack-dev-server --content-base src --mode development --inline",
+    "build": "webpack --mode production"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
