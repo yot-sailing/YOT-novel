@@ -23,9 +23,9 @@ class Layout extends React.Component{
                             {this.props.children}
                         </div>
                     </div>
-                    <p class="to-the-top">⬆️　to the top</p>
-                    <Footer />
                 </div>
+                <p class="to-the-top">⬆️　to the top</p>
+                <Footer />
             </div>
         );
     }

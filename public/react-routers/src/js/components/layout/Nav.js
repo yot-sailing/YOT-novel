@@ -47,7 +47,7 @@ export default class extends React.Component{
                         <Link to="/bookmarks/news?date=today&filter=none" onClick={this.toggleCollapse.bind(this)}>BookMark</Link>
                     </li>
                     <li class={settingsClass}>
-                        <Link to="/settings" onClick={this.toggleCollapse.bind(this)}>Seach</Link>
+                        <Link to="/settings" onClick={this.toggleCollapse.bind(this)}>Search</Link>
                     </li>
                     <li class={historyClass}>
                         <Link to="/history/news?user=1010" onClick={this.toggleCollapse.bind(this)}>yourHistory</Link>
