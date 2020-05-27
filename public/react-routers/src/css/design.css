@@ -1,0 +1,148 @@
+ul.footer-menu li {
+    display: inline;
+    margin: 0 10px;
+}
+ul.footer-menu {
+    margin-top: -40px;
+}
+.footer-main {
+    text-align: left;
+    margin-left: 15px;
+    color: aliceblue;
+    width: 20%;
+}
+.sign-menu {
+    text-align: right;
+}
+.header-menu li {
+    display: inline;
+    text-align: end;
+    color: white;
+    margin: 0 10px;
+}
+.header-menu h1 {
+    display: inline;
+    color: white;
+}
+footer{
+    width: 100%;
+    height: 100px;
+    background-color: #174a5c;
+    color: white;
+    text-align: center;
+    font-size:  15px;
+}
+.left-side {
+    width: 49%; /*左カラム幅設定*/
+    float: left; /*左にフロート配置*/
+}
+.right-side {
+    width: 49%; /*右カラム幅設定*/
+    float: right; /*右のフロート配置*/
+}
+.left-wrap {
+    width: 20%; /*左カラム幅設定*/
+    float: left;
+}
+.center-wrap {
+    width: 33%;
+    float: right;
+}
+.right-wrap {
+    width: 33%; /*右カラム幅設定*/
+    float: right;
+}
+.col-md-4 {
+    width: 100%;
+}
+.to-the-top {
+    text-align: end;
+}
+.history {
+    display: inline;
+    margin-right: 10px;
+}
+.history-row  {
+    text-align: center;
+}
+.bookmark-row {
+    text-align: center;
+}
+.search_container{
+    box-sizing: border-box;
+}
+.search_container input[type="text"]{
+    border: 1px solid #999;
+    padding: 3px 5px;
+    border-radius: 20px;
+    height: 2.0em;
+    width: 245px;
+    overflow: hidden;
+}
+.search_container input[type="text"]:focus {
+    outline: 0;
+}
+.search_container input[type="submit"]{
+    cursor: pointer;
+    font-family: FontAwesome;
+    font-size: 1.3em;
+    border: none;
+    background: none;
+    color: #3879D9;
+    outline : none;
+    display: inline-block;
+    vertical-align: middle;
+}
+.cp_ipselect {
+	overflow: hidden;
+	width: 245px;
+    text-align: center;
+    padding: 3px 5px;   
+}
+.cp_ipselect select {
+	width: 100%;
+	padding-right: 1em;
+	cursor: pointer;
+	text-indent: 0.01px;
+	text-overflow: ellipsis;
+	border: none;
+	outline: none;
+	background: transparent;
+	background-image: none;
+	box-shadow: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+.cp_ipselect select::-ms-expand {
+    display: none;
+}
+.cp_ipselect.cp_sl01 {
+	position: relative;
+	border: 1px solid #bbbbbb;
+    border-radius: 20px;
+    height: 2.0em;
+    background: #ffffff;
+    margin-top: 15px;
+}
+.cp_ipselect.cp_sl01::before {
+	position: absolute;
+	top: 0.8em;
+	right: 0.9em;
+	width: 0;
+	height: 0;
+	padding: 0;
+	content: '';
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid #666666;
+	pointer-events: none;
+}
+.cp_ipselect.cp_sl01 select {
+	padding: 1px 38px 4px 8px;
+	color: #666666;
+}
+.radio-container {
+    display: inline;
+    width : 245px;
+    margin-right: 0px;
+}
