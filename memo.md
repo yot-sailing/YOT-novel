@@ -63,6 +63,62 @@ admin
 
 ### データベースのテーブルとデータ型を決める
 
+users
+- user_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- user_name VARCHAR(255) NOT NULL
+- user_image VARCHAR(255)
+- email VARCHAR(255) NOT NULL, UNIQUE KEY
+- password VARCHAR(255) NOT NULL
+- user_rating FLOAT(2,1) UNSIGNED
+- asktheme BIT(1) NOT NULL
+- created_at DATESTAMP NOT NULL
+- deleted_at DATESTAMP
+- CONSTRAINT rating_check CHECK(user_rating <= 5.0)
+- novels
+  - novel_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+  - novel_title VARCHAR(255) NOT NULL
+  - category_id INT UNSIGNED categories/**
+  - tag_id tag/**, tag/**
+  - overview TEXT NOT NULL
+  - content VARCHAR(255) NOT NULL
+  - rating_average FLOAT(2,1) UNSIGNED
+  - favoornot
+  - created_at DATESTAMP NOT NULL
+  - updated_at DATESTAMP
+  - deleted_at DATESTAMP
+  - CONSTRAINT rating_check CHECK(rating_average <= 5.0)
+- themerequests  
+  - themerequest_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+  - reader_id INT UNSIGNED NOT NULL
+  - reqest_content TEXT NOT NULL
+- histories(閲覧履歴)  
+  - history_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+  - novel_id INT NOT NULL
+  - read_at DATESTAMP NOT NULL
+
+follows  
+- follow_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- user_id INT UNSIGNED NOT NULL
+- target_user_id INT UNSIGNED NOT NULL
+
+reviews  
+- review_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- reader_id INT UNSIGNED NOT NULL
+- novel_id INT UNSIGNED NOT NULL
+- rating_score FLOAT(2,1) UNSIGNED NOT NULL
+- comment TEXT
+- CONSTRAINT rating_check CHECK(rating_score <= 5.0)
+
+categories(オンメモリ処理)  
+- category_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- category_name VARCHAR(255) NOT NULL, UNIQUE
+
+tags  
+- tag_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
+- tag_name VARCHAR(255) NOT NULL, UNIQUE
+
+-----------------------------------------------------------------------
+
 users  
 - user_id INT UNSIGNED, PRIMARY KEY, AUTO INCREMENT
 - user_name VARCHAR(255) NOT NULL
