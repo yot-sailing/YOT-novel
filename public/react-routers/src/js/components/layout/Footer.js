@@ -15,7 +15,7 @@ export default class extends React.Component{
         const featuredClass = location.pathname === "/" ? "active" : "";
         const bookmarkClass = location.pathname.match(/^\/bookmarks/) ? "active" : "";
         const historyClass = location.pathname.match(/^\/history/) ? "active" : "";
-        const settingsClass = location.pathname.match(/^\/settings/) ? "active" : "";
+        const searchClass = location.pathname.match(/^\/search/) ? "active" : "";
         const mypageClass = location.pathname.match(/^\/mypage/) ? "active" : "";
         return (
           <footer>
@@ -41,9 +41,9 @@ export default class extends React.Component{
                       bookmark
                     </Link>
                   </li>
-                  <li class={settingsClass}>
+                  <li class={searchClass}>
                     <Link
-                      to="/settings"
+                      to="/search"
                       onClick={this.toggleCollapse.bind(this)}
                     >
                       search

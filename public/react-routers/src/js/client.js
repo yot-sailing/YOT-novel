@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Layout from './pages/Layout';
 import Bookmarks from './pages/Bookmark';
-import Settings from './pages/Settings';
+import Search from './pages/Search';
 import Featured from './pages/Featured';
 import History from './pages/History';
 import MyPage from './pages/MyPage';
@@ -16,9 +16,9 @@ ReactDOM.render(
             <Route exact path="/" component={Featured}></Route>
             <Route path="/bookmarks/:article" component={Bookmarks}></Route>
             <Route path="/history/:article" component={History}></Route>
-            <Route path="/settings/" component={Settings}></Route>
+            <Route path="/search/" component={Search}></Route>
             <Route path="/mypage/" component={MyPage}></Route>
-            <Route path="/settings/:mode(main|extra)" component={Settings}></Route>
+            <Route path="/search/:mode(main|extra)" component={Search}></Route>
         </Layout>
     </Router>, app
 );

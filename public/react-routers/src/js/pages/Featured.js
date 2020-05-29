@@ -24,23 +24,21 @@ export default class extends React.Component{
             "新しい機能の追加","今度サイトリニューアルします"
         ].map((title, i) => <News key={i} title={title}/>);
         return (
-            <div>
-                <ScrollToTopOnMount />
-                <div class="left-wrap">
-                    <h3>Today's ranking</h3>
-                    <div class="row">{Rankings}</div>
-                </div>
-                <div class="center-wrap">
-                    <h3>new novels</h3>
-                    <div class="row">{newnovels}</div>
-                </div>
-                <div class="right-wrap">
-                    <h3>News</h3>
-                    <div class="row">{news}</div>
-                </div>
+          <div>
+            <ScrollToTopOnMount />
+            <div class="left-wrap">
+              <h3>Today's ranking</h3>
+              <div class="row box-list-yaxis">{Rankings}</div>
             </div>
-
-            
+            <div class="center-wrap">
+              <h3>new novels</h3>
+              <div class="row box-list-yaxis">{newnovels}</div>
+            </div>
+            <div class="right-wrap">
+              <h3>News</h3>
+              <div class="row box-list-yaxis">{news}</div>
+            </div>
+          </div>
         );
     }
 }
