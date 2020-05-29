@@ -55,8 +55,10 @@ footer{
 .col-md-4 {
     width: 100%;
 }
-.to-the-top {
-    text-align: end;
+div.to-the-top-container{
+    text-align: right;
+    background-color: #ffffff;
+    padding-right: 3em;
 }
 .history {
     display: inline;
@@ -146,3 +148,15 @@ footer{
     width : 245px;
     margin-right: 0px;
 }
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+footer {
+  bottom: 0;
+  height: 8em;
+  position: absolute;
+}
+

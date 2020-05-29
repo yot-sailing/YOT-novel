@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "build": "webpack --mode production",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-hash-link": "^1.2.2",
     "react-scripts": "3.4.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "build": "webpack --mode production"
+    "webpack-dev-server": "^3.10.3"
   },
   "scripts": {
     "start": "webpack-dev-server --content-base src --mode development --inline",
