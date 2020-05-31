@@ -26,7 +26,7 @@ import (
 
 func main() {
 	//ディレクトリを指定する
-	fs := http.FileServer(http.Dir("public"))
+	fs := http.FileServer(http.Dir("public/react-routers/src"))
 	//ルーティング設定。"/"というアクセスがきたらstaticディレクトリのコンテンツを表示させる
 	http.Handle("/", fs)
 
