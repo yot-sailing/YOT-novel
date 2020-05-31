@@ -1,3 +1,11 @@
 .DS_Store
 
 article.md
+
+service_account.json
+
+.firebase/
+
+.firebaserc
+
+.firebase.json
