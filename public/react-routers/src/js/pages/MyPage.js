@@ -17,18 +17,18 @@ export default class extends React.Component{
         ].map((title, i) => <Article key={i} title={title} author="chumomo" category="ラブストーリー"/>);
         
         return (
-            <div class="container">
-                <ScrollToTopOnMount />
-                <h1>This is my page.</h1>
-                <div class="left-side">
-                    <h3>your favorite writers.</h3>
-                    <div> {favwriter} </div>
-                </div>
-                <div class="right-side">
-                    <h3 class="mypage-timeline">your novels</h3>
-                    <div>{Articles}</div>
-                </div>
+          <div class="container">
+            <ScrollToTopOnMount />
+            <h1>This is my page.</h1>
+            <div class="left-side">
+              <h3>your favorite writers.</h3>
+              <div class="box-list-yaxis"> {favwriter} </div>
             </div>
+            <div class="right-side">
+              <h3 class="mypage-timeline">your novels</h3>
+              <div class="box-list-yaxis">{Articles}</div>
+            </div>
+          </div>
         );
     }
 }

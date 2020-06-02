@@ -1,3 +1,56 @@
+/**
+ * 全体設定
+ */
+.col-md-4 {
+    width: 100%;
+}
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+.box-list-yaxis{
+    display: flex;
+    flex-direction: column;
+}
+
+/**
+ * ヘッダー設定
+ */
+.header-menu li {/* ヘッダーのメニュー */
+    display: inline;
+    text-align: end;
+    color: white;
+    margin: 0 10px;
+}
+.sign-menu {
+    text-align: right;
+}
+
+/**
+ * トップページ設定
+ */
+.left-wrap {/* 左側(ランキング) */
+    width: 33%;
+    float: left;
+}
+.center-wrap {/* 中央(最新) */
+    width: 33%;
+    float: left;
+}
+.right-wrap {/* 右側(お知らせ) */
+    width: 33%;
+    float: right;
+}
+
+/**
+ * フッター設定
+ */
+div.to-the-top-container{/* 一番上へ */
+    text-align: right;
+    background-color: #ffffff;
+    padding-right: 3em;
+}
 ul.footer-menu li {
     display: inline;
     margin: 0 10px;
@@ -5,59 +58,38 @@ ul.footer-menu li {
 ul.footer-menu {
     margin-top: -40px;
 }
-.footer-main {
+.footer-main {/* YOT */
     text-align: left;
     margin-left: 15px;
     color: aliceblue;
     width: 20%;
 }
-.sign-menu {
-    text-align: right;
-}
-.header-menu li {
-    display: inline;
-    text-align: end;
-    color: white;
-    margin: 0 10px;
-}
-.header-menu h1 {
-    display: inline;
-    color: white;
-}
 footer{
     width: 100%;
-    height: 100px;
     background-color: #174a5c;
     color: white;
     text-align: center;
     font-size:  15px;
+    bottom: 0;
+    height: 8em;
+    position: absolute;
 }
-.left-side {
-    width: 49%; /*左カラム幅設定*/
-    float: left; /*左にフロート配置*/
-}
-.right-side {
-    width: 49%; /*右カラム幅設定*/
-    float: right; /*右のフロート配置*/
-}
-.left-wrap {
-    width: 20%; /*左カラム幅設定*/
+
+/**
+ * マイページ設定
+ */
+.left-side {/* 左側(お気に入りユーザー) */
+    width: 49%;
     float: left;
 }
-.center-wrap {
-    width: 33%;
+.right-side {/* 右側(作品) */
+    width: 49%;
     float: right;
 }
-.right-wrap {
-    width: 33%; /*右カラム幅設定*/
-    float: right;
-}
-.col-md-4 {
-    width: 100%;
-}
-.to-the-top {
-    text-align: end;
-}
+
+/**
+ * 履歴設定
+ */
 .history {
     display: inline;
     margin-right: 10px;
@@ -65,9 +97,17 @@ footer{
 .history-row  {
     text-align: center;
 }
+
+/**
+ * ブックマーク設定
+ */
 .bookmark-row {
     text-align: center;
 }
+
+/**
+ * 検索ページ設定
+ */
 .search_container{
     box-sizing: border-box;
 }

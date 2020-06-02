@@ -17,12 +17,12 @@ export default class extends React.Component{
             "り"
         ].map((title, i) => <Article key={i} title={title} author="PandA" category="SF" />);
         return (
-            <div>
-                <ScrollToTopOnMount />
-                <h1>bookmarks</h1>
-                article: {article}, date:{date}, filter:{filter}
-                <div class="bookmark-row">{Articles}</div>
-            </div>
+          <div>
+            <ScrollToTopOnMount />
+            <h1>bookmarks</h1>
+            article: {article}, date:{date}, filter:{filter}
+            <div class="bookmark-row  box-list-yaxis">{Articles}</div>
+          </div>
         );
     }
 }

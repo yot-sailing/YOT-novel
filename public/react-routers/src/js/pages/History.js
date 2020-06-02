@@ -23,7 +23,7 @@ export default class extends React.Component{
                 <h1 class="history">History</h1>最近5件を表示しています.
                 <div class="history-wrapper">
                 user:{user}
-                <div class="history-row">{Articles}</div>
+                <div class="history-row box-list-yaxis">{Articles}</div>
                 </div>
             </div>
         );
