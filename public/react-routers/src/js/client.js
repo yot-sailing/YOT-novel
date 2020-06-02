@@ -7,6 +7,7 @@ import Search from './pages/Search';
 import Featured from './pages/Featured';
 import History from './pages/History';
 import MyPage from './pages/MyPage';
+import Ranking from './pages/Ranking';
 
 const app = document.getElementById('app');
 
@@ -14,6 +15,7 @@ ReactDOM.render(
     <Router>
         <Layout>
             <Route exact path="/" component={Featured}></Route>
+            <Route path="/ranking" component={Ranking}></Route>
             <Route path="/bookmarks/:article" component={Bookmarks}></Route>
             <Route path="/history/:article" component={History}></Route>
             <Route path="/search/" component={Search}></Route>
