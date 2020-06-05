@@ -1,7 +1,6 @@
 import React from 'react';
 import Article from '../components/Article';
 import News from '../components/News';
-import firebase, { db } from '../connectDB';
 import ScrollToTopOnMount from '../components/ScrollToTopOnMount';
 
 export default class extends React.Component{
