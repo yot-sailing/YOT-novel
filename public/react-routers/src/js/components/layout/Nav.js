@@ -14,7 +14,7 @@ export default class extends React.Component{
     render() {
         const { location } = this.props;
         const { collapsed } = this.state;
-        const featuredClass = location.pathname === "/" ? "active" : "";
+        const topClass = location.pathname === "/" ? "active" : "";
         const rankingClass = location.pathname.match(/^\/ranking/) ? "active" : "";
         const bookmarkClass = location.pathname.match(/^\/bookmarks/) ? "active" : "";
         const historyClass = location.pathname.match(/^\/history/) ? "active" : "";
@@ -54,12 +54,12 @@ export default class extends React.Component{
                     </ul>
                   </div>
                   <ul class="nav navbar-nav">
-                    <li class={featuredClass}>
+                    <li class={topClass}>
                       <Link to="/" onClick={this.toggleCollapse.bind(this)}>
                         TopPage
                       </Link>
                     </li>
-                    <li class={featuredClass}>
+                    <li class={topClass}>
                       <Link to="/ranking" onClick={this.toggleCollapse.bind(this)}>
                         Ranking
                       </Link>

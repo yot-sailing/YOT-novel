@@ -12,7 +12,7 @@ export default class extends React.Component{
         this.setState({collapsed});
     }
     render() {
-        const featuredClass = location.pathname === "/" ? "active" : "";
+        const topClass = location.pathname === "/" ? "active" : "";
         const bookmarkClass = location.pathname.match(/^\/bookmarks/) ? "active" : "";
         const historyClass = location.pathname.match(/^\/history/) ? "active" : "";
         const searchClass = location.pathname.match(/^\/search/) ? "active" : "";
@@ -28,7 +28,7 @@ export default class extends React.Component{
               <div class="col-lg-12">
                 <h2 class="footer-main">YOT</h2>
                 <ul class="footer-menu">
-                  <li class={featuredClass}>
+                  <li class={topClass}>
                     <Link to="/" onClick={this.toggleCollapse.bind(this)}>
                       ranking
                     </Link>
