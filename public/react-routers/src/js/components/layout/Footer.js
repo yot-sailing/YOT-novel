@@ -17,6 +17,9 @@ export default class extends React.Component{
         const historyClass = location.pathname.match(/^\/history/) ? "active" : "";
         const searchClass = location.pathname.match(/^\/search/) ? "active" : "";
         const mypageClass = location.pathname.match(/^\/mypage/) ? "active" : "";
+        const signInClass = location.pathname.match(/^\/signIn/) ? "active" : "";
+        const signUpClass = location.pathname.match(/^\/signUp/) ? "active" : "";
+
         return (
           <footer>
             <div class="to-the-top-container">
@@ -58,8 +61,21 @@ export default class extends React.Component{
                     </Link>
                   </li>
                   <br />
-                  <li>sign in</li>
-                  <li>sign up</li>
+                  <li class={signInClass}>
+                    <Link
+                        to="/signIn"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        sign in
+                    </Link>
+                  </li>
+                  <li class={signUpClass}>
+                    <Link to="signUp"
+                    onClick={this.toggleCollapse.bind(this)}
+                    >
+                      sign up
+                    </Link>
+                  </li>
                   <li class={mypageClass}>
                     <Link to="/mypage" onClick={this.toggleCollapse.bind(this)}>
                       mypage

@@ -20,6 +20,8 @@ export default class extends React.Component{
         const historyClass = location.pathname.match(/^\/history/) ? "active" : "";
         const searchClass = location.pathname.match(/^\/search/) ? "active" : "";
         const mypageClass = location.pathname.match(/^\/mypage/) ? "active" : "";
+        const signInClass = location.pathname.match(/^\/signIn/) ? "active" : "";
+        const signUpClass = location.pathname.match(/^\/signUp/) ? "active" : "";
         const navClass = collapsed ? "collapse" : ""; 
         return (
           <header>
@@ -49,8 +51,21 @@ export default class extends React.Component{
                 >
                   <div class="header-menu">
                     <ul class="sign-menu">
-                      <li>sign in</li>
-                      <li>sign up</li>
+                      <li class={signInClass}>
+                        <Link
+                            to="/signIn"
+                            onClick={this.toggleCollapse.bind(this)}
+                          >
+                            sign in
+                        </Link>
+                      </li>
+                      <li class={signUpClass}>
+                        <Link to="signUp"
+                        onClick={this.toggleCollapse.bind(this)}
+                        >
+                          sign up
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <ul class="nav navbar-nav">

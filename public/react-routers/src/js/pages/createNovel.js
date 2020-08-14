@@ -12,7 +12,6 @@ export default class extends React.Component{
           list: [],
         }
     
-
     this.val_handleChange = this.val_handleChange.bind(this);
     this.title_handleChange = this.title_handleChange.bind(this);
     this.category_handleChange = this.category_handleChange.bind(this);

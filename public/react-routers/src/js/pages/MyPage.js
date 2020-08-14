@@ -25,12 +25,14 @@ export default class extends React.Component{
           }
         })
       });
-    };
+    }
     // db.collection('novels')
     // .doc("yT8nzci0regOkGrG7gcS")
     // .delete()
 
-    
+    handleLogout() {
+      firebase.auth().signOut();
+    }
 
     toggleCollapse() {
       const collapsed = !this.state.collapsed;
@@ -72,6 +74,7 @@ export default class extends React.Component{
               {/* <div class="box-list-yaxis">{Articles}</div> */}
             </div>
             <br />
+            <button onClick={this.handleLogout}>Log Out</button>
 
           </div>
         );
