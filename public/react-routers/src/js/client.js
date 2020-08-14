@@ -8,6 +8,7 @@ import Top from './pages/Top';
 import History from './pages/History';
 import MyPage from './pages/MyPage';
 import Ranking from './pages/Ranking';
+import createNovel from './pages/createNovel';
 
 const app = document.getElementById('app');
 
@@ -21,6 +22,7 @@ ReactDOM.render(
             <Route path="/search/" component={Search}></Route>
             <Route path="/mypage/" component={MyPage}></Route>
             <Route path="/search/:mode(main|extra)" component={Search}></Route>
+            <Route path="/createNovel" component={createNovel}></Route>
         </Layout>
     </Router>, app
 );

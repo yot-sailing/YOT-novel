@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "build": "webpack --mode production",
+    "firebase": "^7.15.5",
+    "firebase-tools": "^8.4.3",
     "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
