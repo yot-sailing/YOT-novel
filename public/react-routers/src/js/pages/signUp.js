@@ -39,24 +39,26 @@ export default class extends React.Component{
         // const username = getElementById("username")
         // e.preventDefault();
         alert(this.state._isMounted)
-        const email = document.getElementById("email")
-        const password = document.getElementById("password")
+        const email = this.state.email;
+        const password = this.state.password;
         if(this.state._isMounted) {
             this.setState({loading: true});
         }
+        console.log(email, password);
+        e.preventDefault();
         firebase.auth().createUserWithEmailAndPassword(email, password).then(res => {
-            alert("success");
             if(this.state._isMounted) {
                 this.setState({loading: false}); //正常終了
-                this.props.history.push("/MyPage");
+                this.props.history.push("/myPage"); //email: yoyoyoh.example.com pass: yoyoyo
             }
         }).catch(error => {
             if (this.state._isMounted){
                 this.setState({loading: false});
                 alert(error);
+                this.setState({email: "", password: ""}); //やり直し
+                this.props.history.push('signUp');
             }
         });
-        alert("ok");
     }
 
     componentDidMount() {

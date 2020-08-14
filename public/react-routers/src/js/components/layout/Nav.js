@@ -74,7 +74,7 @@ export default class extends React.Component{
                         TopPage
                       </Link>
                     </li>
-                    <li class={topClass}>
+                    <li class={rankingClass}>
                       <Link to="/ranking" onClick={this.toggleCollapse.bind(this)}>
                         Ranking
                       </Link>

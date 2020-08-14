@@ -31,26 +31,25 @@ export default class extends React.Component{
         this.setState({collapsed});
     }
     handleOnSubmit(e){
-        const email = document.getElementById('email')
-        const password = document.getElementById('password')
+        const email = this.state.email;
+        const password = this.state.password;
         if(this.state._isMounted){
             this.setState({loading: true});
         }
-        alert(email)
+        console.log(email, password);
+        e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(email, password).then(res => {
-            alert("ok?")
-                if (this.state._isMounted){  // login success
-                    this.props.history.push("/MyPage");
-                    this.setState({loading: false});
-                    alert("success")
-                }
-            }).catch(error => {
-                if (this.state._isMounted){
-                    this.setState({loading: false});
-                    alert(error)
-                }
+            if (this.state._isMounted){  // login success
+                this.props.history.push("/myPage");
+                this.setState({loading: false});
+                alert("login success")
+            }
+        }).catch(error => {
+            if (this.state._isMounted){
+                this.setState({loading: false});
+                alert(error)
+            }
         });
-        this.props.history.push("/");
     }
     componentDidMount() {
         this.setState({_isMounted:true});

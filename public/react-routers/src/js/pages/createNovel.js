@@ -43,7 +43,6 @@ export default class extends React.Component{
         if ( val === '') {
             return;
         }
-        console.log("bug");
         dbRef.add({
             id: this.state.list.length+1,
             name: "you",
