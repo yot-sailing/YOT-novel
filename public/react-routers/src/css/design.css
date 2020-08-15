@@ -14,6 +14,9 @@ html {
     flex-direction: column;
 }
 
+body{
+    background-color: #f3f3f2;
+}
 /**
  * ヘッダー設定
  */
@@ -55,7 +58,7 @@ html {
  */
 div.to-the-top-container{/* 一番上へ */
     text-align: right;
-    background-color: #ffffff;
+    background-color: #f3f3f2;
     padding-right: 3em;
 }
 ul.footer-menu li {
