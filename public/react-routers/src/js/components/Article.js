@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import { db } from "../connectDB";
 
 const dbNovel = db.collection("novels");
-export default class extends React.Component{
+class Article extends React.Component{
     constructor(props){
         super(props);
         // this.state = {novel_id: ""};
@@ -22,7 +22,7 @@ export default class extends React.Component{
                 novel_id = novel.id;
                 console.log(novel_id);
                 // this.setState({ novel_id: novel.id });
-                const site = "/novel/id=" + novel_id;
+                const site = "/novel?id=" + novel_id;
                 console.log(site);
                 this.props.history.push(site);
             });
@@ -33,7 +33,6 @@ export default class extends React.Component{
         const {title} = this.props;
         const {author} = this.props;
         const {category} = this.props;
-        console.log()
         return (
             <div class="col-md-4">
                 <h4 id="title">{ title }</h4>
@@ -45,3 +44,4 @@ export default class extends React.Component{
         );
     }
 }
+export default withRouter(Article);

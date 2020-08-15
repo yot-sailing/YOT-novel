@@ -1,8 +1,9 @@
 import React from 'react';
-import firebase, { db } from '../connectDB';
+import { db } from '../connectDB';
+import { withRouter } from 'react-router';
 
 const dbNovel = db.collection('novels');
-export default class extends React.Component{
+class Novel extends React.Component{
     constructor(props){
         super(props);
         this.state = { name:'', title:'' , text: '' };
@@ -15,12 +16,13 @@ export default class extends React.Component{
     getData(uid) {
         dbNovel.doc(uid).get().then(doc => {
             if (doc.exists) {
-                // console.log("Document data:", doc.data());
-                name = doc.data().name;
-                title = doc.data().title;
+                console.log("Document data:", doc.data());
+                const name = doc.data().name;
+                const title = doc.data().title;
                 // this.state.text = doc.data().text;
-                text = doc.data().text;
+                const text = doc.data().text;
                 this.setState({name:name, title:title, text:text});
+                console.log(this.state.title);
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
@@ -31,7 +33,7 @@ export default class extends React.Component{
     }
     componentDidMount(e)  {
         const query = new URLSearchParams(this.props.location.search);
-        const novel_id = query.get(id);
+        const novel_id = query.get("id");
         //普通に取得
         this.getData(novel_id);
     }
@@ -52,3 +54,4 @@ export default class extends React.Component{
         );
     }
 }
+export default withRouter(Novel);
