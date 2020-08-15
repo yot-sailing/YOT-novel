@@ -27,6 +27,13 @@ html {
     float: right;
 }
 
+.navbar-nav li.active a{/* その画面にいるときの設定 */
+    background-color: #ffffff !important;
+    color: #022f5a !important;
+    font-weight: bold;
+    box-shadow: 2px 2px 1px inset;
+}
+
 /**
  * トップページ設定
  */
