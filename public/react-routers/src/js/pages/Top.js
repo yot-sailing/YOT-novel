@@ -26,15 +26,15 @@ export default class extends React.Component{
         return (
           <div class="toppage-contents">
             <ScrollToTopOnMount />
-            <div class="row contents-list ranking">
+            <div class="contents-list ranking">
               <h3>今日のランキング</h3>
               <div class="box-list-yaxis">{Rankings}</div>
             </div>
-            <div class="row contents-list new-novel">
+            <div class="contents-list new-novel">
               <h3>新着小説</h3>
               <div class="box-list-yaxis">{newnovels}</div>
             </div>
-            <div class="row contents-list news">
+            <div class="contents-list news">
               <h3>お知らせ</h3>
               <div class="box-list-yaxis">{news}</div>
             </div>

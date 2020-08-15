@@ -59,17 +59,16 @@ body{
 /**
  * トップページ設定
  */
-.left-wrap {/* 左側(ランキング) */
-    width: 33%;
-    float: left;
+.toppage-contents{
+    display: flex;
+    width: 100%;
 }
-.center-wrap {/* 中央(最新) */
-    width: 33%;
-    float: left;
+.toppage-contents .ranking, .new-novel{
+    width: 40%;
 }
-.right-wrap {/* 右側(お知らせ) */
-    width: 33%;
-    float: right;
+
+.toppage-contents .news {
+    width: 20%;
 }
 
 /**
