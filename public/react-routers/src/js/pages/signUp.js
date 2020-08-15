@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from '../connectDB';
+import firebase, { db } from '../connectDB';
 import { Link } from 'react-router-dom';
 
 export default class extends React.Component{
@@ -39,11 +39,25 @@ export default class extends React.Component{
         // const username = getElementById("username")
         // e.preventDefault();
         alert(this.state._isMounted)
+        const userRef = db.collection('users');
+        const username = this.state.username;
         const email = this.state.email;
         const password = this.state.password;
         if(this.state._isMounted) {
             this.setState({loading: true});
         }
+        userRef.add({
+            username: username,
+            email: email,
+            password: password,
+            created: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        .then(docRef => {
+            console.log("Document written with ID: ", docRef.email);
+        })
+        .catch(error => {
+            console.error("Error adding document: ", error);
+        });
         console.log(email, password);
         e.preventDefault();
         firebase.auth().createUserWithEmailAndPassword(email, password).then(res => {
