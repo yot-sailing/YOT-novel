@@ -229,8 +229,23 @@ footer{
 /**
  * ブックマーク設定
  */
-.bookmark-row {
-    text-align: center;
+.bookmark-page.contents-list .list-novel .list-novel-content{
+    display: block;
+}
+
+.bookmark-page.contents-list .list-novel .list-novel-show{
+    display: flex;
+    margin: 15px;
+}
+
+.bookmark-page.contents-list .list-novel .list-novel-author{
+    margin-left: 15px;
+}
+
+.bookmark-page.contents-list .list-novel .list-novel-abst{
+    margin: 15px;
+    font-size: .85em;
+    display: block;
 }
 
 /**
