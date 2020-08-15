@@ -32,7 +32,7 @@ body{
 .contents-list .list-novel,
 .contents-list .list-news{
     position: relative;
-    display: block;
+    display: flex;
     color: #000000;
     text-decoration: none;
     padding: 10px;
@@ -49,6 +49,30 @@ body{
     width: 100%;
     border-bottom: 1px solid #bbbbbb;
 }
+
+.contents-list.ranking  .list-novel .list-novel-rank{
+    margin: 0 10px auto 0;
+    width: 1.8em;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #000000;
+}
+
+.contents-list.ranking  .list-novel:nth-of-type(1) .list-novel-rank{
+    border: 3px solid #E0CA82;
+    border-radius: 2px;
+}
+
+.contents-list.ranking  .list-novel:nth-of-type(2) .list-novel-rank{
+    border: 3px solid #B9C3C9;
+    border-radius: 2px;
+}
+
+.contents-list.ranking  .list-novel:nth-of-type(3) .list-novel-rank{
+    border: 3px solid #B08A1C;
+    border-radius: 2px;
+}
+
 
 .contents-list .list-novel .list-novel-title{
     color: #317eac;
