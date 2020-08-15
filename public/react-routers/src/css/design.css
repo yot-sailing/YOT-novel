@@ -23,8 +23,8 @@ html {
     color: white;
     margin: 0 10px;
 }
-.sign-menu {
-    text-align: right;
+.sign-menu {/* ログインボタンは右側に */
+    float: right;
 }
 
 /**

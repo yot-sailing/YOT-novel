@@ -49,25 +49,6 @@ export default class extends React.Component{
                   class={"navbar-collapse " + navClass}
                   id="bs-example-navbar-collapse-1"
                 >
-                  <div class="header-menu">
-                    <ul class="sign-menu">
-                      <li class={signInClass}>
-                        <Link
-                            to="/signIn"
-                            onClick={this.toggleCollapse.bind(this)}
-                          >
-                            ログイン
-                        </Link>
-                      </li>
-                      <li class={signUpClass}>
-                        <Link to="signUp"
-                        onClick={this.toggleCollapse.bind(this)}
-                        >
-                          登録する
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
                   <ul class="nav navbar-nav">
                     <li class={topClass}>
                       <Link to="/" onClick={this.toggleCollapse.bind(this)}>
@@ -110,6 +91,23 @@ export default class extends React.Component{
                       >
                         マイページ
                       </Link>
+                    </li>
+                  </ul>
+                  <ul class="nav navbar-nav sign-menu">
+                    <li class={signInClass}>
+                      <Link
+                        to="/signIn"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        ログイン
+                        </Link>
+                    </li>
+                    <li class={signUpClass}>
+                      <Link to="signUp"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        登録する
+                        </Link>
                     </li>
                   </ul>
                 </div>
