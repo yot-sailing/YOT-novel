@@ -1,13 +1,13 @@
 import React from 'react';
 import Article from '../components/Article';
 import firebase, { db } from '../connectDB';
-
 export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
             collapsed : true,
             category: '',
+            title: '',
             list: [],
         };
 
@@ -32,12 +32,29 @@ export default class extends React.Component{
         this.setState({category: event.target.value});
         console.log(this.state.category);
     }
+    title_handleChange(event) {
+        this.setState({title: event.target.value});
+        console.log(this.state.title);
+    }
 
     handleSubmit(event) {
         event.preventDefault();
         this.setState({ list: []});
 
-        const novelRef = db.collection("novels").where("category", "==", this.state.category);
+        var novelRef;
+        if(this.state.category != "" && this.state.title != ""){
+            novelRef = db.collection("novels")
+            .where("category", "==", this.state.category)
+            .where("title", "==", this.state.title);
+            console.log("multi");
+        }else if(this.state.category != ""){
+            novelRef = db.collection("novels")
+            .where("category", "==", this.state.category);
+            console.log("single");
+        }
+        // const novelRef = db.collection("novels")
+        // .where("category", "==", this.state.category);
+        // //.where("title", "==", this.state.title);
         const snapshots = novelRef.get();
         snapshots.then(querySnapshot => {
             querySnapshot.forEach(doc => {
@@ -60,7 +77,7 @@ export default class extends React.Component{
                 <form onSubmit={this.handleSubmit.bind(this)} class="search_container">
                     <div class="search-condition keyword-input">
                         <div class="search-condition-title">キーワード検索</div>
-                        <input type="text" size="25" placeholder="　キーワードを入力" />
+                        <input type="text" size="25" placeholder="　キーワード検索" value={this.state.title} onChange={this.title_handleChange.bind(this)} />
                     </div>
                     <div class="search-condition range-select">
                         <div class="search-condition-title">検索範囲</div>

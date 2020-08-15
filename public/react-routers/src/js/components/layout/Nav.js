@@ -41,9 +41,10 @@ export default class extends React.Component{
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="#">
+
+                  <Link class="navbar-brand" to="/">
                     小説投稿サイト
-                  </a>
+                  </Link>
                 </div>
                 <div
                   class={"navbar-collapse " + navClass}
