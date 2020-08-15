@@ -29,18 +29,26 @@ class Article extends React.Component{
         });
     }
     render() {
-        const {abstract}  = this.props;
-        const {title} = this.props;
-        const {author} = this.props;
-        const {category} = this.props;
+
+        const { abstract } = this.props;
+        const { title } = this.props;
+        const { author } = this.props;
+        const { category } = this.props;
+        const { rank } = this.props;
         return (
-            <div class="col-md-4">
-                <h4 id="title">{ title }</h4>
-                <h5 id="author">author : { author }</h5>
-                <h5 id="category">category : {category}</h5>
-                <p id="abstract">{ abstract }</p>
-                <button class="btn btn-default" onClick={this.handleClick}>More Info</button>
-            </div>
+            <a class="list-novel" onClick={this.handleClick}>
+                <div class="list-novel-rank">{ rank }</div>
+                <div class="list-novel-content">
+                    <div class="list-novel-show">
+                        <div class="list-novel-title">{ title }</div>
+                        <div class="list-novel-info">
+                            <div class="list-novel-author">{ author }</div>
+                            <div class="list-novel-cat">{ category }</div>
+                        </div>
+                    </div>
+                    <div class="list-novel-abst">{abstract}</div>
+                </div>
+            </a>
         );
     }
 }

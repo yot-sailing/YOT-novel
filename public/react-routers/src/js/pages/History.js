@@ -18,13 +18,12 @@ export default class extends React.Component{
             "き"
         ].map((title, i) => <Article key={i} title={title} author="erina" category="サスペンス"/>);
         return (
-            <div>
+            <div class="history-page contents-list history">
                 <ScrollToTopOnMount />
-                <h1 class="history">History</h1>最近5件を表示しています.
-                <div class="history-wrapper">
-                user:{user}
-                <div class="history-row box-list-yaxis">{Articles}</div>
+                <div class="history-title-wrapper">
+                    <h1 class="history">History</h1><p>最近5件を表示しています.</p>
                 </div>
+                <div class="box-list-yaxis">{Articles}</div>
             </div>
         );
     }

@@ -4,24 +4,18 @@ import ScrollToTopOnMount from '../components/ScrollToTopOnMount';
 
 export default class extends React.Component{
     render(){
-        const query = new URLSearchParams(this.props.location.search);
-        const { article } = this.props.match.params;
-        const date = query.get("date");
-        const filter = query.get("filter");
-
         const Articles = [
             "ら",
             "ん",
             "き",
             "ん",
             "ぐ"
-        ].map((title, i) => <Article key={i} title={title} author="きいちゃん" category="猫ちゃん" />);
+        ].map((title, i) => <Article key={i} rank={i+1} title={title} author="きいちゃん" category="猫ちゃん"/>);
         return (
-          <div>
+          <div class="ranking-page contents-list ranking">
             <ScrollToTopOnMount />
-            <h1>Today's Ranking</h1>
-            article: {article}, date:{date}, filter:{filter}
-            <div class="bookmark-row  box-list-yaxis">{Articles}</div>
+            <h1>本日のランキング</h1>
+            <div class="box-list-yaxis">{Articles}</div>
           </div>
         );
     }

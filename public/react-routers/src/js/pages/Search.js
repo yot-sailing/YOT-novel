@@ -1,54 +1,64 @@
 import React from 'react';
+import Article from '../components/Article';
 import firebase, { db } from '../connectDB';
 import Article from '../components/Article';
 export default class extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            collapsed: true,
+            collapsed : true,
+            category: '',
             list: [],
-            keyword: '',
-            cat: ''
         };
-        db.collection("novels").get().then(querySnapshot =>  {
-            querySnapshot.forEach(novel => {
+
+        const novelRef = db.collection("novels");
+        const snapshots = novelRef.get();
+        snapshots.then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
                 this.state.list.push(
-                    <Article key={novel.id} title={novel.data().title}
-                        category={novel.data().category} author={novel.data().name}
-                        abstract={novel.data().overview} />
+                    <Article key={doc.id} title={doc.data().title} 
+                              category={doc.data().category} author={doc.data().name} 
+                              abstract={doc.data().overview} />
                 );
-                this.setState({ list: this.state.list });
+                this.setState({list: this.state.list});
             });
         });
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCatSelect = this.handleCatSelect.bind(this);
+
     }
-    handleSubmit(event){
-        console.log(this.state.cat);
+
+    category_handleChange(event) {
+        this.setState({category: event.target.value});
+        console.log(this.state.category);
+    }
+
+    handleSubmit(event) {
         event.preventDefault();
         this.setState({ list: []});
-        db.collection("novels").where("category", "==", this.state.cat).get().then(querySnapshot => {
-            querySnapshot.forEach(novel => {
+
+        const novelRef = db.collection("novels").where("category", "==", this.state.category);
+        const snapshots = novelRef.get();
+        snapshots.then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
                 this.state.list.push(
-                    <Article key={novel.id} title={novel.data().title}
-                        category={novel.data().category} author={novel.data().name}
-                        abstract={novel.data().overview} />
+                    <Article key={doc.id} title={doc.data().title} 
+                              category={doc.data().category} author={doc.data().name} 
+                              abstract={doc.data().overview} />
                 );
-                this.setState({ list: this.state.list });
-                console.log(this.state.list);
+                this.setState({list: this.state.list});
             });
         });
-    }
-    handleCatSelect(event) {
-        this.setState({ cat: event.target.value});
-    }
+    };
+
     render(){
-        // const type = (this.props.match.params.mode == "extra" ? "(for experts)": "");
         return (
             <div>
                 <h1>Search</h1>
-                <form class="search_container" onSubmit={this.handleSubmit}>
-                    <input type="text" size="25" placeholder="　キーワード検索" value={this.state.keyword}/>
+                <form onSubmit={this.handleSubmit.bind(this)} class="search_container">
+                    <input type="text" size="25" placeholder="　キーワード検索" />
                     <div class="radio-container">
                             <input id="radio-1" name="radio" type="radio" />
                             <label for="radio-1" class="radio-label">全てから </label>
@@ -61,21 +71,22 @@ export default class extends React.Component{
                             <input id="radio-5" name="radio" type="radio" />
                             <label  for="radio-5" class="radio-label">タグから </label>
                     </div>
-                    <input type="submit" value="検索" />
+                    <button type="submit" value="検索" />
                     <br />
-                    <div class="cp_ipselect cp_sl01">
-                        <select value={this.state.cat} onChange={this.handleCatSelect} required>
-                            <option value="" hidden>カテゴリを選ぶ</option>
-                            <option value="SF">SF</option>
-                            <option value="サスペンス">サスペンス</option>
-                            <option value="animal">animal</option>
-                            <option value="comedy">comedy</option>
+
+                    <div  class="cp_ipselect cp_sl01">
+                    <select value={this.state.category} onChange={this.category_handleChange.bind(this)} required>
+                        <option value="" hidden>カテゴリを選ぶ</option>
+                        <option value="SF">SF</option>
+                        <option value="サスペンス">サスペンス</option>
+                        <option value="animal">animal</option>
+                        <option value="comedy">comedy</option>
                     </select>
                     </div>
                 </form>
-                <div class="all-novel">
-                    <h3>全件</h3>
-                    <div class="box-list-yaxis">{this.state.list}</div>
+                <h3 className="text-center my-5">一覧表示</h3>
+                <div class="box-list-yaxis">
+                    {this.state.list}
                 </div>
             </div>
         );
