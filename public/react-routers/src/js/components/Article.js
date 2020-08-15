@@ -36,19 +36,19 @@ class Article extends React.Component{
         const { category } = this.props;
         const { rank } = this.props;
         return (
-            <a class="list-novel" onClick={this.handleClick}>
-                <div class="list-novel-rank">{ rank }</div>
-                <div class="list-novel-content">
+            <button class="list-novel" onClick={this.handleClick}>
+                <div class="list-novel-rank" >{ rank }</div>
+                <div class="list-novel-content" >
                     <div class="list-novel-show">
-                        <div class="list-novel-title">{ title }</div>
+                        <div class="list-novel-title" id="title">{ title }</div>
                         <div class="list-novel-info">
-                            <div class="list-novel-author">{ author }</div>
-                            <div class="list-novel-cat">{ category }</div>
+                            <div class="list-novel-author" id="author">{ author }</div>
+                            <div class="list-novel-cat" id="category">{ category }</div>
                         </div>
                     </div>
-                    <div class="list-novel-abst">{abstract}</div>
+                    <div class="list-novel-abst" id="abstract">{abstract}</div>
                 </div>
-            </a>
+            </button>
         );
     }
 }
