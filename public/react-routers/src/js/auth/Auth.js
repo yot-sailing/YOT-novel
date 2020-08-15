@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import firebase from '../connectDB';
 import LoadingOverlay from 'react-loading-overlay';
+import {Link} from 'react-router-dom';
 
 class Auth extends React.Component {
     constructor(props) {
@@ -60,10 +61,15 @@ class Auth extends React.Component {
         //チェックが終わりかつ
         if (this.state.signedIn) {
             //サインインしてるとき（そのまま表示）
-            return <Redirect to="/mypage" />;
+            return this.props.children;
         } else {
             //してないとき（ログイン画面にリダイレクト）
-            return <Redirect to="/signin" />
+            return (
+                <div>
+                    <Link to="/signin">ログインしてください</Link>
+                </div>
+                
+            )
         }
     }
 }
