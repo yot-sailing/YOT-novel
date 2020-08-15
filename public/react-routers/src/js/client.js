@@ -31,13 +31,9 @@ ReactDOM.render(
                     <Route path="/bookmarks/" component={Bookmarks}></Route>
                     <Route path="/history/" component={History}></Route>
                     <Route path="/mypage/" component={MyPage}></Route>
-                    <Route render={() => <p>not found.</p>} />
                 </Switch>
-                
             </Auth>
-            
         </Layout>
     </Router>
-    
     , app
 );

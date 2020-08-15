@@ -1,14 +1,63 @@
 import React from 'react';
+import Article from '../components/Article';
 import firebase, { db } from '../connectDB';
 
 export default class extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            collapsed : true,
+            category: '',
+            list: [],
+        };
+
+        const novelRef = db.collection("novels");
+        const snapshots = novelRef.get();
+        snapshots.then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                this.state.list.push(
+                    <Article key={doc.id} title={doc.data().title} 
+                              category={doc.data().category} author={doc.data().name} 
+                              abstract={doc.data().overview} />
+                );
+                this.setState({list: this.state.list});
+            });
+        });
+
+    }
+
+    category_handleChange(event) {
+        this.setState({category: event.target.value});
+        console.log(this.state.category);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.setState({ list: []});
+
+        const novelRef = db.collection("novels").where("category", "==", this.state.category);
+        const snapshots = novelRef.get();
+        snapshots.then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                this.state.list.push(
+                    <Article key={doc.id} title={doc.data().title} 
+                              category={doc.data().category} author={doc.data().name} 
+                              abstract={doc.data().overview} />
+                );
+                this.setState({list: this.state.list});
+            });
+        });
+    };
+
     render(){
-        // const type = (this.props.match.params.mode == "extra" ? "(for experts)": "");
-        
         return (
             <div>
                 <h1>Search</h1>
-                <form class="search_container">
+                <form onSubmit={this.handleSubmit.bind(this)} class="search_container">
                     <input type="text" size="25" placeholder="　キーワード検索" />
                     <div class="radio-container">
                             <input id="radio-1" name="radio" type="radio" />
@@ -22,20 +71,23 @@ export default class extends React.Component{
                             <input id="radio-5" name="radio" type="radio" />
                             <label  for="radio-5" class="radio-label">タグから </label>
                     </div>
-                    <input type="submit" value="検索" />
+                    <button type="submit" value="検索" />
                     <br />
                     <div  class="cp_ipselect cp_sl01">
-                    <select required>
+                    <select value={this.state.category} onChange={this.category_handleChange.bind(this)} required>
                         <option value="" hidden>カテゴリを選ぶ</option>
-                        <option value="1">SF</option>
-                        <option value="2">サスペンス</option>
-                        <option value="3">animal</option>
-                        <option value="4">comedy</option>
+                        <option value="SF">SF</option>
+                        <option value="サスペンス">サスペンス</option>
+                        <option value="animal">animal</option>
+                        <option value="comedy">comedy</option>
                     </select>
                     </div>
                 </form>
+                <h3 className="text-center my-5">一覧表示</h3>
+                <div class="box-list-yaxis">
+                    {this.state.list}
+                </div>
             </div>
         );
     }
 }
-
