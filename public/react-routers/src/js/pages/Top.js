@@ -24,19 +24,19 @@ export default class extends React.Component{
             "新しい機能の追加","今度サイトリニューアルします"
         ].map((title, i) => <News key={i} title={title}/>);
         return (
-          <div>
+          <div class="toppage-contents">
             <ScrollToTopOnMount />
-            <div class="left-wrap">
-              <h3>Today's ranking</h3>
-              <div class="row box-list-yaxis">{Rankings}</div>
+            <div class="row contents-list ranking">
+              <h3>今日のランキング</h3>
+              <div class="box-list-yaxis">{Rankings}</div>
             </div>
-            <div class="center-wrap">
-              <h3>new novels</h3>
-              <div class="row box-list-yaxis">{newnovels}</div>
+            <div class="row contents-list new-novel">
+              <h3>新着小説</h3>
+              <div class="box-list-yaxis">{newnovels}</div>
             </div>
-            <div class="right-wrap">
-              <h3>News</h3>
-              <div class="row box-list-yaxis">{news}</div>
+            <div class="row contents-list news">
+              <h3>お知らせ</h3>
+              <div class="box-list-yaxis">{news}</div>
             </div>
           </div>
         );

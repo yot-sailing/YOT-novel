@@ -17,6 +17,25 @@ html {
 body{
     background-color: #f3f3f2;
 }
+
+/* 縦に要素並ぶやつ全体 */
+.contents-list{
+    margin: 10px;
+}
+.contents-list .box-list-yaxis{
+    border: 1px solid #022a50;
+    background-color: #ffffff;
+    padding: 10px;
+}
+/* 縦に要素並ぶやつの要素 */
+.contents-list .content{
+    color: #000000;
+}
+
+.contents-list a:hover{
+    background-color: #8c8c8c;
+}
+
 /**
  * ヘッダー設定
  */
