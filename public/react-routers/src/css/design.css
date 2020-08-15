@@ -23,17 +23,59 @@ body{
     margin: 10px;
 }
 .contents-list .box-list-yaxis{
-    border: 1px solid #022a50;
+    border: 1px dotted #022a50;
     background-color: #ffffff;
     padding: 10px;
 }
-/* 縦に要素並ぶやつの要素 */
-.contents-list .content{
+
+/* 縦に要素並ぶやつの各小説 */
+.contents-list .list-novel{
+    position: relative;
+    display: block;
     color: #000000;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.contents-list .list-novel:not(:last-child):after{
+    content: ' ';
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    border-bottom: 1px solid #bbbbbb;
+}
+
+.contents-list .list-novel .list-novel-title{
+    color: #317eac;
+}
+
+.contents-list .list-novel .list-novel-abst{
+    font-size: .85em;
+    display: none;
+}
+.contents-list .list-novel:hover .list-novel-abst{
+    font-size: .85em;
+    display: block;
+}
+
+.contents-list .list-novel .list-novel-info{
+    font-size: .8em;
+    display: inline-flex;
+}
+.contents-list .list-novel .list-novel-info .list-novel-author{
+    margin-right: 10px;
+}
+
+.contents-list .list-novel .list-novel-info .list-novel-cat{
+    color: #666666;
 }
 
 .contents-list a:hover{
-    background-color: #8c8c8c;
+    background-color: #eeeeee;
+    box-shadow: 1px 1px 1px;
 }
 
 /**
