@@ -1,7 +1,6 @@
 import React from 'react';
 import Article from '../components/Article';
 import firebase, { db } from '../connectDB';
-import Article from '../components/Article';
 export default class extends React.Component{
     constructor(props) {
         super(props);
