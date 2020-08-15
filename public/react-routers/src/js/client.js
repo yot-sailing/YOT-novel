@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Layout from './pages/Layout';
 import Bookmarks from './pages/Bookmark';
 import Search from './pages/Search';
@@ -26,9 +26,16 @@ ReactDOM.render(
             <Route path="/createNovel" component={createNovel}></Route>
             <Route path="/signIn" component={SignIn}></Route>
             <Route path="/signUp" component={SignUp}></Route>
-            <Route path="/bookmarks/" component={Bookmarks}></Route>
-            <Route path="/history/" component={History}></Route>
-            <Route path="/mypage/" component={MyPage}></Route>
+            <Auth>
+                <Switch>
+                    <Route path="/bookmarks/" component={Bookmarks}></Route>
+                    <Route path="/history/" component={History}></Route>
+                    <Route path="/mypage/" component={MyPage}></Route>
+                    <Route render={() => <p>not found.</p>} />
+                </Switch>
+                
+            </Auth>
+            
         </Layout>
     </Router>
     

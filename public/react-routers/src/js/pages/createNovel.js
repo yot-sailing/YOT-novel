@@ -64,7 +64,7 @@ export default class extends React.Component{
         this.setState({ list: this.state.list});
         event.preventDefault();
         console.log("ok")
-        this.props.history.push("/myPage");
+        this.props.history.push("/mypage");
     };
     render() {
         return (

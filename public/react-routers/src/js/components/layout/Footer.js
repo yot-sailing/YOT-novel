@@ -32,7 +32,7 @@ export default class extends React.Component{
                 <h2 class="footer-main">YOT</h2>
                 <ul class="footer-menu">
                   <li class={topClass}>
-                    <Link to="/" onClick={this.toggleCollapse.bind(this)}>
+                    <Link to="/ranking" onClick={this.toggleCollapse.bind(this)}>
                       ranking
                     </Link>
                   </li>
