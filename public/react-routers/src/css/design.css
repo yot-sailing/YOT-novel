@@ -274,30 +274,54 @@ footer{
  * 検索ページ設定
  */
 .search_container{
+    padding: 30px 10px;
+    border: 1px solid #bbbbbb;
+    background-color: #ffffff;
     box-sizing: border-box;
 }
+
+.search_container .search-condition{
+    margin-left: 2%;
+    margin-right: 10%;
+    margin-bottom: 15px;
+}
+
+.search_container .search-condition .search-condition-title{
+    padding-left: 5px;
+    border-left: 4px solid #022a50;
+    margin-bottom: 15px;
+}
+
 .search_container input[type="text"]{
     border: 1px solid #999;
     padding: 3px 5px;
-    border-radius: 20px;
-    height: 2.0em;
-    width: 245px;
+    border-radius: 10px;
+    height: 4.0em;
+    width: 100%;
+    margin-left: 4%;
     overflow: hidden;
 }
 .search_container input[type="text"]:focus {
     outline: 0;
 }
-.search_container input[type="submit"]{
-    cursor: pointer;
-    font-family: FontAwesome;
+.search_container button{
     font-size: 1.3em;
-    border: none;
-    background: none;
-    color: #3879D9;
-    outline : none;
-    display: inline-block;
-    vertical-align: middle;
+    border-radius: 2px;
+    height: 3em;
+    width: 10em;
+    background: #317eac;
+    color: #ffffff;
 }
+
+.search_container button:hover{
+    background: #022a50;
+    color: #ffffff;
+}
+
+.search_container .button_wrapper{
+    text-align: center;
+}
+
 .cp_ipselect {
 	overflow: hidden;
 	width: 245px;
@@ -323,11 +347,11 @@ footer{
 }
 .cp_ipselect.cp_sl01 {
 	position: relative;
-	border: 1px solid #bbbbbb;
-    border-radius: 20px;
-    height: 2.0em;
+    border: 1px solid #999;
+    border-radius: 10px;
     background: #ffffff;
     margin-top: 15px;
+    margin-left: 4%;
 }
 .cp_ipselect.cp_sl01::before {
 	position: absolute;
@@ -345,11 +369,39 @@ footer{
 .cp_ipselect.cp_sl01 select {
 	padding: 1px 38px 4px 8px;
 	color: #666666;
+    vertical-align: middle;
 }
+
 .radio-container {
-    display: inline;
-    width : 245px;
-    margin-right: 0px;
+    display: flex;
+    margin-left: 4%;
+}
+
+.radio-container .radio-contents{
+    margin-right: 25px
+}
+
+.radio-container .radio-contents label{
+    margin-left: 5px
+}
+
+.search-page.contents-list .list-novel .list-novel-content{
+    display: block;
+}
+
+.search-page.contents-list .list-novel .list-novel-show{
+    display: flex;
+    margin: 15px;
+}
+
+.search-page.contents-list .list-novel .list-novel-author{
+    margin-left: 15px;
+}
+
+.search-page.contents-list .list-novel .list-novel-abst{
+    margin: 15px;
+    font-size: .85em;
+    display: block;
 }
 
 /* ログインページ設定 */
