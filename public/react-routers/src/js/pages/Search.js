@@ -8,6 +8,7 @@ export default class extends React.Component{
         this.state = {
             collapsed : true,
             category: '',
+            title: '',
             list: [],
         };
 
@@ -32,12 +33,29 @@ export default class extends React.Component{
         this.setState({category: event.target.value});
         console.log(this.state.category);
     }
+    title_handleChange(event) {
+        this.setState({title: event.target.value});
+        console.log(this.state.title);
+    }
 
     handleSubmit(event) {
         event.preventDefault();
         this.setState({ list: []});
 
-        const novelRef = db.collection("novels").where("category", "==", this.state.category);
+        var novelRef;
+        if(this.state.category != "" && this.state.title != ""){
+            novelRef = db.collection("novels")
+            .where("category", "==", this.state.category)
+            .where("title", "==", this.state.title);
+            console.log("multi");
+        }else if(this.state.category != ""){
+            novelRef = db.collection("novels")
+            .where("category", "==", this.state.category);
+            console.log("single");
+        }
+        // const novelRef = db.collection("novels")
+        // .where("category", "==", this.state.category);
+        // //.where("title", "==", this.state.title);
         const snapshots = novelRef.get();
         snapshots.then(querySnapshot => {
             querySnapshot.forEach(doc => {
@@ -58,7 +76,7 @@ export default class extends React.Component{
             <div>
                 <h1>Search</h1>
                 <form onSubmit={this.handleSubmit.bind(this)} class="search_container">
-                    <input type="text" size="25" placeholder="　キーワード検索" />
+                    <input type="text" size="25" placeholder="　キーワード検索" value={this.state.title} onChange={this.title_handleChange.bind(this)} />
                     <div class="radio-container">
                             <input id="radio-1" name="radio" type="radio" />
                             <label for="radio-1" class="radio-label">全てから </label>
@@ -71,7 +89,7 @@ export default class extends React.Component{
                             <input id="radio-5" name="radio" type="radio" />
                             <label  for="radio-5" class="radio-label">タグから </label>
                     </div>
-                    <button type="submit" value="検索" />
+                    <input type="submit" value="検索" />
                     <br />
 
                     <div  class="cp_ipselect cp_sl01">
