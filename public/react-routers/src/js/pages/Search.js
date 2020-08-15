@@ -1,7 +1,7 @@
 import React from 'react';
 import Article from '../components/Article';
 import firebase, { db } from '../connectDB';
-
+import Article from '../components/Article';
 export default class extends React.Component{
     constructor(props) {
         super(props);
@@ -73,6 +73,7 @@ export default class extends React.Component{
                     </div>
                     <button type="submit" value="検索" />
                     <br />
+
                     <div  class="cp_ipselect cp_sl01">
                     <select value={this.state.category} onChange={this.category_handleChange.bind(this)} required>
                         <option value="" hidden>カテゴリを選ぶ</option>

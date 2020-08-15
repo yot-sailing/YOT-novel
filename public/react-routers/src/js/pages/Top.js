@@ -16,7 +16,7 @@ export default class extends React.Component{
             "に",
             "10",
             "位"
-        ].map((title, i, author, category) => <Article key={i} rank={i+1} title={title} author="Gorrila" category="animal"/>);
+        ].map((title, i) => <Article key={i} rank={i+1} title={title} author="Gorrila" category="animal"/>);
         const newnovels = [
             "あ","た","ら","し","い","や","つ"
         ].map((title, i) => <Article key={i} title={title} />);

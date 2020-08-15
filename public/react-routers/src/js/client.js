@@ -11,10 +11,9 @@ import Ranking from './pages/Ranking';
 import createNovel from './pages/createNovel';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
-import NotFound from './pages/404'
-
 import Auth from './auth/Auth';
-
+import Novel from './components/Novel';
+import NotFound from './pages/404'
 const app = document.getElementById('app');
 
 ReactDOM.render(
@@ -28,6 +27,7 @@ ReactDOM.render(
                 <Route path="/createNovel" component={createNovel}></Route>
                 <Route path="/signIn" component={SignIn}></Route>
                 <Route path="/signUp" component={SignUp}></Route>
+                <Route path="/novel" component={Novel}></Route>
                 <Auth>
                     <Switch>
                         <Route path="/bookmarks/" component={Bookmarks}></Route>
