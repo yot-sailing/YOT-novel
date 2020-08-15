@@ -29,7 +29,8 @@ body{
 }
 
 /* 縦に要素並ぶやつの各小説 */
-.contents-list .list-novel{
+.contents-list .list-novel,
+.contents-list .list-news{
     position: relative;
     display: block;
     color: #000000;
@@ -37,7 +38,8 @@ body{
     padding: 10px;
 }
 
-.contents-list .list-novel:not(:last-child):after{
+.contents-list .list-novel:not(:last-child):after,
+.contents-list .list-news:not(:last-child):after{
     content: ' ';
     position: absolute;
     top: 0px;
@@ -50,6 +52,11 @@ body{
 
 .contents-list .list-novel .list-novel-title{
     color: #317eac;
+}
+
+.contents-list .list-news .list-news-title{
+    color: #000000;
+    font-weight: normal;
 }
 
 .contents-list .list-novel .list-novel-abst{
@@ -111,6 +118,10 @@ body{
 
 .toppage-contents .news {
     width: 20%;
+}
+
+.toppage-contents .news h3{
+    font-weight: 300;
 }
 
 /**
