@@ -53,9 +53,6 @@ export default class extends React.Component{
             .where("category", "==", this.state.category);
             console.log("single");
         }
-        // const novelRef = db.collection("novels")
-        // .where("category", "==", this.state.category);
-        // //.where("title", "==", this.state.title);
         const snapshots = novelRef.get();
         snapshots.then(querySnapshot => {
             querySnapshot.forEach(doc => {
