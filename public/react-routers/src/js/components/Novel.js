@@ -30,8 +30,10 @@ export default class extends React.Component{
         });
     }
     componentDidMount(e)  {
+        const query = new URLSearchParams(this.props.location.search);
+        const novel_id = query.get(id);
         //普通に取得
-        this.getData("3EJVbtmzRLYlnlorPeHP");
+        this.getData(novel_id);
     }
     handleClick(e) { 
         dbRef = db.collection('favorites');
