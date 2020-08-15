@@ -42,7 +42,7 @@ export default class extends React.Component{
                     <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand" href="#">
-                    Hi, YOT
+                    小説投稿サイト
                   </a>
                 </div>
                 <div
@@ -56,14 +56,14 @@ export default class extends React.Component{
                             to="/signIn"
                             onClick={this.toggleCollapse.bind(this)}
                           >
-                            sign in
+                            ログイン
                         </Link>
                       </li>
                       <li class={signUpClass}>
                         <Link to="signUp"
                         onClick={this.toggleCollapse.bind(this)}
                         >
-                          sign up
+                          登録する
                         </Link>
                       </li>
                     </ul>
@@ -71,12 +71,12 @@ export default class extends React.Component{
                   <ul class="nav navbar-nav">
                     <li class={topClass}>
                       <Link to="/" onClick={this.toggleCollapse.bind(this)}>
-                        TopPage
+                        トップページ
                       </Link>
                     </li>
                     <li class={rankingClass}>
                       <Link to="/ranking" onClick={this.toggleCollapse.bind(this)}>
-                        Ranking
+                        ランキング
                       </Link>
                     </li>
                     <li class={bookmarkClass}>
@@ -84,7 +84,7 @@ export default class extends React.Component{
                         to="/bookmarks/news?date=today&filter=none"
                         onClick={this.toggleCollapse.bind(this)}
                       >
-                        BookMark
+                        お気に入り
                       </Link>
                     </li>
                     <li class={searchClass}>
@@ -92,7 +92,7 @@ export default class extends React.Component{
                         to="/search"
                         onClick={this.toggleCollapse.bind(this)}
                       >
-                        Search
+                        小説を探す
                       </Link>
                     </li>
                     <li class={historyClass}>
@@ -100,7 +100,7 @@ export default class extends React.Component{
                         to="/history/news?user=1010"
                         onClick={this.toggleCollapse.bind(this)}
                       >
-                        yourHistory
+                        閲覧履歴
                       </Link>
                     </li>
                     <li class={mypageClass}>
@@ -108,7 +108,7 @@ export default class extends React.Component{
                         to="/mypage"
                         onClick={this.toggleCollapse.bind(this)}
                       >
-                        Mypage
+                        マイページ
                       </Link>
                     </li>
                   </ul>
