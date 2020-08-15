@@ -11,7 +11,7 @@ import Ranking from './pages/Ranking';
 import createNovel from './pages/createNovel';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
-
+import Novel from './components/Novel';
 import Auth from './auth/Auth';
 
 const app = document.getElementById('app');
@@ -26,12 +26,12 @@ ReactDOM.render(
             <Route path="/createNovel" component={createNovel}></Route>
             <Route path="/signIn" component={SignIn}></Route>
             <Route path="/signUp" component={SignUp}></Route>
+            <Route path="/novel" component={Novel} ></Route>
             <Auth>
                 <Switch>
                     <Route path="/bookmarks/" component={Bookmarks}></Route>
                     <Route path="/history/" component={History}></Route>
                     <Route path="/mypage/" component={MyPage}></Route>
-                    <Route render={() => <p>not found.</p>} />
                 </Switch>
                 
             </Auth>

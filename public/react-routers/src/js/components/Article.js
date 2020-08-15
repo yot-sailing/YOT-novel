@@ -1,6 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import { db } from "../connectDB";
 
+const dbNovel = db.collection("novels");
 export default class extends React.Component{
+
     render() {
         const { abstract } = this.props;
         const { title } = this.props;
@@ -12,7 +16,7 @@ export default class extends React.Component{
                 <h5>author : { author }</h5>
                 <h5>category : {category}</h5>
                 <p>{ abstract }</p>
-                <a class="btn btn-default" href="#">More Info</a>
+                <Link class="btn btn-default" to="/novel">More Info</Link>
             </div>
         );
     }
