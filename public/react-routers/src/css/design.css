@@ -249,6 +249,28 @@ footer{
 }
 
 /**
+ * 閲覧履歴設定
+ */
+.history-page.contents-list .list-novel .list-novel-content{
+    display: block;
+}
+
+.history-page.contents-list .list-novel .list-novel-show{
+    display: flex;
+    margin: 15px;
+}
+
+.history-page.contents-list .list-novel .list-novel-author{
+    margin-left: 15px;
+}
+
+.history-page.contents-list .list-novel .list-novel-abst{
+    margin: 15px;
+    font-size: .85em;
+    display: block;
+}
+
+/**
  * 検索ページ設定
  */
 .search_container{
