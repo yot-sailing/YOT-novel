@@ -17,13 +17,11 @@ export default class extends React.Component{
             "り"
         ].map((title, i) => <Article key={i} title={title} author="PandA" category="SF" abstract={abstract}/>);
         return (
-          <div>
+          <div class="bookmark-page contents-list bookmark">
             <ScrollToTopOnMount />
-            <h1>bookmarks</h1>
-            article: {article}, date:{date}, filter:{filter}
-            <div class="bookmark-row  box-list-yaxis">{Articles}</div>
+            <h1>お気に入り</h1>
+            <div class="box-list-yaxis">{Articles}</div>
           </div>
-
         );
     }
 }
