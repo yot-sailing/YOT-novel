@@ -15,6 +15,7 @@ import Auth from './auth/Auth';
 import Novel from './components/Novel';
 import NotFound from './pages/404'
 import NewsDetale from './components/NewsDetale';
+import Author from "./components/Author";
 const app = document.getElementById('app');
 
 ReactDOM.render(
@@ -30,6 +31,7 @@ ReactDOM.render(
                 <Route path="/signUp" component={SignUp}></Route>
                 <Route path="/novel" component={Novel}></Route>
                 <Route path="/newsdetale" component={NewsDetale}></Route>
+                <Route path="/author" component={Author}></Route>
                 <Auth>
                     <Switch>
                         <Route path="/bookmarks/" component={Bookmarks}></Route>
