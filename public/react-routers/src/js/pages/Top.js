@@ -12,6 +12,7 @@ export default class extends React.Component{
             rating: '',
             list: [],
             list2:[],
+            list3: []
         };
 
         const novelRef = db.collection("novels")
@@ -47,12 +48,20 @@ export default class extends React.Component{
                 this.setState({list2: this.state.list2});
             });
         });
+        const dbNews = db.collection('news'); 
+        dbNews.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+              const title  = doc.data().title;
+              this.state.list3.push(
+                  <News key={doc.id} title={doc.data().title} />
+              );
+              console.log(doc.id, " => ", doc.data());
+              this.setState({title:this.state.list3});
+          });
+      });
     }
 
     render() {
-        const news = [
-            "新しい機能の追加","今度サイトリニューアルします"
-        ].map((title, i) => <News key={i} title={title}/>);
         return (
           <div class="toppage-contents">
             <ScrollToTopOnMount />
@@ -66,7 +75,7 @@ export default class extends React.Component{
             </div>
             <div class="contents-list news">
               <h3>お知らせ</h3>
-              <div class="box-list-yaxis">{news}</div>
+              <div class="box-list-yaxis">{this.state.list3}</div>
             </div>
           </div>
         );
