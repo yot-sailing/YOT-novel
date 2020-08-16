@@ -42,7 +42,7 @@ class Novel extends React.Component{
         return (
           <div >
                 <div class="list-writer-name" >{ this.state.username }</div>
-          <button onClick={() => this.props.history.goBack()}>戻る</button>
+                <button onClick={() => this.props.history.goBack()}>戻る</button>
           </div>
         );
     }
