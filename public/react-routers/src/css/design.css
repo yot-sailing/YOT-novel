@@ -35,7 +35,8 @@ body{
 
 /* 縦に要素並ぶやつの各小説 */
 .contents-list .list-novel,
-.contents-list .list-news{
+.contents-list .list-news,
+.contents-list .list-writer{
     position: relative;
     display: flex;
     color: #000000;
@@ -44,7 +45,8 @@ body{
 }
 
 .contents-list .list-novel:not(:last-child):after,
-.contents-list .list-news:not(:last-child):after{
+.contents-list .list-news:not(:last-child):after,
+.contents-list .list-writer:not(:last-child):after{
     content: ' ';
     position: absolute;
     top: 0px;
@@ -79,7 +81,8 @@ body{
 }
 
 
-.contents-list .list-novel .list-novel-title{
+.contents-list .list-novel .list-novel-title,
+.contents-list .list-writer .list-writer-name{
     color: #317eac;
 }
 
@@ -246,7 +249,11 @@ footer{
     width: 100%;
 }
 
-.user-information .contents-list{
+.user-information .favorite-writer{
+    width: 50%;
+}
+
+.user-information .wrote-novel{
     width: 100%;
 }
 
