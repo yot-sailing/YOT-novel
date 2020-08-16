@@ -610,6 +610,24 @@ border-bottom: 1px dotted #8c8c8c;
     margin: 20px 10%;
 }
 
+.buck-button-wrapper{
+    width: 80%;
+    margin:10px 10%
+}
+
+.buck-button-wrapper button{
+    font-size: 1em;
+    border-radius: 2px;
+    background: transparent;
+    color: #317eac;
+    border: none;
+}
+.buck-button-wrapper button:hover{
+    background: #022a50;
+    color: #ffffff;
+}
+
+
 /* 小説執筆ページ */
 .novel-input-name .input-name{
     font-size: 1.3em;
