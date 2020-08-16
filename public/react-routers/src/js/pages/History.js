@@ -10,7 +10,7 @@ export default class extends React.Component{
             collapsed : true,
             list: [],
         };
-  
+
         var user = firebase.auth().currentUser;
         var email = user.email;
         var user_doc_id = [];
@@ -32,7 +32,7 @@ export default class extends React.Component{
                 console.log("この時点でログインしてる人のuser_doc_idは", user_doc_id[0]);
             });
             console.log("今ログインしてる人のuser_doc_idは", user_doc_id[0]);
-            const historyRef = db.collection("histories")
+            const historyRef = db.collection("histories").limit(5)
             .where("user_doc_id", "==", user_doc_id[0]);
             const snapshots = historyRef.get();
             snapshots.then(querySnapshot => {
