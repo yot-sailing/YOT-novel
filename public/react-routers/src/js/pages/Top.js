@@ -31,6 +31,7 @@ export default class extends React.Component{
                     category={doc.data().category}
                     author={doc.data().name}
                     abstract={doc.data().overview}
+                    id={doc.id}
                   />
                 );
                 this.setState({list: this.state.list});
@@ -48,7 +49,7 @@ export default class extends React.Component{
                 this.state.list2.push(
                     <Article key={doc.id} title={doc.data().title} 
                               category={doc.data().category} author={doc.data().name} 
-                              abstract={doc.data().overview} />
+                              abstract={doc.data().overview} id={doc.id}/>
                 );
                 this.setState({list2: this.state.list2});
             });
@@ -58,7 +59,7 @@ export default class extends React.Component{
           querySnapshot.forEach((doc) => {
               const title  = doc.data().title;
               this.state.list3.push(
-                  <News key={doc.id} title={doc.data().title} />
+                  <News key={doc.id} title={doc.data().title} id={doc.id}/>
               );
               console.log(doc.id, " => ", doc.data());
               this.setState({title:this.state.list3});
