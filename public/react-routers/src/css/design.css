@@ -267,25 +267,6 @@ footer{
     margin-top:40px;
 }
 
-.logout-button-wrapper{
-    text-align: center;
-}
-
-
-.logout-button-wrapper button{
-    font-size: 1.3em;
-    border-radius: 2px;
-    height: 1.5em;
-    width: 10em;
-    background: #317eac;
-    color: #ffffff;
-    margin-bottom: 20px;
-}
-
-.logout-button-wrapper button:hover{
-    background: #022a50;
-    color: #ffffff;
-}
 
 /**
  * 履歴設定
@@ -667,7 +648,6 @@ border-bottom: 1px dotted #8c8c8c;
     margin: 20px 0;
     text-align: center;
 }
-
 
 
 /* 星 */
