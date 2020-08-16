@@ -70,14 +70,23 @@ class Novel extends React.Component{
         });
     }
     render() {
-        return(
-            <div>
-                <h2> {this.state.title} </h2>
-                <h4> {this.state.name} </h4>
-                <button onClick={this.handleClick}>ブックマークに登録する</button>
-                <p> { this.state.text} </p>
-                <button onClick={() => this.props.history.goBack()}>戻る</button>
+
+        return (
+          <div class="novel-read-page">
+            <div class="novel-info">
+              <div class="novel-title-fav">
+                <div class="novel-title"> {this.state.title} </div>
+                <button class="novel-bookmark" onClick={this.handleClick}>
+                  <div class="star-fav"></div>
+                  <div class="message">ブックマークに登録</div>
+                </button>
+              </div>
+              <div class="author-name"> {this.state.name} </div>
+
             </div>
+            <div class="novel-content"> {this.state.text} </div>
+          <button onClick={() => this.props.history.goBack()}>戻る</button>
+          </div>
         );
     }
 }

@@ -84,37 +84,70 @@ export default class extends React.Component{
     };
     render() {
         return (
-          <div className="row" style={{margin: "1em"}}>
-            <h2>Create novel!</h2>
+          <div className="row write-novel" style={{ margin: "1em" }}>
+            <h2>小説を投稿する</h2>
             <div className="col s12 m5 l5">
-              <form onSubmit={this.handleSubmit} style={{marginTop: "4em"}}>
-                  <input type="text" id="title" size="30" maxLength="20" value={this.state.title} onChange={this.title_handleChange} placeholder="title"></input>
-                  <br />
-                  <input type="text" id="category" size="30" maxLength="20" value={this.state.category} placeholder="category" onChange={this.category_handleChange} style={{marginTop: "3em"}}></input>
-                  <br />
+              <form onSubmit={this.handleSubmit} style={{ marginTop: "4em" }}>
+                <div class="novel-input-name">
+                  <div class="input-name">タイトル</div>
+                  <input
+                    type="text"
+                    id="title"
+                    size="30"
+                    maxLength="20"
+                    value={this.state.title}
+                    onChange={this.title_handleChange}
+                    placeholder="タイトル"
+                  ></input>
+                </div>
+                <div class="novel-input-name">
+                  <div class="input-name">カテゴリ</div>
+                  <div class="cp_ipselect cp_sl01 cat-selecter">
+                    <select
+                      value={this.state.category}
+                      onChange={this.category_handleChange}
+                      required
+                    >
+                      <option value="" hidden>
+                        カテゴリを選ぶ
+                      </option>
+                      <option value="SF">SF</option>
+                      <option value="サスペンス">サスペンス</option>
+                      <option value="animal">animal</option>
+                      <option value="comedy">comedy</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="novel-input-name">
+                  <div class="input-name">概要</div>
+                  <div class="input-detail">*概要は一覧などに表示されます</div>
                   <textarea
                     type="text"
                     id="overview"
-                    className="materialize-textarea col s9"
                     value={this.state.overview}
                     onChange={this.overview_handleChange}
-                    style={{marginTop: "3em"}}
-                    placeholder="overview"
+                    placeholder="概要"
                   />
-                  <br />
+                </div>
+                <div class="novel-input-name">
+                  <div class="input-name">本文</div>
                   <textarea
                     type="text"
                     id="text"
-                    className="materialize-textarea col s9"
                     value={this.state.value}
                     onChange={this.val_handleChange}
-                    style={{marginTop: "3em"}}
-                    placeholder="text"
+                    placeholder="本文"
                   />
-                  <button type="submit" className="waves-effect waves-light btn col">
-                    <i class="material-icons right">Post</i>
+                </div>
+                <div class="submit-button-wrapper">
+                  <button
+                    type="submit"
+                    className="waves-effect waves-light btn col"
+                  >
+                    投稿する
                   </button>
-                </form>
+                </div>
+              </form>
             </div>
           </div>
         );
