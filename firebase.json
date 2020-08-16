@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "yot-novel",
     "public": "public/react-routers/src",
     "ignore": [
       "firebase.json",

@@ -1,64 +1,130 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import firebase from 'firebase';
 
 export default class extends React.Component{
     constructor() {
         super();
-        this.state = {collapsed : true};
+        this.state = {collapsed : true, login: "ログアウト"};
     }
     toggleCollapse() {
         const collapsed = !this.state.collapsed;
         this.setState({collapsed});
     }
+    componentDidMount(e) {
+      const user = firebase.auth().currentUser;
+      console.log("user:", user);
+      if (user) {
+        this.setState({login:"ログアウト"});
+      } else {
+        this.setState({login:"ログイン"});
+      }
+    }
 
     render() {
         const { location } = this.props;
         const { collapsed } = this.state;
-        const featuredClass = location.pathname === "/" ? "active" : "";
+        const topClass = location.pathname === "/" ? "active" : "";
+        const rankingClass = location.pathname.match(/^\/ranking/) ? "active" : "";
         const bookmarkClass = location.pathname.match(/^\/bookmarks/) ? "active" : "";
         const historyClass = location.pathname.match(/^\/history/) ? "active" : "";
-        const settingsClass = location.pathname.match(/^\/settings/) ? "active" : "";
+        const searchClass = location.pathname.match(/^\/search/) ? "active" : "";
         const mypageClass = location.pathname.match(/^\/mypage/) ? "active" : "";
+        const signInClass = location.pathname.match(/^\/signIn/) ? "active" : "";
+        const signUpClass = location.pathname.match(/^\/signUp/) ? "active" : "";
         const navClass = collapsed ? "collapse" : ""; 
         return (
-            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                <div class="container">
+          <header>
+            <nav
+              class="navbar navbar-inverse navbar-fixed-top"
+              role="navigation"
+            >
+              <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" onClick={this.toggleCollapse.bind(this)}>
+                  <button
+                    type="button"
+                    class="navbar-toggle"
+                    onClick={this.toggleCollapse.bind(this)}
+                  >
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    </button>
+                  </button>
+
+                  <Link class="navbar-brand" to="/">
+                    小説投稿サイト
+                  </Link>
                 </div>
-                <div class={"navbar-collapse " + navClass } id="bs-example-navbar-collapse-1">
-                    <div class="header-menu">
-                        <h1>Hi, YOT</h1>
-                        <ul class="sign-menu">
-                        <li>sign in</li>
-                        <li>sign up</li>
-                        </ul>
-                    </div>
-                    <ul class="nav navbar-nav">
-                    <li class={featuredClass}>
-                        <Link to="/" onClick={this.toggleCollapse.bind(this)}>Ranking</Link>
+                <div
+                  class={"navbar-collapse " + navClass}
+                  id="bs-example-navbar-collapse-1"
+                >
+                  <ul class="nav navbar-nav">
+                    <li class={topClass}>
+                      <Link to="/" onClick={this.toggleCollapse.bind(this)}>
+                        トップページ
+                      </Link>
+                    </li>
+                    <li class={rankingClass}>
+                      <Link to="/ranking" onClick={this.toggleCollapse.bind(this)}>
+                        ランキング
+                      </Link>
                     </li>
                     <li class={bookmarkClass}>
-                        <Link to="/bookmarks/news?date=today&filter=none" onClick={this.toggleCollapse.bind(this)}>BookMark</Link>
+                      <Link
+                        to="/bookmarks"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        お気に入り
+                      </Link>
                     </li>
-                    <li class={settingsClass}>
-                        <Link to="/settings" onClick={this.toggleCollapse.bind(this)}>Search</Link>
+                    <li class={searchClass}>
+                      <Link
+                        to="/search"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        小説を探す
+                      </Link>
                     </li>
                     <li class={historyClass}>
-                        <Link to="/history/news?user=1010" onClick={this.toggleCollapse.bind(this)}>yourHistory</Link>
+                      <Link
+                        to="/history/news?user=1010"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        閲覧履歴
+                      </Link>
                     </li>
                     <li class={mypageClass}>
-                        <Link to="/mypage" onClick={this.toggleCollapse.bind(this)}>Mypage</Link>
+                      <Link
+                        to="/mypage"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        マイページ
+                      </Link>
                     </li>
-                    </ul>
+                  </ul>
+                  <ul class="nav navbar-nav sign-menu">
+                    <li class={signInClass}>
+                      <Link
+                        to="/signIn"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        {this.state.login} 
+                        </Link>
+                    </li>
+                    <li class={signUpClass}>
+                      <Link to="signUp"
+                        onClick={this.toggleCollapse.bind(this)}
+                      >
+                        登録する
+                        </Link>
+                    </li>
+                  </ul>
                 </div>
-                </div>
+              </div>
             </nav>
+          </header>
         );
     }
 }
