@@ -66,7 +66,10 @@ export default class extends React.Component{
             <div class="box-list-yaxis">{this.state.list}</div>
           </div>
         </div>
-        <button onClick={this.handleLogout}>ログアウト</button>
+        <div class="mypage-contents-title logout-title">ログアウト</div>
+        <div class="logout-button-wrapper">
+          <button onClick={this.handleLogout}>ログアウト</button>
+        </div>
       </div>
     );
   }
