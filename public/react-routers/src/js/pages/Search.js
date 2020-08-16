@@ -25,7 +25,6 @@ export default class extends React.Component{
                 this.setState({list: this.state.list});
             });
         });
-
     }
 
     category_handleChange(event) {
