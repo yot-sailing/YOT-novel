@@ -43,7 +43,7 @@ export default class extends React.Component{
         const favwriter = [
             "eri",
             "cyumomo"
-        ].map((username, i) => <Writer key={i} username={username}/>);
+        ].map((username, i) => <Writer key={i} username={username} id="aRBU4y3xCVtF5vU2XXdq"/>);
 
     return (
       <div class="container">

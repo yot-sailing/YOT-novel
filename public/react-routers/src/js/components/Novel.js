@@ -70,6 +70,7 @@ class Novel extends React.Component{
         });
     }
     render() {
+
         return (
           <div class="novel-read-page">
             <div class="novel-info">
@@ -81,8 +82,10 @@ class Novel extends React.Component{
                 </button>
               </div>
               <div class="author-name"> {this.state.name} </div>
+
             </div>
             <div class="novel-content"> {this.state.text} </div>
+          <button onClick={() => this.props.history.goBack()}>戻る</button>
           </div>
         );
     }

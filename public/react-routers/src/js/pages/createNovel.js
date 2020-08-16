@@ -9,7 +9,7 @@ export default class extends React.Component{
           category: '',
           overview:'',
           value: '',
-          list: [],
+          username: ''
         }
     
     this.val_handleChange = this.val_handleChange.bind(this);
@@ -40,28 +40,44 @@ export default class extends React.Component{
         const title = this.state.title;
         const category = this.state.category;
         const overview = this.state.overview;
-        if ( val === '') {
-            return;
-        }
-        dbRef.add({
-            id: this.state.list.length+1,
-            name: "you",
-            title: title,
-            category: category,
-            overview: overview,
-            text: val,
-            created: firebase.firestore.FieldValue.serverTimestamp(),
-        })
-        .then(() => {
-            this.setState({ value: '',
-                            title:'',
-                            category:'',
-                            overview:'',
+        var user = firebase.auth().currentUser;
+        var email = user.email;
+        //var uid = user.uid;
+        var user_doc_id = [];
+        console.log("今ログインしてる人のemailは", email);
+        db.collection("users").where("email", "==", email)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                //user_doc_id = doc.id;
+                user_doc_id.push(doc.id);
+                this.setState({username:doc.data().username});
+                if ( val === '') {
+                  return;
+                }
+                dbRef.add({
+                    name: doc.data().username,
+                    title: title,
+                    category: category,
+                    overview: overview,
+                    text: val,
+                    created: firebase.firestore.FieldValue.serverTimestamp(),
+                })
+                .then(() => {
+                    this.setState({ value: '',
+                                    title:'',
+                                    category:'',
+                                    overview:'',
+                    });
+                    text.focus();
+                    title_text.focus();
+                });
             });
-            text.focus();
-            title_text.focus();
-        });
-        this.setState({ list: this.state.list});
+            
+        })
+        
         event.preventDefault();
         console.log("ok")
         this.props.history.push("/mypage");
