@@ -35,7 +35,8 @@ body{
 
 /* 縦に要素並ぶやつの各小説 */
 .contents-list .list-novel,
-.contents-list .list-news{
+.contents-list .list-news,
+.contents-list .list-writer{
     position: relative;
     display: flex;
     color: #000000;
@@ -44,7 +45,8 @@ body{
 }
 
 .contents-list .list-novel:not(:last-child):after,
-.contents-list .list-news:not(:last-child):after{
+.contents-list .list-news:not(:last-child):after,
+.contents-list .list-writer:not(:last-child):after{
     content: ' ';
     position: absolute;
     top: 0px;
@@ -79,7 +81,8 @@ body{
 }
 
 
-.contents-list .list-novel .list-novel-title{
+.contents-list .list-novel .list-novel-title,
+.contents-list .list-writer .list-writer-name{
     color: #317eac;
 }
 
@@ -216,14 +219,53 @@ footer{
 /**
  * マイページ設定
  */
-.left-side {/* 左側(お気に入りユーザー) */
-    width: 49%;
-    float: left;
+.write-button-wrapper{
+    background-color: #7189a0;
+    display: block;
+    width: 30%;
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 3px 5px 6px;
 }
-.right-side {/* 右側(作品) */
-    width: 49%;
-    float: right;
+
+.write-button-wrapper a{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 2em;
+    padding: 10px 0px 10px 0px;
+    border-radius: 2px;
+    background: #317eac;
+    color: #ffffff;
 }
+
+.write-button-wrapper a:hover{
+    background: #022a50;
+    color: #ffffff;
+}
+
+.user-information{
+    display: flex;
+    width: 100%;
+}
+
+.user-information .favorite-writer{
+    width: 50%;
+}
+
+.user-information .wrote-novel{
+    width: 100%;
+}
+
+.mypage-contents-title {
+    font-size: 30px;
+    padding-left: 10px;
+    border-left: 8px solid #022a50;
+    border-bottom: 2px solid #022a50;
+    margin-bottom:40px;
+    margin-top:40px;
+}
+
 
 /**
  * 履歴設定

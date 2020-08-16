@@ -45,38 +45,29 @@ export default class extends React.Component{
             "cyumomo"
         ].map((username, i) => <Writer key={i} username={username}/>);
 
-        const Articles = [
-            "投",
-            "稿"
-        ].map((title, i) => <Article key={i} title={title} author="chumomo" category="ラブストーリー"/>);
-       
-        return (
-          <div class="container">
-            <ScrollToTopOnMount />
-            <h1>This is your page.</h1>
-            <button type="submit" className="waves-effect waves-light btn col">
-                <Link
-                      to="/createNovel"
-                      onClick={this.toggleCollapse.bind(this)}
-                    >
-                      小説の投稿
-                </Link>
-            </button>
-            <div class="left-side">
-              <h3>your favorite writers.</h3>
-              <div class="box-list-yaxis"> {favwriter} </div>
-            </div>
-            <div class="right-side">
-              <h3 class="mypage-timeline">your novels</h3>
-              <div>
-                {this.state.list}
-              </div>
-              {/* <div class="box-list-yaxis">{Articles}</div> */}
-            </div>
-            <br />
-            <button onClick={this.handleLogout}>Log Out</button>
-
+    return (
+      <div class="container">
+        <ScrollToTopOnMount />
+        <h1>マイページ</h1>
+        <div class="mypage-contents-title write-novel-title">小説を書く</div>
+        <div class="write-button-wrapper">
+          <Link to="/createNovel" onClick={this.toggleCollapse.bind(this)}>
+            小説を執筆する
+          </Link>
+        </div>
+        <div class="mypage-contents-title  read-novel-title">小説を読む</div>
+        <div class="user-information">
+          <div class="contents-list favorite-writer">
+            <h3>お気に入りユーザー</h3>
+            <div class="box-list-yaxis"> {favwriter} </div>
           </div>
-        );
-    }
+          <div class="contents-list wrote-novel">
+            <h3 class="mypage-timeline">投稿した小説</h3>
+            <div class="box-list-yaxis">{this.state.list}</div>
+          </div>
+        </div>
+        <button onClick={this.handleLogout}>ログアウト</button>
+      </div>
+    );
+  }
 }
