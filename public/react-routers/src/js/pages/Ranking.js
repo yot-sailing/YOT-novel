@@ -21,9 +21,14 @@ export default class extends React.Component{
               // doc.data() is never undefined for query doc snapshots
               console.log(doc.id, " => ", doc.data());
               this.state.list.push(
-                  <Article key={doc.id} title={doc.data().title} 
-                            category={doc.data().category} author={doc.data().name} 
-                            abstract={doc.data().overview} />
+                <Article
+                  key={doc.id}
+                  title={doc.data().title}
+                  rank={this.state.list.length + 1}
+                  category={doc.data().category}
+                  author={doc.data().name}
+                  abstract={doc.data().overview}
+                />
               );
               this.setState({list: this.state.list});
           });
