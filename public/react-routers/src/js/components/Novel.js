@@ -1,12 +1,12 @@
 import React from 'react';
-import { db } from '../connectDB';
+import firebase , { db } from '../connectDB';
 import { withRouter } from 'react-router';
 
 const dbNovel = db.collection('novels');
 class Novel extends React.Component{
     constructor(props){
         super(props);
-        this.state = { name:'', title:'' , text: '' };
+        this.state = { name:'', title:'' , text: '', add:false };
 
         this.handleClick = this.handleClick.bind(this);
         this.getData = this.getData.bind(this);
@@ -38,10 +38,36 @@ class Novel extends React.Component{
         this.getData(novel_id);
     }
     handleClick(e) { 
-        dbRef = db.collection('favorites');
         const query = new URLSearchParams(this.props.location.search);
         const novel_id = query.get("id");
-        //ここでデータベースに追加
+        //   user_doc_id = doc.id;
+        var user = firebase.auth().currentUser;
+        var email = user.email;
+        //var uid = user.uid;
+        var user_doc_id = [];
+        e.preventDefault();
+        console.log("今ログインしてる人のemailは", email);
+        db.collection("users").where("email", "==", email)
+        .get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                //user_doc_id = doc.id;
+                user_doc_id.push(doc.id);
+                console.log("この時点でログインしてる人のuser_doc_idは", user_doc_id[0]);
+            });
+            console.log("今ログインしてる人のuser_doc_idは", user_doc_id[0]);
+            db.collection('bookmarks').add({
+                novel_doc_id: novel_id,
+                user_doc_id:user_doc_id[0],
+            }).then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+                alert("ブックマークに追加しました");
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+        });
     }
     render() {
         return(
