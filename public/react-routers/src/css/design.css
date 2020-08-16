@@ -216,15 +216,30 @@ footer{
 /**
  * マイページ設定
  */
-.left-side {/* 左側(お気に入りユーザー) */
-    width: 49%;
-    float: left;
-}
-.right-side {/* 右側(作品) */
-    width: 49%;
-    float: right;
+.write-button-wrapper{
+    background-color: #7189a0;
+    display: block;
+    width: 30%;
+    margin: auto;
+    border-radius: 3px;
+    box-shadow: 3px 5px 6px;
 }
 
+.write-button-wrapper a{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 2em;
+    padding: 10px 0px 10px 0px;
+    border-radius: 2px;
+    background: #317eac;
+    color: #ffffff;
+}
+
+.write-button-wrapper a:hover{
+    background: #022a50;
+    color: #ffffff;
+}
 /**
  * 履歴設定
  */
