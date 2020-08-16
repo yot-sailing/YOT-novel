@@ -591,6 +591,64 @@ border-bottom: 1px dotted #8c8c8c;
     margin: 20px 10%;
 }
 
+/* 小説執筆ページ */
+.novel-input-name .input-name{
+    font-size: 1.3em;
+    padding-left: 10px;
+    border-left: 8px solid #022a50;
+    border-bottom: 2px solid #022a50;
+    margin: 15px 0;
+}
+
+.novel-input-name input,
+.novel-input-name textarea,
+.novel-input-name .input-detail{
+    margin: 0 5%;
+    width: 90%
+}
+
+.novel-input-name input{
+    border: 1px solid #999;
+    padding: 3px 5px;
+    border-radius: 10px;
+}
+
+.novel-input-name textarea{
+    resize: vertical;
+    min-height: 10em;
+}
+
+.novel-input-name textarea{
+    resize: vertical;
+}
+
+.novel-input-name textarea#overview{
+    min-height: 10em;
+}
+
+.novel-input-name textarea#text{
+    min-height: 30em;
+}
+
+.write-novel button{
+    font-size: 1.3em;
+    border-radius: 2px;
+    height: 3em;
+    width: 10em;
+    background: #317eac;
+    color: #ffffff;
+}
+
+.write-novel button:hover{
+    background: #022a50;
+    color: #ffffff;
+}
+
+.submit-button-wrapper{
+    margin: 20px 0;
+    text-align: center;
+}
+
 
 /* 星 */
 .star-fav {
