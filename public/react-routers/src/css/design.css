@@ -196,9 +196,15 @@ div.to-the-top-container{/* 一番上へ */
 ul.footer-menu li {
     display: inline;
     margin: 0 10px;
+    color: aliceblue;
 }
 ul.footer-menu {
     margin-top: -40px;
+    color: aliceblue;
+}
+
+ul.footer-menu a {
+    color: aliceblue;
 }
 .footer-main {/* YOT */
     text-align: left;
@@ -208,7 +214,7 @@ ul.footer-menu {
 }
 footer{
     width: 100%;
-    background-color: #174a5c;
+    background-color: #022a50;
     color: white;
     text-align: center;
     font-size:  15px;
