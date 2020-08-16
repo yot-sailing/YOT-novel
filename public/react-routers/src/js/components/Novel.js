@@ -76,6 +76,7 @@ class Novel extends React.Component{
                 <h4> {this.state.name} </h4>
                 <button onClick={this.handleClick}>ブックマークに登録する</button>
                 <p> { this.state.text} </p>
+                <button onClick={() => this.props.history.goBack()}>戻る</button>
             </div>
         );
     }

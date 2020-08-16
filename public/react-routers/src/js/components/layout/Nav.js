@@ -1,14 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import firebase from 'firebase';
 
 export default class extends React.Component{
     constructor() {
         super();
-        this.state = {collapsed : true};
+        this.state = {collapsed : true, login: "ログアウト"};
     }
     toggleCollapse() {
         const collapsed = !this.state.collapsed;
         this.setState({collapsed});
+    }
+    componentDidMount(e) {
+      const user = firebase.auth().currentUser;
+      console.log("user:", user);
+      if (user) {
+        this.setState({login:"ログアウト"});
+      } else {
+        this.setState({login:"ログイン"});
+      }
     }
 
     render() {
@@ -63,7 +73,7 @@ export default class extends React.Component{
                     </li>
                     <li class={bookmarkClass}>
                       <Link
-                        to="/bookmarks/news?date=today&filter=none"
+                        to="/bookmarks"
                         onClick={this.toggleCollapse.bind(this)}
                       >
                         お気に入り
@@ -100,7 +110,7 @@ export default class extends React.Component{
                         to="/signIn"
                         onClick={this.toggleCollapse.bind(this)}
                       >
-                        ログイン
+                        {this.state.login} 
                         </Link>
                     </li>
                     <li class={signUpClass}>

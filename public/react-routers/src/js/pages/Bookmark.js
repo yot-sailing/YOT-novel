@@ -47,7 +47,7 @@ export default class extends React.Component{
                     this.state.list.push(
                         <Article key={doc.id} title={doc.data().title} 
                                   category={doc.data().category} author={doc.data().name} 
-                                  abstract={doc.data().overview} />
+                                  abstract={doc.data().overview} id={doc.id} />
                     );
                     this.setState({list: this.state.list});
                   })
@@ -56,11 +56,6 @@ export default class extends React.Component{
       })
   }
     render(){
-        const query = new URLSearchParams(this.props.location.search);
-        const { article } = this.props.match.params;
-        const date = query.get("date");
-        const filter = query.get("filter");
-        const abstract = "ここには１００字以内の概要が入ります"
         return (
           <div class="bookmark-page contents-list bookmark">
             <ScrollToTopOnMount />
