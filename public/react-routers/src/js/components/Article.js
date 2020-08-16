@@ -9,24 +9,27 @@ class Article extends React.Component{
         // this.state = {novel_id: ""};
         this.handleClick = this.handleClick.bind(this);
     };
-    handleClick(e) {
+    handleClick(key) {
         const abstract = document.getElementById("abstract").textContent;
         const title = document.getElementById("title").textContent;
         const author = document.getElementById("author").textContent;
         const category = document.getElementById("category").textContent;
         var novel_id = "";
         console.log(abstract, title, category,author);
-        e.preventDefault();
-        dbNovel.where("title", "==", title).get().then(querySnapshot => {
-            querySnapshot.forEach(novel => {
-                novel_id = novel.id;
-                console.log(novel_id);
-                // this.setState({ novel_id: novel.id });
-                const site = "/novel?id=" + novel_id;
-                console.log(site);
-                this.props.history.push(site);
-            });
-        });
+        novel_id = key;
+        const site = "/novel?id=" + novel_id;
+        console.log(site);
+        this.props.history.push(site);
+        // dbNovel.where("title", "==", title).get().then(querySnapshot => {
+        //     querySnapshot.forEach(novel => {
+        //         novel_id = novel.id;
+        //         console.log(novel_id);
+        //         // this.setState({ novel_id: novel.id });
+        //         const site = "/novel?id=" + novel_id;
+        //         console.log(site);
+        //         this.props.history.push(site);
+        //     });
+        // });
     }
     render() {
 
@@ -35,8 +38,9 @@ class Article extends React.Component{
         const { author } = this.props;
         const { category } = this.props;
         const { rank } = this.props;
+        const { id } = this.props;
         return (
-            <button class="list-novel" onClick={this.handleClick}>
+            <button class="list-novel" onClick={() => this.handleClick(id)}>
                 <div class="list-novel-rank" >{ rank }</div>
                 <div class="list-novel-content" >
                     <div class="list-novel-show">

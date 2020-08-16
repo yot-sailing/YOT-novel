@@ -28,6 +28,7 @@ export default class extends React.Component{
                   category={doc.data().category}
                   author={doc.data().name}
                   abstract={doc.data().overview}
+                  id={doc.id}
                 />
               );
               this.setState({list: this.state.list});

@@ -12,26 +12,17 @@ class News extends React.Component{
         this.handleClick = this.handleClick.bind(this);
     }
     
-    handleClick(e) {
-        console.log("yes");
-        const title = document.getElementById("news_title").textContent;
-        console.log(title)
-        dbNews.where("title","==", title).get().then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                const news_id = doc.id;
-                console.log(news_id);
-                // this.setState({ novel_id: novel.id });
-                const site = "/newsdetale?id=" + news_id;
-                console.log(site);
-                this.props.history.push(site);
-            })
-        });
+    handleClick(key) {
+        const site = "/newsdetale?id=" + key;
+        console.log(site);
+        this.props.history.push(site);
     }
     render() {
         const { title } = this.props;
+        const {id} = this.props;
         return (
-            <a class="list-news" onClick={this.handleClick}>
-                <div class="list-news-title" id="news_title">{title}</div>
+            <a class="list-news" onClick={() =>  this.handleClick(id)}>
+                <div class="list-news-title" name="news_title" id="news_title">{title}</div>
             </a>
         );
     };

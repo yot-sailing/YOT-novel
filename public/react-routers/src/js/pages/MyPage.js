@@ -19,7 +19,7 @@ export default class extends React.Component{
             this.state.list.push(
               <Article key={change.doc.id} title={change.doc.data().title} 
                         category={change.doc.data().category} author={change.doc.data().name} 
-                        abstract={change.doc.data().overview} />
+                        abstract={change.doc.data().overview} id={change.doc.id}/>
             );
             this.setState({list: this.state.list});
           }
