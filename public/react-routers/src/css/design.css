@@ -535,3 +535,94 @@ transition: border-color 0.3s;
 .form-footer a:hover {
 border-bottom: 1px dotted #8c8c8c;
 }
+
+/* 小説ページ設定 */
+.novel-info{
+    text-align: center;
+}
+
+.novel-info:after{
+    content: ' ';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+    border-bottom: 1px double #8c8c8c;
+}
+
+.novel-info .novel-bookmark{
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    display: flex;
+    text-align: bottom;
+    margin-bottom: 2px;
+}
+
+.novel-info .novel-bookmark:before{
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+.novel-info .novel-bookmark:hover .message{
+    border-bottom: 2px solid #f2c820;
+    font-size: 1.5em;
+}
+
+.novel-info  .novel-title-fav{
+    display: flex;
+    margin: 0 10% 0 10%;
+}
+.novel-info  .novel-title-fav .novel-title{
+    color: #317eac;
+    font-size: 3em;
+}
+.novel-info  .author-name{
+    margin: 0px 10%;
+    text-align: right;
+}
+
+.novel-info  .author-name:before{
+    content: '作者:';
+}
+
+.novel-content{
+    margin: 20px 10%;
+}
+
+
+/* 星 */
+.star-fav {
+    margin: auto 2px ;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 7px solid #f2c820;
+    display: block;
+    height: 0;
+    width: 0;
+    position: relative;
+}
+.star-fav:before,
+.star-fav:after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 7px solid #f2c820;
+    content: '';
+    display: block;
+    height: 0;
+    left: -10px;
+    position: absolute;
+    top: 0;
+    width: 0;
+}
+
+.star-fav {
+    transform: rotate(180deg);
+}
+.star-fav:before {
+    transform: rotate(71deg);
+}
+.star-fav:after {
+    transform: rotate(-71deg);
+}
