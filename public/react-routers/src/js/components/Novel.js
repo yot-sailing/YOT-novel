@@ -82,10 +82,13 @@ class Novel extends React.Component{
                 </button>
               </div>
               <div class="author-name"> {this.state.name} </div>
-
             </div>
             <div class="novel-content"> {this.state.text} </div>
-          <button onClick={() => this.props.history.goBack()}>戻る</button>
+            <div class="buck-button-wrapper">
+              <button class="buck-button" onClick={() => this.props.history.goBack()}>
+                &lt;&lt;戻る
+              </button>
+            </div>
           </div>
         );
     }
