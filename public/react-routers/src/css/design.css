@@ -42,6 +42,7 @@ body{
     color: #000000;
     text-decoration: none;
     padding: 10px;
+    text-align: left;
 }
 
 .contents-list .list-novel:not(:last-child):after,
@@ -58,7 +59,7 @@ body{
 }
 
 .contents-list.ranking  .list-novel .list-novel-rank{
-    margin: 0 10px auto 0;
+    margin: auto 10px auto 0px;
     width: 1.8em;
     text-align: center;
     vertical-align: middle;
