@@ -633,6 +633,9 @@ border-bottom: 1px dotted #8c8c8c;
     color: #ffffff;
 }
 
+div.novel-content{
+    white-space: pre-line;
+}
 
 /* 小説執筆ページ */
 .novel-input-name .input-name{
