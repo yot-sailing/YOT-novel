@@ -78,7 +78,7 @@ export default class extends React.Component{
         return (
             <div>
                 <ScrollToTopOnMount />
-                <h1>Search</h1>
+                <h1>小説を探す</h1>
                 <form onSubmit={this.handleSubmit.bind(this)} class="search_container">
                     <div class="search-condition keyword-input">
                         <div class="search-condition-title">キーワード検索</div>
