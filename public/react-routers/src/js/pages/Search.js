@@ -1,6 +1,7 @@
 import React from 'react';
 import Article from '../components/Article';
 import firebase, { db } from '../connectDB';
+import ScrollToTopOnMount from '../components/ScrollToTopOnMount';
 
 const novelRef = db.collection("novels");
 export default class extends React.Component{
@@ -76,6 +77,7 @@ export default class extends React.Component{
     render(){
         return (
             <div>
+                <ScrollToTopOnMount />
                 <h1>Search</h1>
                 <form onSubmit={this.handleSubmit.bind(this)} class="search_container">
                     <div class="search-condition keyword-input">
