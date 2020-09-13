@@ -1,6 +1,8 @@
 import React from 'react';
 import Article from '../components/Article';
 import firebase, { db } from '../connectDB';
+
+const novelRef = db.collection("novels");
 export default class extends React.Component{
     constructor(props) {
         super(props);
@@ -10,7 +12,7 @@ export default class extends React.Component{
             title: '',
             list: [],
         };
-
+// TODO はじめに一覧表示させるやついる？？
         const novelRef = db.collection("novels");
         const snapshots = novelRef.get();
         snapshots.then(querySnapshot => {
@@ -29,11 +31,9 @@ export default class extends React.Component{
 
     category_handleChange(event) {
         this.setState({category: event.target.value});
-        console.log(this.state.category);
     }
     title_handleChange(event) {
         this.setState({title: event.target.value});
-        console.log(this.state.title);
     }
 
     handleSubmit(event) {
@@ -42,19 +42,18 @@ export default class extends React.Component{
 
         var novelRef;
         if(this.state.category != "" && this.state.title != ""){
-            novelRef = db.collection("novels")
-            .where("category", "==", this.state.category)
+            novelRef = db.collection('novels').where("category", "==", this.state.category)
             .where("title", "==", this.state.title);
             console.log("multi");
         }else if(this.state.category != ""){
-            novelRef = db.collection("novels")
-            .where("category", "==", this.state.category);
+            novelRef = db.collection('novels').where("category", "==", this.state.category);
             console.log("single");
         }
         // const novelRef = db.collection("novels")
         // .where("category", "==", this.state.category);
         // //.where("title", "==", this.state.title);
         const snapshots = novelRef.get();
+        console.log(snapshots);
         snapshots.then(querySnapshot => {
             querySnapshot.forEach(doc => {
                 // doc.data() is never undefined for query doc snapshots
@@ -66,7 +65,12 @@ export default class extends React.Component{
                 );
                 this.setState({list: this.state.list});
             });
+            if (this.state.list.length == 0) {
+                this.state.list.push(<p key="test">検索結果はありません</p>)
+                this.setState({list: this.state.list})
+            }
         });
+
     };
 
     render(){
