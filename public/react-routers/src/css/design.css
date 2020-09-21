@@ -620,6 +620,23 @@ border-bottom: 1px dotted #8c8c8c;
     margin: 20px 10%;
 }
 
+.novel-evaluation{
+    text-align: center;
+}
+
+.novel-evaluation:before{
+    content: ' ';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+    border-bottom: 1px double #8c8c8c;
+}
+
+.novel-evaluation-rating .rating{
+    display: inline;
+}
+
 .buck-button-wrapper{
     width: 80%;
     margin:10px 10%

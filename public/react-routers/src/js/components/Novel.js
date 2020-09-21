@@ -12,7 +12,7 @@ class Novel extends React.Component{
         this.getData = this.getData.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
     }
-    
+
     getData(uid) {
         dbNovel.doc(uid).get().then(doc => {
             if (doc.exists) {
@@ -84,6 +84,21 @@ class Novel extends React.Component{
               <div class="author-name"> {this.state.name} </div>
             </div>
             <div class="novel-content"> {this.state.text} </div>
+            <div class="novel-evaluation">
+              <div class="novel-evaluation-title">評価を投稿する</div>
+              <div class="novel-evaluation-rating">
+                <div class="rating off">★</div>
+                <div class="rating off">★</div>
+                <div class="rating off">★</div>
+                <div class="rating off">★</div>
+                <div class="rating off">★</div>
+              </div>
+              <div class="novel-evaluation-comment">
+                <div>コメント</div>
+                <textarea type="text" id="comment" placeholder="コメント" />
+              </div>
+              <button class="evaluate-post-button">投稿</button>
+            </div>
             <div class="buck-button-wrapper">
               <button class="buck-button" onClick={() => this.props.history.goBack()}>
                 &lt;&lt;戻る
