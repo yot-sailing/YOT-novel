@@ -16,6 +16,8 @@ import Novel from './components/Novel';
 import NotFound from './pages/404'
 import NewsDetale from './components/NewsDetale';
 import Author from "./components/Author";
+import Request from "./pages/Request";
+import createRequest from "./pages/createRequest";
 const app = document.getElementById('app');
 
 ReactDOM.render(
@@ -32,6 +34,8 @@ ReactDOM.render(
                 <Route path="/novel" component={Novel}></Route>
                 <Route path="/newsdetale" component={NewsDetale}></Route>
                 <Route path="/author" component={Author}></Route>
+                <Route path="/createrequest" component={createRequest}></Route>
+                <Route path="/request" component={Request}></Route>
                 <Auth>
                     <Switch>
                         <Route path="/bookmarks/" component={Bookmarks}></Route>
