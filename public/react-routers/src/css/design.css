@@ -226,7 +226,8 @@ footer{
 /**
  * マイページ設定
  */
-.write-button-wrapper{
+.write-button-wrapper,
+.request-button-wrapper{
     background-color: #7189a0;
     display: block;
     width: 30%;
@@ -235,7 +236,8 @@ footer{
     box-shadow: 3px 5px 6px;
 }
 
-.write-button-wrapper a{
+.write-button-wrapper a,
+.request-button-wrapper a{
     display: block;
     text-align: center;
     text-decoration: none;
@@ -246,7 +248,8 @@ footer{
     color: #ffffff;
 }
 
-.write-button-wrapper a:hover{
+.write-button-wrapper a:hover,
+.request-button-wrapper a:hover{
     background: #022a50;
     color: #ffffff;
 }
@@ -264,7 +267,8 @@ footer{
     width: 100%;
 }
 
-.mypage-contents-title {
+.mypage-contents-title,
+.authorpage-contents-title {
     font-size: 30px;
     padding-left: 10px;
     border-left: 8px solid #022a50;

@@ -83,6 +83,12 @@ export default class extends React.Component{
             小説を執筆する
           </Link>
         </div>
+        <div class="mypage-contents-title REQUEST-title">お題を見る</div>
+        <div class="write-button-wrapper">
+          <Link to="/request" onClick={this.toggleCollapse.bind(this)}>
+            投稿されたお題を見る
+          </Link>
+        </div>
         <div class="mypage-contents-title  read-novel-title">小説を読む</div>
         <div class="user-information">
           <div class="contents-list favorite-writer">
