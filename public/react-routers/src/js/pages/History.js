@@ -12,63 +12,47 @@ export default class extends React.Component {
     };
 
     var user = firebase.auth().currentUser;
-    var email = user.email;
     var user_doc_id = [];
-    console.log('今ログインしてる人のemailは', email);
+    // 閲覧履歴データ取得処理
     db.collection('users')
-      .where('email', '==', email)
+      .where('email', '==', user.email)
       .get()
-      // .then(doc => {
-      //   // doc.data() is never undefined for query doc snapshots
-      //   console.log(doc.id);
-      //   // console.log(doc.id, " => ", doc.data());
-      //   user_doc_id = doc.id;
-      // });
       .then((querySnapshot) => {
+        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
-          //user_doc_id = doc.id;
           user_doc_id.push(doc.id);
-          console.log(
-            'この時点でログインしてる人のuser_doc_idは',
-            user_doc_id[0]
-          );
         });
-        console.log('今ログインしてる人のuser_doc_idは', user_doc_id[0]);
-        const historyRef = db
-          .collection('histories')
+        // user_doc_idの一つ目の人の閲覧履歴を5件だけリストアップ
+        db.collection('histories')
           .limit(5)
-          .where('user_doc_id', '==', user_doc_id[0]);
-        const snapshots = historyRef.get();
-        snapshots.then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, ' => ', doc.data());
-            var novel_doc_id = doc.data().novel_doc_id;
-            const novelRef = db.collection('novels').doc(novel_doc_id);
-            novelRef.get().then((doc) => {
-              this.state.list.push(
-                <Article
-                  key={doc.id}
-                  title={doc.data().title}
-                  category={doc.data().category}
-                  author={doc.data().name}
-                  abstract={doc.data().overview}
-                  id={doc.id}
-                />
-              );
-              this.setState({ list: this.state.list });
+          .where('user_doc_id', '==', user_doc_id[0])
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // 閲覧履歴に登録されている小説IDから、その小説のデータを取得し、リストアップ
+              const history_novel_doc_id = doc.data().novel_doc_id;
+              db.collection('novels')
+                .doc(history_novel_doc_id)
+                .get()
+                .then((doc) => {
+                  this.state.list.push(
+                    <Article
+                      key={doc.id}
+                      title={doc.data().title}
+                      category={doc.data().category}
+                      author={doc.data().name}
+                      abstract={doc.data().overview}
+                      id={doc.id}
+                    />
+                  );
+                  this.setState({ list: this.state.list });
+                });
             });
           });
-        });
       });
   }
-  render() {
-    const query = new URLSearchParams(this.props.location.search);
-    const { article } = this.props.match.params;
-    const user = query.get('user');
 
+  render() {
     return (
       <div class="history-page contents-list history">
         <ScrollToTopOnMount />
