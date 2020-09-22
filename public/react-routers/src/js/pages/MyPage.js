@@ -5,64 +5,46 @@ import ScrollToTopOnMount from '../components/ScrollToTopOnMount';
 import { Link } from 'react-router-dom';
 import firebase, { db } from '../connectDB';
 
-const dbRef = db.collection('novels');
 export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = { collapsed: true, list: [] };
-    // dbRef.orderBy('created').onSnapshot(snapshot => {
-    //   snapshot.docChanges().forEach(change => {
-    //     if (change.type === 'added') {
-    //       console.log(change.doc.data().title);
-    //       this.state.list.push(
-    //         <Article key={change.doc.id} title={change.doc.data().title}
-    //                   category={change.doc.data().category} author={change.doc.data().name}
-    //                   abstract={change.doc.data().overview} id={change.doc.id}/>
-    //       );
-    //       this.setState({list: this.state.list});
-    //     }
-    //   })
-    // });
 
     var user = firebase.auth().currentUser;
-    var email = user.email;
-    var user_doc_id = [];
-    console.log('今ログインしてる人のemailは', email);
+    var username = [];
+    //小説取得処理
     db.collection('users')
-      .where('email', '==', email)
+      .where('email', '==', user.email)
       .get()
       .then((querySnapshot) => {
+        // usersのなかで、今ログインしている人と同じemailアドレスの人のusernameをusernameにリストアップ(使うのは一つだけ)
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
-          //user_doc_id = doc.id;
-          user_doc_id.push(doc.id);
-          this.setState({ username: doc.data().username });
-
-          db.collection('novels')
-            .where('name', '==', doc.data().username)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, ' => ', doc.data());
-                this.state.list.push(
-                  <Article
-                    key={doc.id}
-                    title={doc.data().title}
-                    category={doc.data().category}
-                    author={doc.data().name}
-                    abstract={doc.data().overview}
-                    id={doc.id}
-                  />
-                );
-                this.setState({ list: this.state.list });
-              });
-            });
+          username.push(doc.data().username);
         });
+
+        // user_doc_idの一つ目の人が書いた小説をリストアップ
+        db.collection('novels')
+          .where('name', '==', username[0])
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              this.state.list.push(
+                <Article
+                  key={doc.id}
+                  title={doc.data().title}
+                  category={doc.data().category}
+                  author={doc.data().name}
+                  abstract={doc.data().overview}
+                  id={doc.id}
+                />
+              );
+              this.setState({ list: this.state.list });
+            });
+          });
       });
   }
 
+  // ログアウト処理
   handleLogout() {
     firebase.auth().signOut();
   }
@@ -71,6 +53,7 @@ export default class extends React.Component {
     const collapsed = !this.state.collapsed;
     this.setState({ collapsed });
   }
+
   render() {
     const favwriter = ['eri', 'cyumomo'].map((username, i) => (
       <Writer key={i} username={username} id="aRBU4y3xCVtF5vU2XXdq" />
