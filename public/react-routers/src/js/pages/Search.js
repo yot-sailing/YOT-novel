@@ -1,72 +1,73 @@
 import React from 'react';
 import Article from '../components/Article';
-import firebase, { db } from '../connectDB';
+import { db } from '../connectDB';
 export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       collapsed: true,
       category: '',
-      title: '',
-      list: [],
+      keyword: '',
+      results: [],
     };
 
-    const novelRef = db.collection('novels');
-    const snapshots = novelRef.get();
-    snapshots.then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
-        this.state.list.push(
-          <Article
-            key={doc.id}
-            title={doc.data().title}
-            category={doc.data().category}
-            author={doc.data().name}
-            abstract={doc.data().overview}
-            id={doc.id}
-          />
-        );
-        this.setState({ list: this.state.list });
+    // 一番初めは全件表示
+    db.collection('novels')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.state.results.push(
+            <Article
+              key={doc.id}
+              title={doc.data().title}
+              category={doc.data().category}
+              author={doc.data().name}
+              abstract={doc.data().overview}
+              id={doc.id}
+            />
+          );
+          this.setState({ results: this.state.results });
+        });
       });
-    });
   }
 
+  // カテゴリー欄の値をstateに保存
   category_handleChange(event) {
     this.setState({ category: event.target.value });
-    console.log(this.state.category);
-  }
-  title_handleChange(event) {
-    this.setState({ title: event.target.value });
-    console.log(this.state.title);
   }
 
-  handleSubmit(event) {
+  // キーワード欄の値をstateに保存
+  keyword_handleChange(event) {
+    this.setState({ keyword: event.target.value });
+  }
+
+  // 検索
+  handleSearch(event) {
     event.preventDefault();
-    this.setState({ list: [] });
 
+    // いったん検索結果を空にする
+    this.setState({ results: [] });
+
+    // 指定された条件に沿ってクエリ設定
     var novelRef;
-    if (this.state.category != '' && this.state.title != '') {
+    if (this.state.category != '' && this.state.keyword != '') {
+      // キーワードとカテゴリーが指定されている
       novelRef = db
         .collection('novels')
         .where('category', '==', this.state.category)
-        .where('title', '==', this.state.title);
-      console.log('multi');
+        .where('title', '==', this.state.keyword);
     } else if (this.state.category != '') {
+      // カテゴリーだけが指定されている
       novelRef = db
         .collection('novels')
         .where('category', '==', this.state.category);
-      console.log('single');
     }
-    // const novelRef = db.collection("novels")
-    // .where("category", "==", this.state.category);
-    // //.where("title", "==", this.state.title);
+
+    // 検索して、結果をresultsに保存
     const snapshots = novelRef.get();
     snapshots.then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
-        this.state.list.push(
+        this.state.results.push(
           <Article
             key={doc.id}
             title={doc.data().title}
@@ -76,7 +77,7 @@ export default class extends React.Component {
             id={doc.id}
           />
         );
-        this.setState({ list: this.state.list });
+        this.setState({ results: this.state.results });
       });
     });
   }
@@ -85,15 +86,15 @@ export default class extends React.Component {
     return (
       <div>
         <h1>Search</h1>
-        <form onSubmit={this.handleSubmit.bind(this)} class="search_container">
+        <form onSubmit={this.handleSearch.bind(this)} class="search_container">
           <div class="search-condition keyword-input">
             <div class="search-condition-title">キーワード検索</div>
             <input
               type="text"
               size="25"
               placeholder="　キーワード検索"
-              value={this.state.title}
-              onChange={this.title_handleChange.bind(this)}
+              value={this.state.keyword}
+              onChange={this.keyword_handleChange.bind(this)}
             />
           </div>
           <div class="search-condition range-select">
@@ -157,7 +158,7 @@ export default class extends React.Component {
         </form>
         <div class="search-page contents-list search">
           <h1>検索結果</h1>
-          <div class="box-list-yaxis">{this.state.list}</div>
+          <div class="box-list-yaxis">{this.state.results}</div>
         </div>
       </div>
     );
