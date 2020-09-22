@@ -1,11 +1,9 @@
 import React from 'react';
-import firebase, { db } from '../connectDB';
+import { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import Article from '../components/Article';
 
-const dbRef = db.collection('users');
-const noveldbRef = db.collection('novels');
 class Author extends React.Component {
   constructor(props) {
     super(props);
@@ -16,26 +14,20 @@ class Author extends React.Component {
   }
 
   getData(uid) {
-    dbRef
+    db.collection('users')
       .doc(uid)
       .get()
       .then((doc) => {
+        // 指定されたidのユーザーを取得して操作
         if (doc.exists) {
-          console.log('Document data:', doc.data());
           const username = doc.data().username;
           this.setState({ username: username });
-          noveldbRef
-            .where('name', '==', doc.data().username)
+          db.collection('novels')
+            .where('name', '==', username)
             .get()
             .then((querySnapshot) => {
+              // 指定されたidのユーザーが書いた小説をnovellistにリストアップ
               querySnapshot.forEach((novel) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(
-                  'debug print in Author. get data of',
-                  novel.id,
-                  ' => ',
-                  novel.data()
-                );
                 this.state.novellist.push(
                   <Article
                     key={novel.id}
@@ -52,23 +44,22 @@ class Author extends React.Component {
               });
             });
         } else {
-          // doc.data() will be undefined in this case
-          console.log('No such document!');
+          console.log('Cannot find user (in Author)');
         }
       })
       .catch(function (error) {
-        console.log('Error getting document:', error);
+        console.log('Error getting document in Author:', error);
       });
   }
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
     const author_id = query.get('id');
-    //普通に取得
+    // 普通に取得
     this.getData(author_id);
   }
 
   handleFollow() {
-    //TODO: フォローアンフォロー動作作成
+    // TODO: フォローアンフォロー動作作成
   }
 
   render() {
