@@ -2,91 +2,94 @@ import React from 'react';
 import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 
-const dbNovel = db.collection('novels');
 class Novel extends React.Component {
   constructor(props) {
     super(props);
     this.state = { name: '', title: '', text: '', add: false };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickBookMark = this.handleClickBookMark.bind(this);
     this.getData = this.getData.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  getData(uid) {
-    dbNovel
-      .doc(uid)
+  // 小説データを取得する
+  getData(novel_id) {
+    db.collection('novels')
+      .doc(novel_id)
       .get()
       .then((doc) => {
+        // 指定されたidの小説を取得して操作
         if (doc.exists) {
-          console.log('Document data:', doc.data());
+          // 指定されたidの小説の情報をstateにセット
           const name = doc.data().name;
           const title = doc.data().title;
-          // this.state.text = doc.data().text;
           const text = doc.data().text;
           this.setState({ name: name, title: title, text: text });
-          console.log(this.state.title);
         } else {
-          // doc.data() will be undefined in this case
-          console.log('No such document!');
+          console.log('Cannot find novel (in Novel)');
         }
       })
       .catch(function (error) {
-        console.log('Error getting document:', error);
+        console.log('Error getting document in Novel getData:', error);
       });
   }
+
   componentDidMount(e) {
+    // 見ている小説のIDをURLのパラメータから取得
     const query = new URLSearchParams(this.props.location.search);
     const novel_id = query.get('id');
-    //普通に取得
+    // 小説データ取得
     this.getData(novel_id);
   }
-  handleClick(e) {
+
+  // ブックマーク登録
+  handleClickBookMark(e) {
+    // 見ている小説のIDをURLのパラメータから取得
     const query = new URLSearchParams(this.props.location.search);
     const novel_id = query.get('id');
-    //   user_doc_id = doc.id;
+
+    // 今ログイン中のユーザーのデータを取得
     var user = firebase.auth().currentUser;
-    var email = user.email;
-    //var uid = user.uid;
     var user_doc_id = [];
+
     e.preventDefault();
-    console.log('今ログインしてる人のemailは', email);
+    // お気に入り登録
     db.collection('users')
-      .where('email', '==', email)
+      .where('email', '==', user.email)
       .get()
       .then((querySnapshot) => {
+        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
-          //user_doc_id = doc.id;
           user_doc_id.push(doc.id);
-          console.log(
-            'この時点でログインしてる人のuser_doc_idは',
-            user_doc_id[0]
-          );
         });
-        console.log('今ログインしてる人のuser_doc_idは', user_doc_id[0]);
+        // user_doc_idの一つ目の人のお気に入りに今の小説を追加
         db.collection('bookmarks')
           .add({
             novel_doc_id: novel_id,
             user_doc_id: user_doc_id[0],
           })
-          .then(function (docRef) {
-            console.log('Document written with ID: ', docRef.id);
+          .then(function () {
+            // 追加できたらアラート表示
             alert('ブックマークに追加しました');
           })
           .catch(function (error) {
-            console.error('Error adding document: ', error);
+            // 追加時にエラーが起きたら出力・アラート表示
+            console.error(
+              'Error adding document in Novel add bookmarks: ',
+              error
+            );
+            alert('ブックマーク登録に失敗しました。');
           });
       });
   }
+
   render() {
     return (
       <div class="novel-read-page">
         <div class="novel-info">
           <div class="novel-title-fav">
             <div class="novel-title"> {this.state.title} </div>
-            <button class="novel-bookmark" onClick={this.handleClick}>
+            <button class="novel-bookmark" onClick={this.handleClickBookMark}>
               <div class="star-fav"></div>
               <div class="message">ブックマークに登録</div>
             </button>
