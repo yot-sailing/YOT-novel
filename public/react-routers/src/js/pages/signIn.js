@@ -13,35 +13,38 @@ export default class extends React.Component {
       loading: false,
       _isMounted: false,
     };
-    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    this.handleOnLogin = this.handleOnLogin.bind(this);
     this.email_handleChange = this.email_handleChange.bind(this);
     this.password_handleChange = this.password_handleChange.bind(this);
   }
+
+  // email欄の値をstateに保存
   email_handleChange(event) {
     this.setState({ email: event.target.value });
   }
+
+  // password欄の値をstateに保存
   password_handleChange(event) {
     this.setState({ password: event.target.value });
   }
-  // handleChange(e) {
-  //     this.setState({ [e.target.id]: e.target.value });
-  // };
+
   toggleCollapse() {
     const collapsed = !this.state.collapsed;
     this.setState({ collapsed });
   }
-  handleOnSubmit(e) {
+
+  // ログイン処理
+  handleOnLogin(e) {
     const email = this.state.email;
     const password = this.state.password;
     if (this.state._isMounted) {
       this.setState({ loading: true });
     }
-    console.log(email, password);
     e.preventDefault();
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((res) => {
+      .then(() => {
         if (this.state._isMounted) {
           // login success
           this.props.history.push('/myPage');
@@ -56,6 +59,7 @@ export default class extends React.Component {
         }
       });
   }
+
   componentDidMount() {
     this.setState({ _isMounted: true });
   }
@@ -67,7 +71,7 @@ export default class extends React.Component {
     return (
       <div class="form-wrapper">
         <h1>Sign In</h1>
-        <form onSubmit={this.handleOnSubmit}>
+        <form onSubmit={this.handleOnLogin}>
           <div class="form-item">
             <label for="email"></label>
             <input
