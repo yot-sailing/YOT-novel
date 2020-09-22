@@ -24,50 +24,53 @@ export default class extends React.Component {
     this.setState({ collapsed });
   }
 
+  // email欄の値をstateに保存
   email_handleChange(event) {
     this.setState({ email: event.target.value });
   }
+  // password欄の値をstateに保存
   password_handleChange(event) {
     this.setState({ password: event.target.value });
   }
+  // username欄の値をstateに保存
   username_handleChange(event) {
-    console.log('username written');
     this.setState({ username: event.target.value });
   }
 
   handleOnSubmit(e) {
-    // const username = getElementById("username")
-    // e.preventDefault();
     alert(this.state._isMounted);
-    const userRef = db.collection('users');
+
+    // 入力欄に記入された値
     const username = this.state.username;
     const email = this.state.email;
     const password = this.state.password;
+
     if (this.state._isMounted) {
       this.setState({ loading: true });
     }
-    userRef
+
+    // usersテーブルに登録
+    db.collection('users')
       .add({
         username: username,
         email: email,
         password: password,
         created: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef.email);
-      })
       .catch((error) => {
-        console.error('Error adding document: ', error);
+        console.error('Error adding document in signUp: ', error);
       });
-    console.log(email, password);
+
     e.preventDefault();
+
+    // authに追加
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
+      .then(() => {
         if (this.state._isMounted) {
           this.setState({ loading: false }); //正常終了
-          this.props.history.push('/myPage'); //email: yoyoyoh.example.com pass: yoyoyo
+          this.props.history.push('/myPage');
         }
       })
       .catch((error) => {
@@ -86,10 +89,6 @@ export default class extends React.Component {
 
   componentWillUnmount() {
     this.state._isMounted = false;
-  }
-
-  handleChange(e) {
-    this.setState({ [e.target.id]: e.target.value });
   }
 
   render() {
