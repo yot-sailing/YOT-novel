@@ -60,6 +60,22 @@ class Author extends React.Component {
 
   handleFollow() {
     // TODO: フォローアンフォロー動作作成
+    // db.collection('follow')
+    //   .doc(id)
+    //   .get()
+    //   .then((doc) => {
+    //     if (doc.exists) {
+    //       console.log('Document data:', doc.data());
+    //       const username = doc.data().username;
+    //       this.setState({ username: username });
+    //     } else {
+    //       // doc.data() will be undefined in this case
+    //       console.log('No such document!');
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.log('Error getting document:', error);
+    //   });
   }
 
   render() {
