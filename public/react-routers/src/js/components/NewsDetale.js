@@ -2,7 +2,6 @@ import React from 'react';
 import { db } from '../connectDB';
 import { withRouter } from 'react-router';
 
-const dbNews = db.collection('news');
 class NewsDetale extends React.Component {
   constructor(props) {
     super(props);
@@ -12,31 +11,31 @@ class NewsDetale extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  getData(uid) {
-    dbNews
-      .doc(uid)
+  // ニュースタイトルを取得する
+  getData(nid) {
+    db.collection('news')
+      .doc(nid)
       .get()
       .then((doc) => {
+        // 指定されたidのお知らせを取得して操作
         if (doc.exists) {
-          console.log('Document data:', doc.data());
-          const title = doc.data().title;
-          this.setState({ title: title });
-          console.log(this.state.title);
+          this.setState({ title: doc.data().title });
         } else {
-          // doc.data() will be undefined in this case
-          console.log('No such document!');
+          console.log('Cannot find news (in NewsDetail)');
         }
       })
       .catch(function (error) {
-        console.log('Error getting document:', error);
+        console.log('Error getting document in NewsDetail:', error);
       });
   }
+
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
     const news_id = query.get('id');
-    //普通に取得
+    // 普通に取得
     this.getData(news_id);
   }
+
   render() {
     return (
       <div>
