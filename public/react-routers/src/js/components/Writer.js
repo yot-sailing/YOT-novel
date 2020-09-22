@@ -5,14 +5,12 @@ import { withRouter } from 'react-router-dom';
 class Writer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      username: '',
-    };
+    this.state = { username: '' };
   }
 
+  // 各作家のページへの遷移を行う
   handleClick(id) {
     const site = '/author?id=' + id;
-    console.log(site);
     this.props.history.push(site);
   }
 
