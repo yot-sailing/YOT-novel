@@ -5,7 +5,7 @@ import firebase from 'firebase';
 export default class extends React.Component {
   constructor() {
     super();
-    this.state = { collapsed: true, login: 'ログアウト' };
+    this.state = { collapsed: true, isLoggedIn: true };
   }
   toggleCollapse() {
     const collapsed = !this.state.collapsed;
@@ -13,11 +13,10 @@ export default class extends React.Component {
   }
   componentDidMount(e) {
     const user = firebase.auth().currentUser;
-    console.log('user:', user);
     if (user) {
-      this.setState({ login: 'ログアウト' });
+      this.setState({ isLoggedIn: true });
     } else {
-      this.setState({ login: 'ログイン' });
+      this.setState({ isLoggedIn: false });
     }
   }
 
@@ -100,7 +99,7 @@ export default class extends React.Component {
               <ul class="nav navbar-nav sign-menu">
                 <li class={signInClass}>
                   <Link to="/signIn" onClick={this.toggleCollapse.bind(this)}>
-                    {this.state.login}
+                    {this.state.isLoggedIn ? 'ログアウト' : 'ログイン'}
                   </Link>
                 </li>
                 <li class={signUpClass}>
