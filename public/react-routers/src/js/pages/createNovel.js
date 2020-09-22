@@ -9,7 +9,6 @@ export default class extends React.Component {
       category: '',
       overview: '',
       value: '',
-      username: '',
     };
 
     this.val_handleChange = this.val_handleChange.bind(this);
@@ -32,58 +31,48 @@ export default class extends React.Component {
     this.setState({ overview: event.target.value });
   }
 
+  // 小説投稿処理、マイページへの遷移
   handleSubmit(event) {
-    const dbRef = db.collection('novels');
-    const text = document.getElementById('overview');
-    const title_text = document.getElementById('title');
     const val = this.state.value;
     const title = this.state.title;
     const category = this.state.category;
     const overview = this.state.overview;
     var user = firebase.auth().currentUser;
     var email = user.email;
-    //var uid = user.uid;
-    var user_doc_id = [];
-    console.log('今ログインしてる人のemailは', email);
+    var username = [];
+
+    // 小説の本文が空なら投稿しない
+    if (val === '') {
+      return;
+    }
+
+    // 小説投稿処理
     db.collection('users')
       .where('email', '==', email)
       .get()
       .then((querySnapshot) => {
+        // usersのなかで、今ログインしている人と同じemailアドレスの人のusernameをusernameにリストアップ(使うのは一つだけ)
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
-          //user_doc_id = doc.id;
-          user_doc_id.push(doc.id);
-          this.setState({ username: doc.data().username });
-          if (val === '') {
-            return;
-          }
-          dbRef
-            .add({
-              name: doc.data().username,
-              title: title,
-              category: category,
-              overview: overview,
-              text: val,
-              created: firebase.firestore.FieldValue.serverTimestamp(),
-            })
-            .then(() => {
-              this.setState({
-                value: '',
-                title: '',
-                category: '',
-                overview: '',
-              });
-              text.focus();
-              title_text.focus();
-            });
+          username.push(doc.data().username);
+        });
+
+        // usernameの一つ目の人を作者として投稿する
+        db.collection('novels').add({
+          name: username[0],
+          title: title,
+          category: category,
+          overview: overview,
+          text: val,
+          created: firebase.firestore.FieldValue.serverTimestamp(),
         });
       });
 
     event.preventDefault();
-    console.log('ok');
+
+    // マイページへ戻る
     this.props.history.push('/mypage');
   }
+
   render() {
     return (
       <div className="row write-novel" style={{ margin: '1em' }}>
