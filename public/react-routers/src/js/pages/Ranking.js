@@ -1,40 +1,35 @@
 import React from 'react';
 import Article from '../components/Article';
 import ScrollToTopOnMount from '../components/ScrollToTopOnMount';
-import firebase, { db } from '../connectDB';
+import { db } from '../connectDB';
 
 export default class extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      collapsed: true,
-      rating: '',
-      list: [],
-    };
+    this.state = { collapsed: true, list: [] };
 
-    const novelRef = db
-      .collection('novels')
+    // 評価値順に10件小説を取得
+    db.collection('novels')
       .orderBy('rating', 'desc')
-      .limit(10);
-    const snapshots = novelRef.get();
-    snapshots.then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, ' => ', doc.data());
-        this.state.list.push(
-          <Article
-            key={doc.id}
-            title={doc.data().title}
-            rank={this.state.list.length + 1}
-            category={doc.data().category}
-            author={doc.data().name}
-            abstract={doc.data().overview}
-            id={doc.id}
-          />
-        );
-        this.setState({ list: this.state.list });
+      .limit(10)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // 取得した小説のデータをリストアップ
+          this.state.list.push(
+            <Article
+              key={doc.id}
+              title={doc.data().title}
+              rank={this.state.list.length + 1}
+              category={doc.data().category}
+              author={doc.data().name}
+              abstract={doc.data().overview}
+              id={doc.id}
+            />
+          );
+          this.setState({ list: this.state.list });
+        });
       });
-    });
   }
   render() {
     return (
