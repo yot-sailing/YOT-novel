@@ -1,8 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { db } from '../connectDB';
-
-const dbNews = db.collection('news');
 
 class News extends React.Component {
   constructor(props) {
@@ -12,11 +9,12 @@ class News extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  // 各お知らせページへの遷移を行う
   handleClick(key) {
     const site = '/newsdetale?id=' + key;
-    console.log(site);
     this.props.history.push(site);
   }
+
   render() {
     const { title } = this.props;
     const { id } = this.props;
