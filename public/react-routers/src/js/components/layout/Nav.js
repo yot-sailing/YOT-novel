@@ -83,10 +83,7 @@ export default class extends React.Component {
                   </Link>
                 </li>
                 <li class={historyClass}>
-                  <Link
-                    to="/history/news?user=1010"
-                    onClick={this.toggleCollapse.bind(this)}
-                  >
+                  <Link to="/history" onClick={this.toggleCollapse.bind(this)}>
                     閲覧履歴
                   </Link>
                 </li>

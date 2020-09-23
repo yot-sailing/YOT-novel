@@ -39,10 +39,7 @@ export default class extends React.Component {
                 </Link>
               </li>
               <li class={bookmarkClass}>
-                <Link
-                  to="/bookmarks/news?date=today&filter=none"
-                  onClick={this.toggleCollapse.bind(this)}
-                >
+                <Link to="/bookmarks" onClick={this.toggleCollapse.bind(this)}>
                   お気に入り
                 </Link>
               </li>
@@ -52,10 +49,7 @@ export default class extends React.Component {
                 </Link>
               </li>
               <li class={historyClass}>
-                <Link
-                  to="/history/news?user=1010"
-                  onClick={this.toggleCollapse.bind(this)}
-                >
+                <Link to="/history" onClick={this.toggleCollapse.bind(this)}>
                   閲覧履歴
                 </Link>
               </li>
