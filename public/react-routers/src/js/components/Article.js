@@ -33,22 +33,23 @@ class Article extends React.Component {
               querySnapshot.forEach((doc) => {
                 history_doc_id.push(doc.id);
               });
+              if (!history_doc_id[0]) {
+                // 閲覧履歴に今の小説がなければ、追加する
+                db.collection('histories').add({
+                  novel_doc_id: novel_id,
+                  read_at: firebase.firestore.FieldValue.serverTimestamp(),
+                  user_doc_id: user_doc_id[0],
+                });
+              } else {
+                // 閲覧履歴にあれば、閲覧の時刻をアップデート
+                return db
+                  .collection('histories')
+                  .doc(history_doc_id[0])
+                  .update({
+                    read_at: firebase.firestore.FieldValue.serverTimestamp(),
+                  });
+              }
             });
-
-          // TODO: 多分ここからうまく機能していない。ifが必ずtrueになっているっぽい？
-          if (!history_doc_id[0]) {
-            // 閲覧履歴に今の小説がなければ、追加する
-            db.collection('histories').add({
-              novel_doc_id: novel_id,
-              read_at: firebase.firestore.FieldValue.serverTimestamp(),
-              user_doc_id: user_doc_id[0],
-            });
-          } else {
-            // 閲覧履歴にあれば、閲覧の時刻をアップデート
-            return db.collection('histories').doc(history_doc_id[0]).update({
-              read_at: firebase.firestore.FieldValue.serverTimestamp(),
-            });
-          }
         });
     }
 
