@@ -54,13 +54,13 @@ export default class extends React.Component {
               db.collection('users')
                 .doc(doc.data().following)
                 .get()
-                .then((followeeDoc) => {
-                  if (followeeDoc.exists) {
+                .then((followsUserDoc) => {
+                  if (followsUserDoc.exists) {
                     // 該当するidのユーザーがいるなら、リストにWriterを入れる
                     this.state.writerList.push(
                       <Writer
                         key={doc.id}
-                        username={followeeDoc.data().username}
+                        username={followsUserDoc.data().username}
                         id={doc.data().following}
                       />
                     );
