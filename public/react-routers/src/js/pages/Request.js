@@ -17,7 +17,7 @@ export default class extends React.Component {
       });
       db.collection('odaibako').where('user', '==', user_id[0]).get().then((querySnapshot) =>{
         querySnapshot.forEach((doc) => {
-          this.state.request.push(<div><p>{doc.data().request}</p><button onClick={() => this.props.history.push('/createNovel')}>書く</button></div>);
+          this.state.request.push(<div><p>{doc.data().request_content}</p><button onClick={() => this.props.history.push('/createNovel')}>書く</button></div>);
           this.setState({request: this.state.request});
         });
       });
