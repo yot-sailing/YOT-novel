@@ -100,13 +100,14 @@ class Novel extends React.Component {
     const rate_one = this.state.selectedValue;
     const review = this.state.comment;
     var new_rate = 1;
-    var x = new Boolean(false);
+    if (rate_one == '' && review == ""){
+      return ;
+    }
     db.collection('novels').doc(novel_id).get().then(function(doc) {
       if (doc.exists) {
         new_rate = (doc.data().rating + rate_one) / 2;
         new_rate = (Math.round(new_rate * 10)) / 10;
         console.log("Document data:", new_rate);
-        x = !x;
       } else {
           // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -117,7 +118,6 @@ class Novel extends React.Component {
         review : firebase.firestore.FieldValue.arrayUnion(review)
       })
       .then(function() {
-        x = !x;
         console.log("Document successfully updated!");
         alert('投稿できました、ありがとうございます');
         
@@ -130,8 +130,7 @@ class Novel extends React.Component {
         console.log("Error getting document:", error);
         return;
     });
-    this.props.history.push(''); //なんか遷移できないけどアラート出しているしいいか
-      
+    this.props.history.push('');
   }
 
   render() {
