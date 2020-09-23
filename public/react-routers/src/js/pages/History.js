@@ -24,8 +24,9 @@ export default class extends React.Component {
         });
         // user_doc_idの一つ目の人の閲覧履歴を5件だけリストアップ
         db.collection('histories')
-          .limit(5)
           .where('user_doc_id', '==', user_doc_id[0])
+          .orderBy('read_at', 'desc')
+          .limit(5)
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
