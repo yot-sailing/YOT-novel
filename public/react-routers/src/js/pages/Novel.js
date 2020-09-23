@@ -6,7 +6,7 @@ import ReactStarsRating from 'react-awesome-stars-rating';
 class Novel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: '', title: '', text: '', add: false, value: 0, isEdit: true, comment: '' };
+    this.state = { name: '', title: '', text: '', add: false, value: 0, isEdit: true, comment: '', novel_id: '' };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
     this.getData = this.getData.bind(this);
@@ -42,16 +42,14 @@ class Novel extends React.Component {
     // 見ている小説のIDをURLのパラメータから取得
     const query = new URLSearchParams(this.props.location.search);
     const novel_id = query.get('id');
+    this.setState({ novel_id : novel_id});
     // 小説データ取得
     this.getData(novel_id);
   }
 
   // ブックマーク登録
   handleClickBookMark(e) {
-    // 見ている小説のIDをURLのパラメータから取得
-    const query = new URLSearchParams(this.props.location.search);
-    const novel_id = query.get('id');
-
+    const novel_id = this.state.novel_id;
     // 今ログイン中のユーザーのデータを取得
     var user = firebase.auth().currentUser;
     var user_doc_id = [];
@@ -97,7 +95,43 @@ class Novel extends React.Component {
     this.setState({comment: e.target.value});
   }
   handleSubmit(e) {
-    
+    e.preventDefault();
+    const novel_id = this.state.novel_id;
+    const rate_one = this.state.selectedValue;
+    const review = this.state.comment;
+    var new_rate = 1;
+    var x = new Boolean(false);
+    db.collection('novels').doc(novel_id).get().then(function(doc) {
+      if (doc.exists) {
+        new_rate = (doc.data().rating + rate_one) / 2;
+        new_rate = (Math.round(new_rate * 10)) / 10;
+        console.log("Document data:", new_rate);
+        x = !x;
+      } else {
+          // doc.data() will be undefined in this case
+        console.log("No such document!");
+        return; 
+      }
+      db.collection('novels').doc(novel_id).update({
+        rating: new_rate, 
+        review : firebase.firestore.FieldValue.arrayUnion(review)
+      })
+      .then(function() {
+        x = !x;
+        console.log("Document successfully updated!");
+        alert('投稿できました、ありがとうございます');
+        
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+        return;
+    });
+    this.props.history.push(''); //なんか遷移できないけどアラート出しているしいいか
+      
   }
 
   render() {
