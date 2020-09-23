@@ -8,18 +8,20 @@ import firebase, { db } from '../connectDB';
 export default class extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { collapsed: true, list: [] };
+    this.state = { collapsed: true, novelList: [], writerList: [] };
 
     var user = firebase.auth().currentUser;
     var username = [];
+    var user_id = [];
     //小説取得処理
     db.collection('users')
       .where('email', '==', user.email)
       .get()
       .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のusernameをusernameにリストアップ(使うのは一つだけ)
+        // usersのなかで、今ログインしている人と同じemailアドレスの人のusername,idをusername,user_idにリストアップ(使うのは一つだけ)
         querySnapshot.forEach((doc) => {
           username.push(doc.data().username);
+          user_id.push(doc.id);
         });
 
         // user_doc_idの一つ目の人が書いた小説をリストアップ
@@ -28,7 +30,7 @@ export default class extends React.Component {
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-              this.state.list.push(
+              this.state.novelList.push(
                 <Article
                   key={doc.id}
                   title={doc.data().title}
@@ -38,7 +40,39 @@ export default class extends React.Component {
                   id={doc.id}
                 />
               );
-              this.setState({ list: this.state.list });
+              this.setState({ novelList: this.state.novelList });
+            });
+          });
+
+        // user_doc_idの一つ目の人がお気に入りに入れている人をリストアップ
+        db.collection('follows')
+          .where('user_id', '==', user_id[0])
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // 該当するidのユーザーのユーザー名を取得
+              db.collection('users')
+                .doc(doc.data().following)
+                .get()
+                .then((followeeDoc) => {
+                  if (followeeDoc.exists) {
+                    // 該当するidのユーザーがいるなら、リストにWriterを入れる
+                    this.state.writerList.push(
+                      <Writer
+                        key={doc.id}
+                        username={followeeDoc.data().username}
+                        id={doc.data().following}
+                      />
+                    );
+                    this.setState({ writerList: this.state.writerList });
+                  } else {
+                    // 該当するidのユーザーがいないならコンソールにメッセージを出す
+                    console.log('No such user (in MyPage)');
+                  }
+                })
+                .catch(function (error) {
+                  console.log('Error getting document in MyPage:', error);
+                });
             });
           });
       });
@@ -55,10 +89,6 @@ export default class extends React.Component {
   }
 
   render() {
-    const favwriter = ['eri', 'cyumomo'].map((username, i) => (
-      <Writer key={i} username={username} id="aRBU4y3xCVtF5vU2XXdq" />
-    ));
-
     return (
       <div class="container">
         <ScrollToTopOnMount />
@@ -79,11 +109,11 @@ export default class extends React.Component {
         <div class="user-information">
           <div class="contents-list favorite-writer">
             <h3>お気に入りユーザー</h3>
-            <div class="box-list-yaxis"> {favwriter} </div>
+            <div class="box-list-yaxis">{this.state.writerList}</div>
           </div>
           <div class="contents-list wrote-novel">
             <h3 class="mypage-timeline">投稿した小説</h3>
-            <div class="box-list-yaxis">{this.state.list}</div>
+            <div class="box-list-yaxis">{this.state.novelList}</div>
           </div>
         </div>
         <div class="mypage-contents-title logout-title">ログアウト</div>
