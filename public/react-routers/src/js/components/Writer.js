@@ -1,11 +1,9 @@
 import React from 'react';
-import { db } from 'firebase';
 import { withRouter } from 'react-router-dom';
 
 class Writer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: '' };
   }
 
   // 各作家のページへの遷移を行う
@@ -16,11 +14,10 @@ class Writer extends React.Component {
 
   render() {
     const { id } = this.props;
+    const { username } = this.props;
     return (
       <button class="list-writer" onClick={() => this.handleClick(id)}>
-        <div class="list-writer-name">
-          {this.state.username}　{id}
-        </div>
+        <div class="list-writer-name">{username}</div>
       </button>
     );
   }
