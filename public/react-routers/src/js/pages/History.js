@@ -35,18 +35,26 @@ export default class extends React.Component {
               db.collection('novels')
                 .doc(history_novel_doc_id)
                 .get()
-                .then((doc) => {
-                  this.state.list.push(
-                    <Article
-                      key={doc.id}
-                      title={doc.data().title}
-                      category={doc.data().category}
-                      author={doc.data().name}
-                      abstract={doc.data().overview}
-                      id={doc.id}
-                    />
-                  );
-                  this.setState({ list: this.state.list });
+                .then((novel) => {
+                  if (novel.exists) {
+                    // 小説が存在するなら表示に追加
+                    this.state.list.push(
+                      <Article
+                        key={novel.id}
+                        title={novel.data().title}
+                        category={novel.data().category}
+                        author={novel.data().name}
+                        abstract={novel.data().overview}
+                        id={novel.id}
+                      />
+                    );
+                    this.setState({ list: this.state.list });
+                  } else {
+                    db.collection('histories').doc(doc.id).delete();
+                    console.log(
+                      'Cannot find novel (in History). Delete history.'
+                    );
+                  }
                 });
             });
           });
