@@ -12,7 +12,7 @@ import createNovel from './pages/createNovel';
 import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
 import Auth from './auth/Auth';
-import Novel from './components/Novel';
+import Novel from './pages/Novel';
 import NotFound from './pages/404';
 import NewsDetale from './components/NewsDetale';
 import Author from './components/Author';

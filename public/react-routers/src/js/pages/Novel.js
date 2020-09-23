@@ -1,15 +1,19 @@
 import React from 'react';
 import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
+import ReactStarsRating from 'react-awesome-stars-rating';
 
 class Novel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: '', title: '', text: '', add: false };
+    this.state = { name: '', title: '', text: '', add: false, value: 0, isEdit: true, comment: '' };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
     this.getData = this.getData.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // 小説データを取得する
@@ -82,8 +86,22 @@ class Novel extends React.Component {
           });
       });
   }
+  onChange(value) {
+    this.setState({
+      value,
+      isEdit: false,
+      selectedValue: value,
+    });
+  }
+  handleChange(e) {
+    this.setState({comment: e.target.value});
+  }
+  handleSubmit(e) {
+    
+  }
 
   render() {
+    const { isEdit, value, selectedValue } = this.state;
     return (
       <div class="novel-read-page">
         <div class="novel-info">
@@ -97,9 +115,16 @@ class Novel extends React.Component {
           <div class="author-name"> {this.state.name} </div>
         </div>
         <div class="novel-content"> {this.state.text} </div>
-        <div class="novel-evaluation">
+        <form class="novel-evaluation" onSubmit={this.handleSubmit}>
           <div class="novel-evaluation-title">評価を投稿する</div>
           <div class="novel-evaluation-rating">
+            <ReactStarsRating
+              onChange={this.onChange}
+              isEdit={isEdit}
+              value={value}
+              selectedValue={selectedValue}
+            />
+            <div>Selected value: {selectedValue}</div>
             <div class="rating off">★</div>
             <div class="rating off">★</div>
             <div class="rating off">★</div>
@@ -108,10 +133,10 @@ class Novel extends React.Component {
           </div>
           <div class="novel-evaluation-comment">
             <div>コメント</div>
-            <textarea type="text" id="comment" placeholder="コメント" />
+            <textarea type="text" id="comment" placeholder="コメント" value={this.state.comment} onChange={this.handleChange}/>
           </div>
           <button class="evaluate-post-button">投稿</button>
-        </div>
+        </form>
         <div class="buck-button-wrapper">
           <button
             class="buck-button"
