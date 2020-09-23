@@ -140,6 +140,7 @@ export default class extends React.Component {
             </div>
           </form>
         </div>
+        <button onClick={() => this.props.history.push('/mypage')}>マイページへ</button>
       </div>
     );
   }
