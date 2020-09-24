@@ -94,7 +94,7 @@ export default class extends React.Component {
   render() {
     return (
       <div class="form-wrapper">
-        <h1>Sign Up</h1>
+        <h1>アカウント作成</h1>
         <form onSubmit={this.handleOnSubmit}>
           <div class="form-item">
             <label for="username"></label>
@@ -103,7 +103,7 @@ export default class extends React.Component {
               id="username"
               name="username"
               required="required"
-              placeholder="User name"
+              placeholder="ユーザー名"
               value={this.state.username}
               onChange={this.username_handleChange}
             ></input>
@@ -115,7 +115,7 @@ export default class extends React.Component {
               id="email"
               name="email"
               required="required"
-              placeholder="Email Address"
+              placeholder="メールアドレス"
               value={this.state.email}
               onChange={this.email_handleChange}
             ></input>
@@ -127,7 +127,7 @@ export default class extends React.Component {
               id="password"
               name="password"
               required="required"
-              placeholder="Password"
+              placeholder="パスワード"
               value={this.state.password}
               onChange={this.password_handleChange}
             ></input>
@@ -137,14 +137,14 @@ export default class extends React.Component {
               type="submit"
               class="button"
               title="Register"
-              value="Register"
+              value="作成"
             ></input>
           </div>
         </form>
         <div class="form-footer">
           <p>
             <Link to="/signIn" onClick={this.toggleCollapse.bind(this)}>
-              already have account
+              ログインする
             </Link>
           </p>
         </div>

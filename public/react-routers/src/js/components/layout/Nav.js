@@ -11,13 +11,20 @@ export default class extends React.Component {
     const collapsed = !this.state.collapsed;
     this.setState({ collapsed });
   }
-  componentDidMount(e) {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      this.setState({ isLoggedIn: true });
-    } else {
-      this.setState({ isLoggedIn: false });
-    }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ isLoggedIn: true });
+      } else {
+        this.setState({ isLoggedIn: false });
+      }
+    });
+  }
+
+  // ログアウト処理
+  handleLogout() {
+    firebase.auth().signOut();
   }
 
   render() {
@@ -34,6 +41,7 @@ export default class extends React.Component {
     const signInClass = location.pathname.match(/^\/signIn/) ? 'active' : '';
     const signUpClass = location.pathname.match(/^\/signUp/) ? 'active' : '';
     const navClass = collapsed ? 'collapse' : '';
+
     return (
       <header>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -69,17 +77,17 @@ export default class extends React.Component {
                     ランキング
                   </Link>
                 </li>
+                <li class={searchClass}>
+                  <Link to="/search" onClick={this.toggleCollapse.bind(this)}>
+                    小説を探す
+                  </Link>
+                </li>
                 <li class={bookmarkClass}>
                   <Link
                     to="/bookmarks"
                     onClick={this.toggleCollapse.bind(this)}
                   >
                     お気に入り
-                  </Link>
-                </li>
-                <li class={searchClass}>
-                  <Link to="/search" onClick={this.toggleCollapse.bind(this)}>
-                    小説を探す
                   </Link>
                 </li>
                 <li class={historyClass}>
@@ -95,14 +103,29 @@ export default class extends React.Component {
               </ul>
               <ul class="nav navbar-nav sign-menu">
                 <li class={signInClass}>
-                  <Link to="/signIn" onClick={this.toggleCollapse.bind(this)}>
-                    {this.state.isLoggedIn ? 'ログアウト' : 'ログイン'}
-                  </Link>
+                  {this.state.isLoggedIn ? (
+                    <Link
+                      to="/"
+                      onClick={
+                        (this.toggleCollapse.bind(this), this.handleLogout)
+                      }
+                    >
+                      ログアウト
+                    </Link>
+                  ) : (
+                    <Link to="/signIn" onClick={this.toggleCollapse.bind(this)}>
+                      ログイン
+                    </Link>
+                  )}
                 </li>
                 <li class={signUpClass}>
-                  <Link to="signUp" onClick={this.toggleCollapse.bind(this)}>
-                    登録する
-                  </Link>
+                  {this.state.isLoggedIn ? (
+                    ''
+                  ) : (
+                    <Link to="signUp" onClick={this.toggleCollapse.bind(this)}>
+                      登録する
+                    </Link>
+                  )}
                 </li>
               </ul>
             </div>
