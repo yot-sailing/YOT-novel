@@ -1,5 +1,5 @@
 import React from 'react';
-import { db } from '../connectDB';
+import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import Article from '../components/Article';
@@ -7,9 +7,16 @@ import Article from '../components/Article';
 class Author extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', novellist: [], url: 'createRequest?id=' };
+    this.state = {
+      username: '',
+      novellist: [],
+      url: 'createRequest?id=',
+      id: '',
+      isFavorite: false,
+    };
 
     this.getData = this.getData.bind(this);
+    this.handleFollow = this.handleFollow.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
@@ -50,6 +57,33 @@ class Author extends React.Component {
       .catch(function (error) {
         console.log('Error getting document in Author:', error);
       });
+    var user = firebase.auth().currentUser;
+    var user_doc_id = [];
+    db.collection('users')
+      .where('email', '==', user.email)
+      .get()
+      .then((querySnapshot) => {
+        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
+        querySnapshot.forEach((doc) => {
+          user_doc_id.push(doc.id);
+        });
+        // 今のフォロー状況を確認
+        db.collection('follows')
+          .where('user_id', '==', user_doc_id[0])
+          .where('following', '==', uid)
+          .get()
+          .then((querySnapshot) => {
+            // フォロー関係があればtrue
+            if (querySnapshot.empty) {
+              this.setState({ isFavorite: false });
+            } else {
+              this.setState({ isFavorite: true });
+            }
+          })
+          .catch(function (error) {
+            console.log('Error getting document in Author:', error);
+          });
+      });
   }
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
@@ -62,35 +96,62 @@ class Author extends React.Component {
 
     var url = this.state.url;
     this.setState({ url: url + author_id });
+
     // 普通に取得
     this.getData(author_id);
   }
 
-  handleFollow() {
-    // TODO: フォローアンフォロー動作作成
-    // db.collection('follow')
-    //   .doc(id)
-    //   .get()
-    //   .then((doc) => {
-    //     if (doc.exists) {
-    //       console.log('Document data:', doc.data());
-    //       const username = doc.data().username;
-    //       this.setState({ username: username });
-    //     } else {
-    //       // doc.data() will be undefined in this case
-    //       console.log('No such document!');
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.log('Error getting document:', error);
-    //   });
+  // フォローアンフォロー動作
+  handleFollow(e) {
+    e.preventDefault();
+    const author_id = this.state.id;
+    var user = firebase.auth().currentUser;
+    var user_doc_id = [];
+    db.collection('users')
+      .where('email', '==', user.email)
+      .get()
+      .then((querySnapshot) => {
+        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
+        querySnapshot.forEach((doc) => {
+          user_doc_id.push(doc.id);
+        });
+        // 今のフォロー状況を確認
+        db.collection('follows')
+          .where('user_id', '==', user_doc_id[0])
+          .where('following', '==', author_id)
+          .get()
+          .then((querySnapshot) => {
+            // フォロー関係があれば解除、なければフォロー
+            if (querySnapshot.empty) {
+              // フォローしていない
+              db.collection('follows').add({
+                following: author_id,
+                user_id: user_doc_id[0],
+              });
+              this.setState({ isFavorite: true });
+              alert('フォローしました');
+            } else {
+              // フォローしていた
+              querySnapshot.forEach((doc) => {
+                db.collection('follows').doc(doc.id).delete();
+              });
+              this.setState({ isFavorite: false });
+              alert('フォロー解除しました');
+            }
+          })
+          .catch(function (error) {
+            console.log('Error getting document in Author:', error);
+          });
+      });
   }
 
   render() {
     return (
       <div>
         <h1 class="list-writer-name">{this.state.username}</h1>
-        <button onClick={this.handleFollow}>お気に入り登録</button>
+        <button onClick={this.handleFollow}>
+          {this.state.isFavorite ? 'お気に入り解除' : 'お気に入り登録'}
+        </button>
         <div>
           <div class="authorpage-contents-title">お題箱</div>
           <div class="request-button-wrapper">
