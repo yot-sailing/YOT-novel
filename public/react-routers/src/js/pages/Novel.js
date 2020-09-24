@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import ReactStarsRating from 'react-awesome-stars-rating';
 import ReviewComponent from '../components/ReviewComponent';
 import News from '../components/News';
+import FavoriteIcon from '../../../node_modules/@material-ui/icons/Favorite';
 
 class Novel extends React.Component {
   constructor(props) {
@@ -257,6 +258,8 @@ class Novel extends React.Component {
       <div class="novel-read-page">
         <div class="novel-info">
           <button class="novel-bookmark" onClick={this.handleClickBookMark}>
+            {/* hoverのやり方がわからない、、 */}
+            {/* <FavoriteIcon color="secondary" fontSize="large" /> */}
             <div class="star-fav"></div>
             {this.getFavDiv()}
           </button>
