@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../../../node_modules/@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 import firebase from '../connectDB';
 import LoadingOverlay from 'react-loading-overlay';
@@ -61,8 +62,32 @@ class Auth extends React.Component {
     } else {
       //してないとき（ログイン画面にリダイレクト）
       return (
-        <div>
-          <Link to="/signin">ログインしてください</Link>
+        <div class="not-login">
+          <div class="tosignin">
+            <h3>アカウントをお持ちの方</h3>
+            <Link to="/signin">
+              <Button
+                style={{ fontSize: '20px' }}
+                variant="contained"
+                color="primary"
+              >
+                ログインする
+              </Button>
+            </Link>
+          </div>
+          <br></br>
+          <div class="tosignup">
+            <h3>アカウントをお持ちでない方</h3>
+            <Link to="/signup">
+              <Button
+                style={{ fontSize: '20px' }}
+                variant="contained"
+                color="primary"
+              >
+                アカウントを作成する
+              </Button>
+            </Link>
+          </div>
         </div>
       );
     }
