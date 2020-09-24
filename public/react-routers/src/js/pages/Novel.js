@@ -2,6 +2,7 @@ import React from 'react';
 import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import ReactStarsRating from 'react-awesome-stars-rating';
+import ReviewComponent from '../components/ReviewComponent';
 
 class Novel extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Novel extends React.Component {
       comment: '',
       novel_id: '',
       isFavorite: false,
-      reviews: '',
+      reviews: [],
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -210,7 +211,7 @@ class Novel extends React.Component {
     this.props.history.push('');
   }
   handleInitialize(e) {
-    this.setState({ value: 0, selectedValue: 0, comment: '', isEdit: true });
+    this.setState({ value: 0, selectedValue: '', comment: '', isEdit: true });
   }
 
   getFavDiv() {
@@ -227,25 +228,23 @@ class Novel extends React.Component {
   }
   handleReview(e) {
     const novel_id = this.state.novel_id;
+    var lists = [];
     db.collection('novels')
       .doc(novel_id)
       .get()
       .then((doc) => {
         console.log(doc.data().review);
-        for (let i = 0; i < doc.data().review.length; i++) {
-          this.setState({
-            reviews: this.state.reviews + doc.data().review[i] + '\n',
-          });
+        lists = doc.data().review;
+        for (var i = 0; i < lists.length; i++) {
+          this.state.reviews.push(
+            <ReviewComponent key={i} review={lists[i]} />
+          );
+          this.setState({ reviews: this.state.reviews });
         }
-        this.setState({ reviews: this.state.reviews });
       });
-  }
-  formatReviews(reviews) {
-    for (let i = 0; i < reviews.length; i++) {
-      this.state.reviews.push(<div key="1">reviews[i]</div>);
-      console.log(this.state.reviews);
-    }
-    this.setState({ reviews: this.state.reviews });
+    e.preventDefault();
+
+    console.log(this.state.reviews);
   }
 
   render() {
@@ -273,11 +272,6 @@ class Novel extends React.Component {
               selectedValue={selectedValue}
             />
             <div>Selected value: {selectedValue}</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
           </div>
           <div class="novel-evaluation-comment">
             <div>コメント</div>
