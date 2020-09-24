@@ -1,16 +1,31 @@
 import React from 'react';
 import firebase, { db } from '../connectDB';
-import { withRouter, Link, Redirect } from 'react-router';
+import { withRouter } from 'react-router';
+import ReactStarsRating from 'react-awesome-stars-rating';
 
 class Novel extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: '', title: '', text: '', isFavorite: false };
+    this.state = {
+      name: '',
+      title: '',
+      text: '',
+      add: false,
+      value: 0,
+      isEdit: true,
+      comment: '',
+      novel_id: '',
+      isFavorite: false,
+    };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
     this.getData = this.getData.bind(this);
     this.getFavDiv = this.getFavDiv.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInitialize = this.handleInitialize.bind(this);
   }
 
   // 小説データを取得する
@@ -68,19 +83,19 @@ class Novel extends React.Component {
       this.props.history.push('/404');
       return;
     }
+    this.setState({ novel_id: novel_id });
     // 小説データ取得
     this.getData(novel_id);
   }
 
   // ブックマーク登録
   handleClickBookMark(e) {
-    // 見ている小説のIDをURLのパラメータから取得
-    const query = new URLSearchParams(this.props.location.search);
-    const novel_id = query.get('id');
+    const novel_id = this.state.novel_id;
     if (novel_id == '') {
       this.props.history.push('/404');
       return;
     }
+
     // 今ログイン中のユーザーのデータを取得
     var user = firebase.auth().currentUser;
     var user_doc_id = [];
@@ -131,6 +146,70 @@ class Novel extends React.Component {
           });
       });
   }
+  onChange(value) {
+    this.setState({
+      value,
+      isEdit: false,
+      selectedValue: value,
+    });
+  }
+  handleChange(e) {
+    this.setState({ comment: e.target.value });
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    const novel_id = this.state.novel_id;
+    const rate_one = this.state.selectedValue;
+    const review = this.state.comment;
+    var new_rate = 1;
+    if (rate_one == '' && review == '') {
+      return;
+    }
+    db.collection('novels')
+      .doc(novel_id)
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          var eval_num = doc.data().eval_num;
+          if (eval_num == null) {
+            eval_num = 1;
+            new_rate = rate_one;
+          } else {
+            new_rate =
+              (doc.data().rating * eval_num + rate_one) / (eval_num + 1);
+            new_rate = Math.round(new_rate * 10) / 10; //小数第２位で四捨五入
+          }
+          console.log('Document data:', new_rate);
+        } else {
+          // doc.data() will be undefined in this case
+          console.log('No such document!');
+          return;
+        }
+        db.collection('novels')
+          .doc(novel_id)
+          .update({
+            rating: new_rate,
+            review: firebase.firestore.FieldValue.arrayUnion(review),
+            eval_num: firebase.firestore.FieldValue.increment(1),
+          })
+          .then(function () {
+            console.log('Document successfully updated!');
+            alert('投稿できました、ありがとうございます');
+          })
+          .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error('Error updating document: ', error);
+          });
+      })
+      .catch(function (error) {
+        console.log('Error getting document:', error);
+        return;
+      });
+    this.props.history.push('');
+  }
+  handleInitialize(e) {
+    this.setState({ value: 0, selectedValue: 0, comment: '', isEdit: true });
+  }
 
   getFavDiv() {
     if (this.state.isFavorite) {
@@ -146,6 +225,7 @@ class Novel extends React.Component {
   }
 
   render() {
+    const { isEdit, value, selectedValue } = this.state;
     return (
       <div class="novel-read-page">
         <div class="novel-info">
@@ -159,9 +239,16 @@ class Novel extends React.Component {
           <div class="author-name"> {this.state.name} </div>
         </div>
         <div class="novel-content"> {this.state.text} </div>
-        <div class="novel-evaluation">
+        <form class="novel-evaluation" onSubmit={this.handleSubmit}>
           <div class="novel-evaluation-title">評価を投稿する</div>
           <div class="novel-evaluation-rating">
+            <ReactStarsRating
+              onChange={this.onChange}
+              isEdit={isEdit}
+              value={value}
+              selectedValue={selectedValue}
+            />
+            <div>Selected value: {selectedValue}</div>
             <div class="rating off">★</div>
             <div class="rating off">★</div>
             <div class="rating off">★</div>
@@ -170,10 +257,17 @@ class Novel extends React.Component {
           </div>
           <div class="novel-evaluation-comment">
             <div>コメント</div>
-            <textarea type="text" id="comment" placeholder="コメント" />
+            <textarea
+              type="text"
+              id="comment"
+              placeholder="コメント"
+              value={this.state.comment}
+              onChange={this.handleChange}
+            />
           </div>
           <button class="evaluate-post-button">投稿</button>
-        </div>
+          <button onClick={this.handleInitialize}>クリア</button>
+        </form>
         <div class="buck-button-wrapper">
           <button
             class="buck-button"
