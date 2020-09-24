@@ -8,9 +8,32 @@ import firebase, { db } from '../connectDB';
 export default class extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { collapsed: true, novelList: [], writerList: [] };
+    this.state = {
+      collapsed: true,
+      username: '',
+      novelList: [],
+      writerList: [],
+    };
 
     var uid = firebase.auth().currentUser.uid;
+
+    // 自分の名前を知るため
+    db.collection('users')
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log('Document data:', doc.data());
+          this.state.username = doc.data().username;
+          this.setState({ username: this.state.username });
+        } else {
+          console.log('No such document!');
+        }
+      })
+      .catch((error) => {
+        console.log('Error getting document:', error);
+      });
+
     db.collection('novels')
       .where('author_id', '==', uid)
       .get()
@@ -72,7 +95,7 @@ export default class extends React.Component {
     return (
       <div class="container">
         <ScrollToTopOnMount />
-        <h1>マイページ</h1>
+        <h1>{this.state.username}さんのマイページ</h1>
         <div class="mypage-contents-title write-novel-title">小説を書く</div>
         <div class="write-button-wrapper">
           <Link to="/createNovel" onClick={this.toggleCollapse.bind(this)}>

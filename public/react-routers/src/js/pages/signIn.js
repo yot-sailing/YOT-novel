@@ -49,7 +49,7 @@ export default class extends React.Component {
           // login success
           this.props.history.push('/myPage');
           this.setState({ loading: false });
-          alert('login success');
+          alert('ログインしました');
         }
       })
       .catch((error) => {

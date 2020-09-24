@@ -38,8 +38,6 @@ export default class extends React.Component {
   }
 
   handleOnSubmit(e) {
-    alert(this.state._isMounted);
-
     // 入力欄に記入された値
     const username = this.state.username;
     const email = this.state.email;
@@ -60,6 +58,7 @@ export default class extends React.Component {
         if (this.state._isMounted) {
           this.setState({ loading: false }); //正常終了
           this.props.history.push('/myPage');
+          alert('アカウント登録に成功しました');
         }
       })
       .catch((error) => {
