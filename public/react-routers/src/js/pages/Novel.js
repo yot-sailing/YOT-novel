@@ -14,6 +14,7 @@ class Novel extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInitialize = this.handleInitialize.bind(this);
   }
 
   // 小説データを取得する
@@ -105,8 +106,15 @@ class Novel extends React.Component {
     }
     db.collection('novels').doc(novel_id).get().then(function(doc) {
       if (doc.exists) {
-        new_rate = (doc.data().rating + rate_one) / 2;
-        new_rate = (Math.round(new_rate * 10)) / 10;
+        var eval_num = doc.data().eval_num;
+        if (eval_num == null){
+          eval_num = 1;
+          new_rate = rate_one;
+        }
+        else {
+          new_rate = (doc.data().rating * eval_num + rate_one) / (eval_num + 1);
+          new_rate = (Math.round(new_rate * 10)) / 10; //小数第２位で四捨五入
+        }
         console.log("Document data:", new_rate);
       } else {
           // doc.data() will be undefined in this case
@@ -115,7 +123,8 @@ class Novel extends React.Component {
       }
       db.collection('novels').doc(novel_id).update({
         rating: new_rate, 
-        review : firebase.firestore.FieldValue.arrayUnion(review)
+        review : firebase.firestore.FieldValue.arrayUnion(review),
+        eval_num : firebase.firestore.FieldValue.increment(1)
       })
       .then(function() {
         console.log("Document successfully updated!");
@@ -131,6 +140,9 @@ class Novel extends React.Component {
         return;
     });
     this.props.history.push('');
+  }
+  handleInitialize(e) {
+    this.setState({value : 0, selectedValue : 0, comment : '', isEdit : true});
   }
 
   render() {
@@ -169,6 +181,7 @@ class Novel extends React.Component {
             <textarea type="text" id="comment" placeholder="コメント" value={this.state.comment} onChange={this.handleChange}/>
           </div>
           <button class="evaluate-post-button">投稿</button>
+          <button onClick={this.handleInitialize}>クリア</button>
         </form>
         <div class="buck-button-wrapper">
           <button
