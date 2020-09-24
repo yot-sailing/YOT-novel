@@ -37,28 +37,21 @@ export default class extends React.Component {
     const title = this.state.title;
     const category = this.state.category;
     const overview = this.state.overview;
-    var user = firebase.auth().currentUser;
-    var email = user.email;
-    var username = [];
 
     // 小説の本文が空なら投稿しない
     if (val === '') {
       return;
     }
 
+    var uid = firebase.auth().currentUser.uid;
     // 小説投稿処理
     db.collection('users')
-      .where('email', '==', email)
+      .doc(uid)
       .get()
-      .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のusernameをusernameにリストアップ(使うのは一つだけ)
-        querySnapshot.forEach((doc) => {
-          username.push(doc.data().username);
-        });
-
-        // usernameの一つ目の人を作者として投稿する
+      .then((doc) => {
         db.collection('novels').add({
-          name: username[0],
+          author_id: uid,
+          name: doc.data().username,
           title: title,
           category: category,
           overview: overview,

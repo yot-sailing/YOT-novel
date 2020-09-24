@@ -11,53 +11,42 @@ export default class extends React.Component {
       list: [],
     };
 
-    var user = firebase.auth().currentUser;
-    var user_doc_id = [];
+    // 自分のID
+    var uid = firebase.auth().currentUser.uid;
     // 閲覧履歴データ取得処理
-    db.collection('users')
-      .where('email', '==', user.email)
+    // 自分の閲覧履歴を5件だけリストアップ
+    db.collection('histories')
+      .where('user_doc_id', '==', uid)
+      .orderBy('read_at', 'desc')
+      .limit(5)
       .get()
       .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
         querySnapshot.forEach((doc) => {
-          user_doc_id.push(doc.id);
-        });
-        // user_doc_idの一つ目の人の閲覧履歴を5件だけリストアップ
-        db.collection('histories')
-          .where('user_doc_id', '==', user_doc_id[0])
-          .orderBy('read_at', 'desc')
-          .limit(5)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              // 閲覧履歴に登録されている小説IDから、その小説のデータを取得し、リストアップ
-              const history_novel_doc_id = doc.data().novel_doc_id;
-              db.collection('novels')
-                .doc(history_novel_doc_id)
-                .get()
-                .then((novel) => {
-                  if (novel.exists) {
-                    // 小説が存在するなら表示に追加
-                    this.state.list.push(
-                      <Article
-                        key={novel.id}
-                        title={novel.data().title}
-                        category={novel.data().category}
-                        author={novel.data().name}
-                        abstract={novel.data().overview}
-                        id={novel.id}
-                      />
-                    );
-                    this.setState({ list: this.state.list });
-                  } else {
-                    db.collection('histories').doc(doc.id).delete();
-                    console.log(
-                      'Cannot find novel (in History). Delete history.'
-                    );
-                  }
-                });
+          // 閲覧履歴に登録されている小説IDから、その小説のデータを取得し、リストアップ
+          const history_novel_doc_id = doc.data().novel_doc_id;
+          db.collection('novels')
+            .doc(history_novel_doc_id)
+            .get()
+            .then((novel) => {
+              if (novel.exists) {
+                // 小説が存在するなら表示に追加
+                this.state.list.push(
+                  <Article
+                    key={novel.id}
+                    title={novel.data().title}
+                    category={novel.data().category}
+                    author={novel.data().name}
+                    abstract={novel.data().overview}
+                    id={novel.id}
+                  />
+                );
+                this.setState({ list: this.state.list });
+              } else {
+                db.collection('histories').doc(doc.id).delete();
+                console.log('Cannot find novel (in History). Delete history.');
+              }
             });
-          });
+        });
       });
   }
 

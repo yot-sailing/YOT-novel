@@ -49,25 +49,14 @@ export default class extends React.Component {
       this.setState({ loading: true });
     }
 
-    // usersテーブルに登録
-    db.collection('users')
-      .add({
-        username: username,
-        email: email,
-        password: password,
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .catch((error) => {
-        console.error('Error adding document in signUp: ', error);
-      });
-
     e.preventDefault();
 
     // authに追加
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((result) => {
+        db.collection('users').doc(result.user.uid).set({ username: username });
         if (this.state._isMounted) {
           this.setState({ loading: false }); //正常終了
           this.props.history.push('/myPage');
