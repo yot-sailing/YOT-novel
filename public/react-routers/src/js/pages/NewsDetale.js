@@ -32,6 +32,9 @@ class NewsDetale extends React.Component {
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
     const news_id = query.get('id');
+    if (news_id == '') {
+      this.props.history.push('404');
+    }
     // 普通に取得
     this.getData(news_id);
   }

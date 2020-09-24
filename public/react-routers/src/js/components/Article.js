@@ -55,6 +55,9 @@ class Article extends React.Component {
 
     // ページ遷移
     const site = '/novel?id=' + novel_id;
+    if (novel_id == ''){
+      this.props.history.push('/404');
+    }
     this.props.history.push(site);
   }
 

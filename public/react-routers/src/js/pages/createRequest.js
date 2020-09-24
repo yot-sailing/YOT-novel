@@ -38,6 +38,9 @@ export default class extends React.Component {
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
     const author_id = query.get('id');
+    if (author_id == '') {
+      this.props.history.push('404');
+    }
     this.setState({user: author_id})
   }
   render() {

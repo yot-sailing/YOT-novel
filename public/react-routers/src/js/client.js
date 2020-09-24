@@ -13,7 +13,8 @@ import SignIn from './pages/signIn';
 import SignUp from './pages/signUp';
 import Auth from './auth/Auth';
 import Novel from './components/Novel';
-import NotFound from './pages/404';
+import NotFound from './pages/NotFound';
+import noPage from './pages/404';
 import NewsDetale from './pages/NewsDetale';
 import Author from './pages/Author';
 import Request from './pages/Request';
@@ -25,9 +26,9 @@ ReactDOM.render(
     <Layout>
       <Switch>
         <Route exact path="/" component={Top}></Route>
+        <Route path='/404' component={noPage} ></Route>
         <Route path="/ranking" component={Ranking}></Route>
-        <Route path="/search/" component={Search}></Route>
-        <Route path="/search/:mode(main|extra)" component={Search}></Route>
+        <Route path="/search" component={Search}></Route>
         <Route path="/createNovel" component={createNovel}></Route>
         <Route path="/signIn" component={SignIn}></Route>
         <Route path="/signUp" component={SignUp}></Route>
@@ -41,8 +42,9 @@ ReactDOM.render(
             <Route path="/bookmarks/" component={Bookmarks}></Route>
             <Route path="/history/" component={History}></Route>
             <Route path="/mypage/" component={MyPage}></Route>
+            <Route component={NotFound} />
           </Switch>
-        </Auth>
+        </Auth>  
         <Route component={NotFound} />
       </Switch>
     </Layout>
