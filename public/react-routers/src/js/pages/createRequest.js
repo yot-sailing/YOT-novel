@@ -19,7 +19,9 @@ export default class extends React.Component {
     const request = this.state.request;
     const user = this.state.user;
     console.log(request)
-
+    const request_user = firebase.auth().currentUser;
+    var email = request_user.email;
+    var request_user_id = [];
     
     if (request == ""){
       return;
@@ -27,9 +29,17 @@ export default class extends React.Component {
     if (this.state.user == '') {
       return;
     }
-    db.collection('odaibako').add({
-      user: user,
-      request_content : request
+    db.collection('users').where('email', '==', email).get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        request_user_id.push(doc.id);
+      });
+
+      db.collection('odaibako').add({
+        user: user,
+        request_content : request,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        request_user : request_user_id[0]
+      });
     });
     e.preventDefault();
     alert('投稿しました.');
