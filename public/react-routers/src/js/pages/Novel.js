@@ -16,6 +16,7 @@ class Novel extends React.Component {
       comment: '',
       novel_id: '',
       isFavorite: false,
+      reviews: '',
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -26,6 +27,7 @@ class Novel extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInitialize = this.handleInitialize.bind(this);
+    this.handleReview = this.handleReview.bind(this);
   }
 
   // 小説データを取得する
@@ -223,6 +225,28 @@ class Novel extends React.Component {
       return <div class="message notfav">お気に入りに登録する</div>;
     }
   }
+  handleReview(e) {
+    const novel_id = this.state.novel_id;
+    db.collection('novels')
+      .doc(novel_id)
+      .get()
+      .then((doc) => {
+        console.log(doc.data().review);
+        for (let i = 0; i < doc.data().review.length; i++) {
+          this.setState({
+            reviews: this.state.reviews + doc.data().review[i] + '\n',
+          });
+        }
+        this.setState({ reviews: this.state.reviews });
+      });
+  }
+  formatReviews(reviews) {
+    for (let i = 0; i < reviews.length; i++) {
+      this.state.reviews.push(<div key="1">reviews[i]</div>);
+      console.log(this.state.reviews);
+    }
+    this.setState({ reviews: this.state.reviews });
+  }
 
   render() {
     const { isEdit, value, selectedValue } = this.state;
@@ -268,6 +292,8 @@ class Novel extends React.Component {
           <button class="evaluate-post-button">投稿</button>
           <button onClick={this.handleInitialize}>クリア</button>
         </form>
+        <button onClick={this.handleReview}>他のレビューを見る</button>
+        {this.state.reviews}
         <div class="buck-button-wrapper">
           <button
             class="buck-button"
