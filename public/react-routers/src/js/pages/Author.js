@@ -7,7 +7,7 @@ import Article from '../components/Article';
 class Author extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', novellist: [], url:'createRequest?id=' };
+    this.state = { username: '', novellist: [], url: 'createRequest?id=' };
 
     this.getData = this.getData.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -54,14 +54,14 @@ class Author extends React.Component {
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
     const author_id = query.get('id');
-    
-    if (author_id == ''){
+
+    if (author_id == '') {
       this.props.history.push('/404');
       return;
     }
 
-    var url = this.state.url
-    this.setState({url: url + author_id});
+    var url = this.state.url;
+    this.setState({ url: url + author_id });
     // 普通に取得
     this.getData(author_id);
   }

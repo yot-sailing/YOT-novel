@@ -26,7 +26,7 @@ ReactDOM.render(
     <Layout>
       <Switch>
         <Route exact path="/" component={Top}></Route>
-        <Route path='/404' component={noPage} ></Route>
+        <Route path="/404" component={noPage}></Route>
         <Route path="/ranking" component={Ranking}></Route>
         <Route path="/search" component={Search}></Route>
         <Route path="/createNovel" component={createNovel}></Route>
@@ -44,7 +44,7 @@ ReactDOM.render(
             <Route path="/mypage/" component={MyPage}></Route>
             <Route component={NotFound} />
           </Switch>
-        </Auth>  
+        </Auth>
         <Route component={NotFound} />
       </Switch>
     </Layout>
