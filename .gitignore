@@ -1,11 +1,9 @@
 .DS_Store
 
-article.md
+.firebase
 
-service_account.json
+main.go
 
-.firebase/
+public/react-routers/node_modules
 
-.firebaserc
-
-.firebase.json
+public/react-routers/src/js/connectDB.js
