@@ -66,6 +66,7 @@ class Novel extends React.Component {
     const novel_id = query.get('id');
     if (novel_id == ''){
       this.props.history.push("/404");
+      return ;
     }
     // 小説データ取得
     this.getData(novel_id);
@@ -78,6 +79,7 @@ class Novel extends React.Component {
     const novel_id = query.get('id');
     if (novel_id == ''){
       this.props.history.push("/404");
+      return;
     }
     // 今ログイン中のユーザーのデータを取得
     var user = firebase.auth().currentUser;

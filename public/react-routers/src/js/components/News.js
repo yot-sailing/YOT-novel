@@ -13,7 +13,8 @@ class News extends React.Component {
   handleClick(key) {
     const site = '/newsdetale?id=' + key;
     if (key == ''){
-      this.props.history.push('404')
+      this.props.history.push("/404");
+      return;
     }
     this.props.history.push(site);
   }

@@ -55,7 +55,8 @@ class Author extends React.Component {
     const query = new URLSearchParams(this.props.location.search);
     const author_id = query.get('id');
     if (author_id == ''){
-      this.props.history.push('404');
+      this.props.history.push('/404');
+      return;
     }
     var url = this.state.url
     this.setState({url: url + author_id});
