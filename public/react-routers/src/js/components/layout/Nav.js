@@ -51,7 +51,7 @@ export default class extends React.Component {
               </button>
 
               <Link class="navbar-brand" to="/">
-                小説投稿サイト
+                <img src="../../emblemmatic-roman-logo-237.png" width="100" />
               </Link>
             </div>
             <div
