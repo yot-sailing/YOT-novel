@@ -256,12 +256,12 @@ class Novel extends React.Component {
     return (
       <div class="novel-read-page">
         <div class="novel-info">
+          <button class="novel-bookmark" onClick={this.handleClickBookMark}>
+            <div class="star-fav"></div>
+            {this.getFavDiv()}
+          </button>
           <div class="novel-title-fav">
             <div class="novel-title"> {this.state.title} </div>
-            <button class="novel-bookmark" onClick={this.handleClickBookMark}>
-              <div class="star-fav"></div>
-              {this.getFavDiv()}
-            </button>
           </div>
           <div class="author-name"> {this.state.name} </div>
         </div>
