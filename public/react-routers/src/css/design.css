@@ -597,9 +597,29 @@ form {
   border: none;
 }
 
-.novel-info .novel-bookmark:hover .message {
+.novel-info .novel-bookmark:hover .message.notfav {
   border-bottom: 2px solid #f2c820;
   font-size: 1.5em;
+}
+
+.novel-info .novel-bookmark:hover .message.fav {
+  border-bottom: 2px solid #f2c820;
+}
+
+.novel-info .novel-bookmark:hover .message.fav span.nomal {
+  display: none;
+}
+
+.novel-info .novel-bookmark .message.fav span.nomal {
+  display: inline;
+}
+
+.novel-info .novel-bookmark:hover .message.fav span.hover {
+  display: inline;
+}
+
+.novel-info .novel-bookmark .message.fav span.hover {
+  display: none;
 }
 
 .novel-info .novel-title-fav {
