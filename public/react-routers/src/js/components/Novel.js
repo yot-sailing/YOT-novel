@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase, { db } from '../connectDB';
-import { withRouter } from 'react-router';
+import { withRouter, Link, Redirect } from 'react-router';
 
 class Novel extends React.Component {
   constructor(props) {
@@ -64,6 +64,10 @@ class Novel extends React.Component {
     // 見ている小説のIDをURLのパラメータから取得
     const query = new URLSearchParams(this.props.location.search);
     const novel_id = query.get('id');
+    if (novel_id == '') {
+      this.props.history.push('/404');
+      return;
+    }
     // 小説データ取得
     this.getData(novel_id);
   }
@@ -73,7 +77,10 @@ class Novel extends React.Component {
     // 見ている小説のIDをURLのパラメータから取得
     const query = new URLSearchParams(this.props.location.search);
     const novel_id = query.get('id');
-
+    if (novel_id == '') {
+      this.props.history.push('/404');
+      return;
+    }
     // 今ログイン中のユーザーのデータを取得
     var user = firebase.auth().currentUser;
     var user_doc_id = [];

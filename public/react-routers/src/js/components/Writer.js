@@ -9,6 +9,9 @@ class Writer extends React.Component {
   // 各作家のページへの遷移を行う
   handleClick(id) {
     const site = '/author?id=' + id;
+    if (id == '') {
+      this.props.history.push('404');
+    }
     this.props.history.push(site);
   }
 

@@ -2,12 +2,12 @@ import React from 'react';
 import firebase, { db } from '../connectDB';
 
 export default class extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       request: '',
-      user: ''
-    }
+      user: '',
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -18,10 +18,9 @@ export default class extends React.Component {
     e.preventDefault();
     const request = this.state.request;
     const user = this.state.user;
-    console.log(request)
+    console.log(request);
 
-    
-    if (request == ""){
+    if (request == '') {
       return;
     }
     if (this.state.user == '') {
@@ -29,36 +28,43 @@ export default class extends React.Component {
     }
     db.collection('odaibako').add({
       user: user,
-      request_content : request
+      request_content: request,
     });
     e.preventDefault();
     alert('投稿しました.');
-    this.props.history.push("/mypage")
+    this.props.history.push('/mypage');
   }
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
     const author_id = query.get('id');
-    this.setState({user: author_id})
+    if (author_id == '') {
+      this.props.history.push('/404');
+      return;
+    }
+    this.setState({ user: author_id });
   }
   render() {
-    return <div>
-      ここにお題を投稿するページを作成します。<br />
-      <form onSubmit={this.handleSubmit}>
-      <textarea type="text"
-                id="request"
-                value={this.state.request}
-                cols='50'
-                rows='5'
-                onChange={this.handleChange}
-                placeholder="ここにお題箱の内容を書いてください"></textarea>
-      <br />
-      <button
-          type="submit"
-          className="waves-effect waves-light btn col">
-          投稿する
-      </button>
-      </form>
-      <button onClick={() => this.props.history.goBack()}>戻る</button>
-      </div>;
+    return (
+      <div>
+        ここにお題を投稿するページを作成します。
+        <br />
+        <form onSubmit={this.handleSubmit}>
+          <textarea
+            type="text"
+            id="request"
+            value={this.state.request}
+            cols="50"
+            rows="5"
+            onChange={this.handleChange}
+            placeholder="ここにお題箱の内容を書いてください"
+          ></textarea>
+          <br />
+          <button type="submit" className="waves-effect waves-light btn col">
+            投稿する
+          </button>
+        </form>
+        <button onClick={() => this.props.history.goBack()}>戻る</button>
+      </div>
+    );
   }
 }

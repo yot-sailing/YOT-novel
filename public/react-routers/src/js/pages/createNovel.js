@@ -103,9 +103,14 @@ export default class extends React.Component {
                     カテゴリを選ぶ
                   </option>
                   <option value="SF">SF</option>
+                  <option value="horror">ホラー</option>
                   <option value="サスペンス">サスペンス</option>
-                  <option value="animal">animal</option>
+                  <option value="Fairy_tale">童話</option>
+                  <option value="fantasy">ファンタジー</option>
                   <option value="comedy">comedy</option>
+                  <option value="school">学園物語</option>
+                  <option value="mystery">ミステリー</option>
+                  <option value="essay">エッセイ</option>
                 </select>
               </div>
             </div>
@@ -140,7 +145,9 @@ export default class extends React.Component {
             </div>
           </form>
         </div>
-        <button onClick={() => this.props.history.push('/mypage')}>マイページへ</button>
+        <button onClick={() => this.props.history.push('/mypage')}>
+          マイページへ
+        </button>
       </div>
     );
   }
