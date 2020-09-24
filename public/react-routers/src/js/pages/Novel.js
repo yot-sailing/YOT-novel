@@ -182,7 +182,7 @@ class Novel extends React.Component {
       .then(function (doc) {
         if (doc.exists) {
           var eval_num = doc.data().eval_num;
-          if (eval_num == null) {
+          if (eval_num == null || rate_one == '') {
             eval_num = 1;
             new_rate = rate_one;
           } else {
