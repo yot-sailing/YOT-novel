@@ -3,6 +3,7 @@ import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import ReactStarsRating from 'react-awesome-stars-rating';
 import ReviewComponent from '../components/ReviewComponent';
+import News from '../components/News';
 
 class Novel extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ class Novel extends React.Component {
       novel_id: '',
       isFavorite: false,
       reviews: [],
+      show_review: true,
+      rating: '',
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -43,7 +46,12 @@ class Novel extends React.Component {
           const name = doc.data().name;
           const title = doc.data().title;
           const text = doc.data().text;
-          this.setState({ name: name, title: title, text: text });
+          this.setState({
+            name: name,
+            title: title,
+            text: text,
+            rating: doc.data().rating,
+          });
         } else {
           console.log('Cannot find novel (in Novel)');
         }
@@ -229,19 +237,26 @@ class Novel extends React.Component {
   handleReview(e) {
     const novel_id = this.state.novel_id;
     var lists = [];
-    db.collection('novels')
-      .doc(novel_id)
-      .get()
-      .then((doc) => {
-        console.log(doc.data().review);
-        lists = doc.data().review;
-        lists.forEach((review) => {
-          console.log(review);
-          this.state.reviews.push(<ReviewComponent key={0} review={review} />);
-          this.setState({ reviews: this.state.reviews });
+    if (this.state.show_review) {
+      db.collection('novels')
+        .doc(novel_id)
+        .get()
+        .then((doc) => {
+          lists = doc.data().review;
+          lists.forEach((review) => {
+            this.state.reviews.push(review);
+            this.setState({ reviews: this.state.reviews });
+          });
         });
-        console.log(this.state.reviews);
-      });
+      this.setState({ show_review: !this.state.show_review });
+    } else {
+      this.setState({ show_review: !this.state.show_review });
+      this.setState({ reviews: [] });
+    }
+  }
+  Reviewer(reviews) {
+    const listReviews = reviews.map((review) => <li>{review}</li>);
+    return <ul>{listReviews}</ul>;
   }
 
   render() {
@@ -282,8 +297,14 @@ class Novel extends React.Component {
           <button class="evaluate-post-button">投稿</button>
           <button onClick={this.handleInitialize}>クリア</button>
         </form>
-        <button onClick={this.handleReview}>他のレビューを見る</button>
-        {this.state.reviews}
+        <button onClick={this.handleReview}>
+          {this.state.show_review ? '他のレビューを見る' : 'レビューを隠す'}
+        </button>
+        {this.state.rating}
+        <br />
+        {this.state.reviews.map((review) => (
+          <ul>{review}</ul>
+        ))}
         <div class="buck-button-wrapper">
           <button
             class="buck-button"

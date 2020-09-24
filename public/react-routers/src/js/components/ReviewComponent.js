@@ -5,14 +5,16 @@ class ReviewComponent extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  componentDidMount(e) {
+    console.log(this.props.review);
+  }
   render() {
-    const { review, key } = this.props;
+    console.log('render');
+    const { review } = this.props.review;
     return (
       <div class="list-review">
         <button>god </button>
         <div>{review}</div>
-        <div>{key}</div>
       </div>
     );
   }
