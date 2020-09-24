@@ -2,6 +2,7 @@ import React from 'react';
 import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import ReactStarsRating from 'react-awesome-stars-rating';
+import { Link } from 'react-router-dom';
 import ReviewComponent from '../components/ReviewComponent';
 import News from '../components/News';
 import FavoriteIcon from '../../../node_modules/@material-ui/icons/Favorite';
@@ -22,6 +23,7 @@ class Novel extends React.Component {
       reviews: [],
       show_review: true,
       rating: '',
+      isLoggedIn: true,
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -100,6 +102,14 @@ class Novel extends React.Component {
     this.setState({ novel_id: novel_id });
     // 小説データ取得
     this.getData(novel_id);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ isLoggedIn: true });
+      } else {
+        this.setState({ isLoggedIn: false });
+      }
+    });
   }
 
   // ブックマーク登録
@@ -257,12 +267,19 @@ class Novel extends React.Component {
     return (
       <div class="novel-read-page">
         <div class="novel-info">
-          <button class="novel-bookmark" onClick={this.handleClickBookMark}>
-            {/* hoverのやり方がわからない、、 */}
-            {/* <FavoriteIcon color="secondary" fontSize="large" /> */}
-            <div class="star-fav"></div>
-            {this.getFavDiv()}
-          </button>
+          {this.state.isLoggedIn ? (
+            <button class="novel-bookmark" onClick={this.handleClickBookMark}>
+              {/* hoverのやり方がわからない、、 */}
+              {/* <FavoriteIcon color="secondary" fontSize="large" /> */}
+              <div class="star-fav"></div>
+              {this.getFavDiv()}
+            </button>
+          ) : (
+            <h5>
+              お気に入りに登録するには<Link to="/signIn">ログイン</Link>
+              してください
+            </h5>
+          )}
           <div class="novel-title-fav">
             <div class="novel-title"> {this.state.title} </div>
           </div>
