@@ -24,7 +24,16 @@ export default class extends React.Component {
 
   // ログアウト処理
   handleLogout() {
-    firebase.auth().signOut();
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // logout success
+        alert('ログアウトしました');
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   render() {
