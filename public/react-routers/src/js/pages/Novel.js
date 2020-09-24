@@ -61,7 +61,15 @@ class Novel extends React.Component {
       });
 
     // お気に入りかどうかを確認
-    var uid = firebase.auth().currentUser.uid;
+    var uid = '';
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // ログインしている
+      uid = firebase.auth().currentUser.uid;
+    } else {
+      // ログインしていない
+    }
+
     db.collection('bookmarks')
       .where('user_doc_id', '==', uid)
       .where('novel_doc_id', '==', novel_id)
@@ -74,6 +82,9 @@ class Novel extends React.Component {
           // お気に入り
           this.setState({ isFavorite: true });
         }
+      })
+      .catch(function (error) {
+        console.log('Error check bookmark in Novel getData:', error);
       });
   }
 
