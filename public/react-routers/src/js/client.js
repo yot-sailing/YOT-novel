@@ -14,7 +14,7 @@ import SignUp from './pages/signUp';
 import Auth from './auth/Auth';
 import Novel from './pages/Novel';
 import NotFound from './pages/NotFound';
-import NotFound from './pages/404';
+import noPage from './pages/404';
 import NewsDetale from './pages/NewsDetale';
 import Author from './pages/Author';
 import Request from './pages/Request';
