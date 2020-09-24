@@ -57,34 +57,26 @@ class Author extends React.Component {
       .catch(function (error) {
         console.log('Error getting document in Author:', error);
       });
-    var user = firebase.auth().currentUser;
-    var user_doc_id = [];
-    db.collection('users')
-      .where('email', '==', user.email)
+    // 今のフォロー状況を確認
+    // 自分のID
+    var my_uid = firebase.auth().currentUser.uid;
+    db.collection('follows')
+      .where('user_id', '==', my_uid)
+      .where('following', '==', uid)
       .get()
       .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
-        querySnapshot.forEach((doc) => {
-          user_doc_id.push(doc.id);
-        });
-        // 今のフォロー状況を確認
-        db.collection('follows')
-          .where('user_id', '==', user_doc_id[0])
-          .where('following', '==', uid)
-          .get()
-          .then((querySnapshot) => {
-            // フォロー関係があればtrue
-            if (querySnapshot.empty) {
-              this.setState({ isFavorite: false });
-            } else {
-              this.setState({ isFavorite: true });
-            }
-          })
-          .catch(function (error) {
-            console.log('Error getting document in Author:', error);
-          });
+        // フォロー関係があればtrue
+        if (querySnapshot.empty) {
+          this.setState({ isFavorite: false });
+        } else {
+          this.setState({ isFavorite: true });
+        }
+      })
+      .catch(function (error) {
+        console.log('Error getting document in Author:', error);
       });
   }
+
   componentDidMount(e) {
     const query = new URLSearchParams(this.props.location.search);
     const author_id = query.get('id');
@@ -105,43 +97,34 @@ class Author extends React.Component {
   handleFollow(e) {
     e.preventDefault();
     const author_id = this.state.id;
-    var user = firebase.auth().currentUser;
-    var user_doc_id = [];
-    db.collection('users')
-      .where('email', '==', user.email)
+    // 自分のID
+    var my_uid = firebase.auth().currentUser.uid;
+    // 今のフォロー状況を確認
+    db.collection('follows')
+      .where('user_id', '==', my_uid)
+      .where('following', '==', author_id)
       .get()
       .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
-        querySnapshot.forEach((doc) => {
-          user_doc_id.push(doc.id);
-        });
-        // 今のフォロー状況を確認
-        db.collection('follows')
-          .where('user_id', '==', user_doc_id[0])
-          .where('following', '==', author_id)
-          .get()
-          .then((querySnapshot) => {
-            // フォロー関係があれば解除、なければフォロー
-            if (querySnapshot.empty) {
-              // フォローしていない
-              db.collection('follows').add({
-                following: author_id,
-                user_id: user_doc_id[0],
-              });
-              this.setState({ isFavorite: true });
-              alert('フォローしました');
-            } else {
-              // フォローしていた
-              querySnapshot.forEach((doc) => {
-                db.collection('follows').doc(doc.id).delete();
-              });
-              this.setState({ isFavorite: false });
-              alert('フォロー解除しました');
-            }
-          })
-          .catch(function (error) {
-            console.log('Error getting document in Author:', error);
+        // フォロー関係があれば解除、なければフォロー
+        if (querySnapshot.empty) {
+          // フォローしていない
+          db.collection('follows').add({
+            following: author_id,
+            user_id: my_uid,
           });
+          this.setState({ isFavorite: true });
+          alert('フォローしました');
+        } else {
+          // フォローしていた
+          querySnapshot.forEach((doc) => {
+            db.collection('follows').doc(doc.id).delete();
+          });
+          this.setState({ isFavorite: false });
+          alert('フォロー解除しました');
+        }
+      })
+      .catch(function (error) {
+        console.log('Error getting document in Author:', error);
       });
   }
 

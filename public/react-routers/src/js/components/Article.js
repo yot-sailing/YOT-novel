@@ -13,43 +13,30 @@ class Article extends React.Component {
     // 閲覧履歴に加える
     var user = firebase.auth().currentUser;
     if (user) {
-      var user_doc_id = [];
-      db.collection('users')
-        .where('email', '==', user.email)
+      // 自分のID
+      var uid = user.uid;
+      // 自分の閲覧履歴にクリックした小説があるかを確認
+      db.collection('histories')
+        .where('user_doc_id', '==', uid)
+        .where('novel_doc_id', '==', novel_id)
         .get()
         .then((querySnapshot) => {
-          // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
-          querySnapshot.forEach((doc) => {
-            user_doc_id.push(doc.id);
-          });
-
-          var history_doc_id = [];
-          // user_doc_idの一つ目の人の閲覧履歴にクリックした小説があるかを確認(あればhistory_doc_idに入る)
-          db.collection('histories')
-            .where('user_doc_id', '==', user_doc_id[0])
-            .where('novel_doc_id', '==', novel_id)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                history_doc_id.push(doc.id);
-              });
-              if (!history_doc_id[0]) {
-                // 閲覧履歴に今の小説がなければ、追加する
-                db.collection('histories').add({
-                  novel_doc_id: novel_id,
-                  read_at: firebase.firestore.FieldValue.serverTimestamp(),
-                  user_doc_id: user_doc_id[0],
-                });
-              } else {
-                // 閲覧履歴にあれば、閲覧の時刻をアップデート
-                return db
-                  .collection('histories')
-                  .doc(history_doc_id[0])
-                  .update({
-                    read_at: firebase.firestore.FieldValue.serverTimestamp(),
-                  });
-              }
+          if (querySnapshot.empty) {
+            // 閲覧履歴に今の小説がなければ、追加する
+            db.collection('histories').add({
+              novel_doc_id: novel_id,
+              read_at: firebase.firestore.FieldValue.serverTimestamp(),
+              user_doc_id: uid,
             });
+          } else {
+            // 閲覧履歴にあれば、閲覧の時刻をアップデート
+            querySnapshot.forEach((doc) => {
+              // TODO: 複数あったときにどうやって1つ目以外を消すか
+              db.collection('histories').doc(doc.id).update({
+                read_at: firebase.firestore.FieldValue.serverTimestamp(),
+              });
+            });
+          }
         });
     }
 

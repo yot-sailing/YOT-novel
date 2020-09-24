@@ -10,23 +10,13 @@ export default class extends React.Component {
     super(props);
     this.state = { collapsed: true, novelList: [], writerList: [] };
 
-    var user = firebase.auth().currentUser;
-    var username = [];
-    var user_id = [];
-    //小説取得処理
+    var uid = firebase.auth().currentUser.uid;
     db.collection('users')
-      .where('email', '==', user.email)
+      .doc(uid)
       .get()
-      .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のusername,idをusername,user_idにリストアップ(使うのは一つだけ)
-        querySnapshot.forEach((doc) => {
-          username.push(doc.data().username);
-          user_id.push(doc.id);
-        });
-
-        // user_doc_idの一つ目の人が書いた小説をリストアップ
+      .then((doc) => {
         db.collection('novels')
-          .where('name', '==', username[0])
+          .where('name', '==', doc.data().username)
           .get()
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -43,38 +33,38 @@ export default class extends React.Component {
               this.setState({ novelList: this.state.novelList });
             });
           });
+      });
 
-        // user_doc_idの一つ目の人がお気に入りに入れている人をリストアップ
-        db.collection('follows')
-          .where('user_id', '==', user_id[0])
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              // 該当するidのユーザーのユーザー名を取得
-              db.collection('users')
-                .doc(doc.data().following)
-                .get()
-                .then((followsUserDoc) => {
-                  if (followsUserDoc.exists) {
-                    // 該当するidのユーザーがいるなら、リストにWriterを入れる
-                    this.state.writerList.push(
-                      <Writer
-                        key={doc.id}
-                        username={followsUserDoc.data().username}
-                        id={doc.data().following}
-                      />
-                    );
-                    this.setState({ writerList: this.state.writerList });
-                  } else {
-                    // 該当するidのユーザーがいないならコンソールにメッセージを出す
-                    console.log('No such user (in MyPage)');
-                  }
-                })
-                .catch(function (error) {
-                  console.log('Error getting document in MyPage:', error);
-                });
+    // 自分がお気に入りに入れている人をリストアップ
+    db.collection('follows')
+      .where('user_id', '==', uid)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // 該当するidのユーザーのユーザー名を取得
+          db.collection('users')
+            .doc(doc.data().following)
+            .get()
+            .then((followsUserDoc) => {
+              if (followsUserDoc.exists) {
+                // 該当するidのユーザーがいるなら、リストにWriterを入れる
+                this.state.writerList.push(
+                  <Writer
+                    key={doc.id}
+                    username={followsUserDoc.data().username}
+                    id={doc.data().following}
+                  />
+                );
+                this.setState({ writerList: this.state.writerList });
+              } else {
+                // 該当するidのユーザーがいないならコンソールにメッセージを出す
+                console.log('No such user (in MyPage)');
+              }
+            })
+            .catch(function (error) {
+              console.log('Error getting document in MyPage:', error);
             });
-          });
+        });
       });
   }
 

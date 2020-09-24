@@ -50,28 +50,19 @@ class Novel extends React.Component {
       });
 
     // お気に入りかどうかを確認
-    var user = firebase.auth().currentUser;
-    var user_doc_id = [];
-    // お気に入り登録
-    db.collection('users')
-      .where('email', '==', user.email)
+    var uid = firebase.auth().currentUser.uid;
+    db.collection('bookmarks')
+      .where('user_doc_id', '==', uid)
+      .where('novel_doc_id', '==', novel_id)
       .get()
       .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
-        querySnapshot.forEach((doc) => {
-          user_doc_id.push(doc.id);
-        });
-        db.collection('bookmarks')
-          .where('user_doc_id', '==', user_doc_id[0])
-          .where('novel_doc_id', '==', novel_id)
-          .get()
-          .then((querySnapshot) => {
-            if (querySnapshot.empty) {
-              this.setState({ isFavorite: false });
-            } else {
-              this.setState({ isFavorite: true });
-            }
-          });
+        if (querySnapshot.empty) {
+          // お気に入りではない
+          this.setState({ isFavorite: false });
+        } else {
+          // お気に入り
+          this.setState({ isFavorite: true });
+        }
       });
   }
 
@@ -96,54 +87,44 @@ class Novel extends React.Component {
       return;
     }
 
-    // 今ログイン中のユーザーのデータを取得
-    var user = firebase.auth().currentUser;
-    var user_doc_id = [];
+    // 自分のID
+    var uid = firebase.auth().currentUser.uid;
 
     e.preventDefault();
     // お気に入り登録
-    db.collection('users')
-      .where('email', '==', user.email)
+    db.collection('bookmarks')
+      .where('user_doc_id', '==', uid)
+      .where('novel_doc_id', '==', novel_id)
       .get()
-      .then((querySnapshot) => {
-        // usersのなかで、今ログインしている人と同じemailアドレスの人のidをuser_doc_idにリストアップ(使うのは一つだけ)
-        querySnapshot.forEach((doc) => {
-          user_doc_id.push(doc.id);
-        });
-
-        db.collection('bookmarks')
-          .where('user_doc_id', '==', user_doc_id[0])
-          .where('novel_doc_id', '==', novel_id)
-          .get()
-          .then((favoriteQuerySnapshot) => {
-            if (favoriteQuerySnapshot.empty) {
-              // user_doc_idの一つ目の人のお気に入りに今の小説を追加
-              db.collection('bookmarks')
-                .add({
-                  novel_doc_id: novel_id,
-                  user_doc_id: user_doc_id[0],
-                })
-                .then(() => {
-                  this.setState({ isFavorite: true });
-                  // 追加できたらアラート表示
-                  alert('お気に入りに追加しました');
-                })
-                .catch(function (error) {
-                  // 追加時にエラーが起きたら出力・アラート表示
-                  console.error(
-                    'Error adding document in Novel add bookmarks: ',
-                    error
-                  );
-                  alert('お気に入り登録に失敗しました。');
-                });
-            } else {
-              favoriteQuerySnapshot.forEach((favdoc) => {
-                db.collection('bookmarks').doc(favdoc.id).delete();
-                this.setState({ isFavorite: false });
-              });
-              alert('お気に入り解除しました。');
-            }
+      .then((favoriteQuerySnapshot) => {
+        if (favoriteQuerySnapshot.empty) {
+          // まだお気に入りに入れていないなら、今の小説を追加
+          db.collection('bookmarks')
+            .add({
+              novel_doc_id: novel_id,
+              user_doc_id: uid,
+            })
+            .then(() => {
+              this.setState({ isFavorite: true });
+              // 追加できたらアラート表示
+              alert('お気に入りに追加しました');
+            })
+            .catch(function (error) {
+              // 追加時にエラーが起きたら出力・アラート表示
+              console.error(
+                'Error adding document in Novel add bookmarks: ',
+                error
+              );
+              alert('お気に入り登録に失敗しました。');
+            });
+        } else {
+          // お気に入り済みなら、今の小説は削除
+          favoriteQuerySnapshot.forEach((favdoc) => {
+            db.collection('bookmarks').doc(favdoc.id).delete();
+            this.setState({ isFavorite: false });
           });
+          alert('お気に入り解除しました。');
+        }
       });
   }
   onChange(value) {
