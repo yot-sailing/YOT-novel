@@ -21,41 +21,26 @@ class Author extends React.Component {
   }
 
   getData(uid) {
-    db.collection('users')
-      .doc(uid)
+    db.collection('novels')
+      .where('author_id', '==', uid)
       .get()
-      .then((doc) => {
-        // 指定されたidのユーザーを取得して操作
-        if (doc.exists) {
-          const username = doc.data().username;
-          this.setState({ username: username });
-          db.collection('novels')
-            .where('name', '==', username)
-            .get()
-            .then((querySnapshot) => {
-              // 指定されたidのユーザーが書いた小説をnovellistにリストアップ
-              querySnapshot.forEach((novel) => {
-                this.state.novellist.push(
-                  <Article
-                    key={novel.id}
-                    title={novel.data().title}
-                    category={novel.data().category}
-                    author={novel.data().name}
-                    abstract={novel.data().overview}
-                    id={novel.id}
-                  />
-                );
-                this.setState({
-                  novellist: this.state.novellist,
-                });
-              });
-            });
-        } else {
-          console.log('Cannot find user (in Author)');
-        }
-      })
-      .catch(function (error) {
-        console.log('Error getting document in Author:', error);
+      .then((querySnapshot) => {
+        // 指定されたidのユーザーが書いた小説をnovellistにリストアップ
+        querySnapshot.forEach((novel) => {
+          this.state.novellist.push(
+            <Article
+              key={novel.id}
+              title={novel.data().title}
+              category={novel.data().category}
+              author={novel.data().name}
+              abstract={novel.data().overview}
+              id={novel.id}
+            />
+          );
+          this.setState({
+            novellist: this.state.novellist,
+          });
+        });
       });
     // 今のフォロー状況を確認
     // 自分のID

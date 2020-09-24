@@ -37,8 +37,6 @@ export default class extends React.Component {
     const title = this.state.title;
     const category = this.state.category;
     const overview = this.state.overview;
-    var user = firebase.auth().currentUser;
-    var username = [];
 
     // 小説の本文が空なら投稿しない
     if (val === '') {
@@ -51,8 +49,8 @@ export default class extends React.Component {
       .doc(uid)
       .get()
       .then((doc) => {
-        // usernameの一つ目の人を作者として投稿する
         db.collection('novels').add({
+          author_id: uid,
           name: doc.data().username,
           title: title,
           category: category,

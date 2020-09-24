@@ -11,28 +11,23 @@ export default class extends React.Component {
     this.state = { collapsed: true, novelList: [], writerList: [] };
 
     var uid = firebase.auth().currentUser.uid;
-    db.collection('users')
-      .doc(uid)
+    db.collection('novels')
+      .where('author_id', '==', uid)
       .get()
-      .then((doc) => {
-        db.collection('novels')
-          .where('name', '==', doc.data().username)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              this.state.novelList.push(
-                <Article
-                  key={doc.id}
-                  title={doc.data().title}
-                  category={doc.data().category}
-                  author={doc.data().name}
-                  abstract={doc.data().overview}
-                  id={doc.id}
-                />
-              );
-              this.setState({ novelList: this.state.novelList });
-            });
-          });
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          this.state.novelList.push(
+            <Article
+              key={doc.id}
+              title={doc.data().title}
+              category={doc.data().category}
+              author={doc.data().name}
+              abstract={doc.data().overview}
+              id={doc.id}
+            />
+          );
+          this.setState({ novelList: this.state.novelList });
+        });
       });
 
     // 自分がお気に入りに入れている人をリストアップ
