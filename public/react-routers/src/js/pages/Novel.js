@@ -2,6 +2,8 @@ import React from 'react';
 import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import ReactStarsRating from 'react-awesome-stars-rating';
+import ReviewComponent from '../components/ReviewComponent';
+import News from '../components/News';
 
 class Novel extends React.Component {
   constructor(props) {
@@ -16,6 +18,9 @@ class Novel extends React.Component {
       comment: '',
       novel_id: '',
       isFavorite: false,
+      reviews: [],
+      show_review: true,
+      rating: '',
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -26,6 +31,7 @@ class Novel extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInitialize = this.handleInitialize.bind(this);
+    this.handleReview = this.handleReview.bind(this);
   }
 
   // 小説データを取得する
@@ -40,7 +46,12 @@ class Novel extends React.Component {
           const name = doc.data().name;
           const title = doc.data().title;
           const text = doc.data().text;
-          this.setState({ name: name, title: title, text: text });
+          this.setState({
+            name: name,
+            title: title,
+            text: text,
+            rating: doc.data().rating,
+          });
         } else {
           console.log('Cannot find novel (in Novel)');
         }
@@ -152,7 +163,7 @@ class Novel extends React.Component {
       .then(function (doc) {
         if (doc.exists) {
           var eval_num = doc.data().eval_num;
-          if (eval_num == null) {
+          if (eval_num == null || rate_one == '') {
             eval_num = 1;
             new_rate = rate_one;
           } else {
@@ -189,7 +200,7 @@ class Novel extends React.Component {
     this.props.history.push('');
   }
   handleInitialize(e) {
-    this.setState({ value: 0, selectedValue: 0, comment: '', isEdit: true });
+    this.setState({ value: 0, selectedValue: '', comment: '', isEdit: true });
   }
 
   getFavDiv() {
@@ -203,6 +214,30 @@ class Novel extends React.Component {
     } else {
       return <div class="message notfav">お気に入りに登録する</div>;
     }
+  }
+  handleReview(e) {
+    const novel_id = this.state.novel_id;
+    var lists = [];
+    if (this.state.show_review) {
+      db.collection('novels')
+        .doc(novel_id)
+        .get()
+        .then((doc) => {
+          lists = doc.data().review;
+          lists.forEach((review) => {
+            this.state.reviews.push(review);
+            this.setState({ reviews: this.state.reviews });
+          });
+        });
+      this.setState({ show_review: !this.state.show_review });
+    } else {
+      this.setState({ show_review: !this.state.show_review });
+      this.setState({ reviews: [] });
+    }
+  }
+  Reviewer(reviews) {
+    const listReviews = reviews.map((review) => <li>{review}</li>);
+    return <ul>{listReviews}</ul>;
   }
 
   render() {
@@ -230,14 +265,8 @@ class Novel extends React.Component {
               selectedValue={selectedValue}
             />
             <div>Selected value: {selectedValue}</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
-            <div class="rating off">★</div>
           </div>
           <div class="novel-evaluation-comment">
-            <div>コメント</div>
             <textarea
               type="text"
               id="comment"
@@ -249,6 +278,14 @@ class Novel extends React.Component {
           <button class="evaluate-post-button">投稿</button>
           <button onClick={this.handleInitialize}>クリア</button>
         </form>
+        <button onClick={this.handleReview}>
+          {this.state.show_review ? '他のレビューを見る' : 'レビューを隠す'}
+        </button>
+        {this.state.rating}
+        <br />
+        {this.state.reviews.map((review) => (
+          <ul>{review}</ul>
+        ))}
         <div class="buck-button-wrapper">
           <button
             class="buck-button"
