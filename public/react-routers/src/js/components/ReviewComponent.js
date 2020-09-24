@@ -7,12 +7,12 @@ class ReviewComponent extends React.Component {
   }
 
   render() {
-    const { review } = this.props;
-    const { key } = this.props;
+    const { review, key } = this.props;
     return (
       <div class="list-review">
-        <div>{review}</div>
         <button>god </button>
+        <div>{review}</div>
+        <div>{key}</div>
       </div>
     );
   }

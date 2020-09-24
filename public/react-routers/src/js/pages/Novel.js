@@ -235,16 +235,13 @@ class Novel extends React.Component {
       .then((doc) => {
         console.log(doc.data().review);
         lists = doc.data().review;
-        for (var i = 0; i < lists.length; i++) {
-          this.state.reviews.push(
-            <ReviewComponent key={i} review={lists[i]} />
-          );
+        lists.forEach((review) => {
+          console.log(review);
+          this.state.reviews.push(<ReviewComponent key={0} review={review} />);
           this.setState({ reviews: this.state.reviews });
-        }
+        });
+        console.log(this.state.reviews);
       });
-    e.preventDefault();
-
-    console.log(this.state.reviews);
   }
 
   render() {
@@ -274,7 +271,6 @@ class Novel extends React.Component {
             <div>Selected value: {selectedValue}</div>
           </div>
           <div class="novel-evaluation-comment">
-            <div>コメント</div>
             <textarea
               type="text"
               id="comment"
