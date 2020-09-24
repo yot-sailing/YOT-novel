@@ -70,7 +70,7 @@ export default class extends React.Component {
   render() {
     return (
       <div class="form-wrapper">
-        <h1>Sign In</h1>
+        <h1>ログイン</h1>
         <form onSubmit={this.handleOnLogin}>
           <div class="form-item">
             <label for="email"></label>
@@ -79,7 +79,7 @@ export default class extends React.Component {
               id="email"
               name="email"
               required="required"
-              placeholder="Email Address"
+              placeholder="メールアドレス"
               value={this.state.email}
               onChange={this.email_handleChange}
             ></input>
@@ -91,7 +91,7 @@ export default class extends React.Component {
               id="password"
               name="password"
               required="required"
-              placeholder="Password"
+              placeholder="パスワード"
               value={this.state.password}
               onChange={this.password_handleChange}
             ></input>
@@ -101,18 +101,18 @@ export default class extends React.Component {
               type="submit"
               class="button"
               title="Sign In"
-              value="Sign In"
+              value="ログイン"
             ></input>
           </div>
         </form>
         <div class="form-footer">
           <p>
             <Link to="/signUp" onClick={this.toggleCollapse.bind(this)}>
-              Create an account
+              アカウントを作成する
             </Link>
           </p>
           <p>
-            <a href="#">Forgot password?</a>
+            <a href="#">パスワードをお忘れですか?</a>
           </p>
         </div>
       </div>

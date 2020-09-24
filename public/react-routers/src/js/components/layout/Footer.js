@@ -11,6 +11,7 @@ export default class extends React.Component {
     const collapsed = !this.state.collapsed;
     this.setState({ collapsed });
   }
+
   render() {
     const topClass = location.pathname === '/' ? 'active' : '';
     const bookmarkClass = location.pathname.match(/^\/bookmarks/)
@@ -38,30 +39,19 @@ export default class extends React.Component {
                   ランキング
                 </Link>
               </li>
-              <li class={bookmarkClass}>
-                <Link to="/bookmarks" onClick={this.toggleCollapse.bind(this)}>
-                  お気に入り
-                </Link>
-              </li>
               <li class={searchClass}>
                 <Link to="/search" onClick={this.toggleCollapse.bind(this)}>
                   小説を探す
                 </Link>
               </li>
+              <li class={bookmarkClass}>
+                <Link to="/bookmarks" onClick={this.toggleCollapse.bind(this)}>
+                  お気に入り
+                </Link>
+              </li>
               <li class={historyClass}>
                 <Link to="/history" onClick={this.toggleCollapse.bind(this)}>
                   閲覧履歴
-                </Link>
-              </li>
-              <br />
-              <li class={signInClass}>
-                <Link to="/signIn" onClick={this.toggleCollapse.bind(this)}>
-                  ログイン
-                </Link>
-              </li>
-              <li class={signUpClass}>
-                <Link to="signUp" onClick={this.toggleCollapse.bind(this)}>
-                  登録
                 </Link>
               </li>
               <li class={mypageClass}>

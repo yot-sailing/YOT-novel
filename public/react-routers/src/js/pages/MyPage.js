@@ -63,11 +63,6 @@ export default class extends React.Component {
       });
   }
 
-  // ログアウト処理
-  handleLogout() {
-    firebase.auth().signOut();
-  }
-
   toggleCollapse() {
     const collapsed = !this.state.collapsed;
     this.setState({ collapsed });
@@ -100,10 +95,6 @@ export default class extends React.Component {
             <h3 class="mypage-timeline">投稿した小説</h3>
             <div class="box-list-yaxis">{this.state.novelList}</div>
           </div>
-        </div>
-        <div class="mypage-contents-title logout-title">ログアウト</div>
-        <div class="logout-button-wrapper">
-          <button onClick={this.handleLogout}>ログアウト</button>
         </div>
       </div>
     );
