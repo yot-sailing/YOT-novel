@@ -2,8 +2,10 @@ import React from 'react';
 import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import ReactStarsRating from 'react-awesome-stars-rating';
+import { Link } from 'react-router-dom';
 import ReviewComponent from '../components/ReviewComponent';
 import News from '../components/News';
+import FavoriteIcon from '../../../node_modules/@material-ui/icons/Favorite';
 
 class Novel extends React.Component {
   constructor(props) {
@@ -21,6 +23,7 @@ class Novel extends React.Component {
       reviews: [],
       show_review: true,
       rating: '',
+      isLoggedIn: true,
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -61,7 +64,15 @@ class Novel extends React.Component {
       });
 
     // お気に入りかどうかを確認
-    var uid = firebase.auth().currentUser.uid;
+    var uid = '';
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // ログインしている
+      uid = firebase.auth().currentUser.uid;
+    } else {
+      // ログインしていない
+    }
+
     db.collection('bookmarks')
       .where('user_doc_id', '==', uid)
       .where('novel_doc_id', '==', novel_id)
@@ -74,6 +85,9 @@ class Novel extends React.Component {
           // お気に入り
           this.setState({ isFavorite: true });
         }
+      })
+      .catch(function (error) {
+        console.log('Error check bookmark in Novel getData:', error);
       });
   }
 
@@ -88,6 +102,14 @@ class Novel extends React.Component {
     this.setState({ novel_id: novel_id });
     // 小説データ取得
     this.getData(novel_id);
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ isLoggedIn: true });
+      } else {
+        this.setState({ isLoggedIn: false });
+      }
+    });
   }
 
   // ブックマーク登録
@@ -245,12 +267,21 @@ class Novel extends React.Component {
     return (
       <div class="novel-read-page">
         <div class="novel-info">
-          <div class="novel-title-fav">
-            <div class="novel-title"> {this.state.title} </div>
+          {this.state.isLoggedIn ? (
             <button class="novel-bookmark" onClick={this.handleClickBookMark}>
+              {/* hoverのやり方がわからない、、 */}
+              {/* <FavoriteIcon color="secondary" fontSize="large" /> */}
               <div class="star-fav"></div>
               {this.getFavDiv()}
             </button>
+          ) : (
+            <h5>
+              お気に入りに登録するには<Link to="/signIn">ログイン</Link>
+              してください
+            </h5>
+          )}
+          <div class="novel-title-fav">
+            <div class="novel-title"> {this.state.title} </div>
           </div>
           <div class="author-name"> {this.state.name} </div>
         </div>
