@@ -500,6 +500,15 @@ footer {
   display: block;
 }
 
+.search-page .paging {
+  margin: 10px auto;
+  text-align: center;
+}
+
+.search-page .paging .paging-button {
+  margin: 0 5px;
+}
+
 /* ログインページ設定 */
 .form-wrapper {
   background: #fafafa;
