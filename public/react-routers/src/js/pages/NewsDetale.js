@@ -21,7 +21,8 @@ class NewsDetale extends React.Component {
         if (doc.exists) {
           this.setState({ title: doc.data().title });
         } else {
-          console.log('Cannot find news (in NewsDetail)');
+          this.props.history.push('/404');
+          return;
         }
       })
       .catch(function (error) {
