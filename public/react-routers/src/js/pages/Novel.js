@@ -6,7 +6,33 @@ import { Link } from 'react-router-dom';
 import ReviewComponent from '../components/ReviewComponent';
 import News from '../components/News';
 import FavoriteIcon from '../../../node_modules/@material-ui/icons/Favorite';
+import { styled } from '../../../node_modules/@material-ui/core/styles';
+import Button from '../../../node_modules/@material-ui/core/Button';
 import RubyText from '../components/RubyText';
+
+const MyHeart = styled(FavoriteIcon)({
+  color: 'red',
+  fontSize: 'large',
+  '&:hover': {
+    background: '#317eac',
+    fontSize: 22,
+  },
+});
+const MyButton = styled(Button)({
+  background: '#317eac',
+  fontSize: 14,
+
+  '&:hover': {
+    background: '#317eac',
+  },
+  border: 0,
+  borderRadius: 2,
+  boxShadow: '1px 1px 1px #022a50',
+  color: 'white',
+  height: 28,
+  padding: '10 10px',
+  margin: '10px',
+});
 
 class Novel extends React.Component {
   constructor(props) {
@@ -27,6 +53,7 @@ class Novel extends React.Component {
       isLoggedIn: true,
       authorId: '',
       site: '',
+      sameUser: false,
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -41,8 +68,10 @@ class Novel extends React.Component {
   }
 
   // 小説データを取得する
-  getData(novel_id) {
-    db.collection('novels')
+  async getData(novel_id) {
+    var aId;
+    await db
+      .collection('novels')
       .doc(novel_id)
       .get()
       .then((doc) => {
@@ -53,6 +82,7 @@ class Novel extends React.Component {
           const title = doc.data().title;
           const text = doc.data().text;
           const authorId = doc.data().author_id;
+          aId = authorId;
           this.setState({
             name: name,
             title: title,
@@ -73,15 +103,20 @@ class Novel extends React.Component {
 
     // お気に入りかどうかを確認
     var uid = '';
-    var user = firebase.auth().currentUser;
+    var user = await firebase.auth().currentUser;
     if (user) {
       // ログインしている
-      uid = firebase.auth().currentUser.uid;
+      uid = await firebase.auth().currentUser.uid;
     } else {
       // ログインしていない
     }
 
-    db.collection('bookmarks')
+    if (aId == uid) {
+      this.setState({ sameUser: true });
+    }
+
+    await db
+      .collection('bookmarks')
       .where('user_doc_id', '==', uid)
       .where('novel_doc_id', '==', novel_id)
       .get()
@@ -277,8 +312,7 @@ class Novel extends React.Component {
         <div class="novel-info">
           {this.state.isLoggedIn ? (
             <button class="novel-bookmark" onClick={this.handleClickBookMark}>
-              {/* hoverのやり方がわからない、、 */}
-              {/* <FavoriteIcon color="secondary" fontSize="large" /> */}
+              {/* <MyHeart /> */}
               <div class="star-fav"></div>
               {this.getFavDiv()}
             </button>
@@ -295,9 +329,14 @@ class Novel extends React.Component {
             <Link to={this.state.site}>{this.state.name}</Link>
           </div>
         </div>
-        <div class="novel-content">
+       <div class="novel-content">
           <RubyText plainText={this.state.text}></RubyText>
         </div>
+        <br />
+        {this.state.sameUser ? (
+          <div class="novel-sameUser">
+            <hr align="center"></hr>
+            自分が書いた小説にレビューすることはできません。
         <form class="novel-evaluation" onSubmit={this.handleSubmit}>
           <div class="novel-evaluation-title">評価を投稿する</div>
           <div class="novel-evaluation-rating">
@@ -318,24 +357,56 @@ class Novel extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <button class="evaluate-post-button">投稿</button>
-          <button onClick={this.handleInitialize}>クリア</button>
-        </form>
-        <button onClick={this.handleReview}>
-          {this.state.show_review ? '他のレビューを見る' : 'レビューを隠す'}
-        </button>
-        {this.state.rating}
+        ) : (
+          <form class="novel-evaluation" onSubmit={this.handleSubmit}>
+            <br />
+            <div class="novel-evaluation-title">評価を投稿する</div>
+            <div class="novel-evaluation-rating">
+              <ReactStarsRating
+                onChange={this.onChange}
+                isEdit={isEdit}
+                value={value}
+                selectedValue={selectedValue}
+              />
+              <div>Selected value: {selectedValue}</div>
+            </div>
+            <div class="novel-evaluation-comment">
+              <textarea
+                type="text"
+                id="comment"
+                placeholder="コメント"
+                value={this.state.comment}
+                onChange={this.handleChange}
+              />
+            </div>
+            {/* 投稿できない問題解決してないから無効化しておく
+            <MyButton>投稿</MyButton>
+            <MyButton onClick={this.handleInitialize}>クリア</MyButton> */}
+            <button class="evaluate-post-button">投稿</button>
+            <button onClick={this.handleInitialize}>クリア</button>
+            <br />
+          </form>
+        )}
         <br />
-        {this.state.reviews.map((review) => (
-          <ul>{review}</ul>
-        ))}
-        <div class="buck-button-wrapper">
-          <button
-            class="buck-button"
-            onClick={() => this.props.history.goBack()}
-          >
-            &lt;&lt;戻る
+        <div class="now-eval">
+          <div class="now-eval-str">現在の評価 : {this.state.rating}</div>
+          <br />
+          <button onClick={this.handleReview}>
+            {this.state.show_review ? '他のレビューを見る' : 'レビューを隠す'}
           </button>
+          　
+          <br />
+          {this.state.reviews.map((review) => (
+            <ul>{review}</ul>
+          ))}
+          <div class="buck-button-wrapper">
+            <button
+              class="buck-button"
+              onClick={() => this.props.history.goBack()}
+            >
+              &lt;&lt;戻る
+            </button>
+          </div>
         </div>
       </div>
     );
