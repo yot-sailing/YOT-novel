@@ -22,7 +22,9 @@ html {
 body {
   background-color: #f3f3f2;
 }
-
+.navbar-fixed-top {
+  background-color: #293097;
+}
 /* 縦に要素並ぶやつ全体 */
 .contents-list {
   margin: 10px;
@@ -389,13 +391,22 @@ footer {
 .search_container input[type='text']:focus {
   outline: 0;
 }
-.search_container button {
+.search_container #search-button {
   font-size: 1.3em;
   border-radius: 2px;
   height: 3em;
   width: 10em;
   background: #317eac;
   color: #ffffff;
+}
+.search_container #search-clear {
+  font-size: 1.3em;
+  border-radius: 2px;
+  height: 3em;
+  width: 10em;
+  color: #000000;
+  background: #f8f8ff;
+  margin-left: 10px;
 }
 
 .search_container button:hover {
