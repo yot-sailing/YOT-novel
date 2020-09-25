@@ -6,7 +6,14 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = { request: [] };
-    var uid = firebase.auth().currentUser.uid;
+    var uid = '';
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // ログインしている
+      uid = firebase.auth().currentUser.uid;
+    } else {
+      // ログインしていない
+    }
     db.collection('odaibako')
       .where('user', '==', uid)
       .orderBy('created', 'desc')

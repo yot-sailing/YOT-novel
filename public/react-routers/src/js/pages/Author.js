@@ -101,6 +101,7 @@ class Author extends React.Component {
       this.props.history.push('/404');
       return;
     }
+    this.setState({ id: author_id });
 
     db.collection('users')
       .doc(author_id)
