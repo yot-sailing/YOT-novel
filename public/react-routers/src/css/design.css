@@ -206,8 +206,20 @@ header li {
   float: top;
   color: white;
   position: absolute;
-  top: 0px;
+  top: -18px;
   right: 0px;
+}
+.navlogin:hover a {
+  color:#293097 !important;
+  background: white !important;
+}
+.navreg:hover a {
+  color:#293097 !important;
+  background: white !important;
+}
+.navlogout:hover a {
+  color:#293097 !important;
+  background: white !important;
 }
 
 /**

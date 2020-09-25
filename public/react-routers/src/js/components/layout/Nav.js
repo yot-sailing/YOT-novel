@@ -95,13 +95,18 @@ export default class extends React.Component {
             <li class={signInClass}>
               {this.state.isLoggedIn ? (
                 <Link
+                  class="navlogout"
                   to="/"
                   onClick={(this.toggleCollapse.bind(this), this.handleLogout)}
                 >
                   ログアウト
                 </Link>
               ) : (
-                <Link to="/signIn" onClick={this.toggleCollapse.bind(this)}>
+                <Link
+                  class="navlogin"
+                  to="/signIn"
+                  onClick={this.toggleCollapse.bind(this)}
+                >
                   ログイン
                 </Link>
               )}
@@ -110,7 +115,11 @@ export default class extends React.Component {
               {this.state.isLoggedIn ? (
                 ''
               ) : (
-                <Link to="signUp" onClick={this.toggleCollapse.bind(this)}>
+                <Link
+                  class="navreg"
+                  to="signUp"
+                  onClick={this.toggleCollapse.bind(this)}
+                >
                   登録する
                 </Link>
               )}
