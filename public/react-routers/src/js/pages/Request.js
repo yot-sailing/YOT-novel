@@ -32,7 +32,14 @@ export default class extends React.Component {
             ? '投稿されたお題はありません'
             : this.state.request}
         </div>
-        <button onClick={() => this.props.history.goBack()}>戻る</button>
+        <div class="buck-button-wrapper">
+          <button
+            class="buck-button"
+            onClick={() => this.props.history.goBack()}
+          >
+            &lt;&lt;戻る
+          </button>
+        </div>
       </div>
     );
   }
