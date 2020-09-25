@@ -98,7 +98,7 @@ export default class extends React.Component {
     });
   }
   radioDeselection(e) {
-    this.setState({ radio: '' });
+    this.setState({ radio: '', category: '', keyword: '' });
     for (const element of document.getElementsByName('radio')) {
       element.checked = false;
     }
@@ -169,9 +169,6 @@ export default class extends React.Component {
                   概要から{' '}
                 </label>
               </div>
-              <button type="button" onclick={this.radioDeselection}>
-                選択解除
-              </button>
             </div>
             <input
               type="text"
@@ -182,8 +179,15 @@ export default class extends React.Component {
             />
           </div>
           <div class="button_wrapper">
-            <button type="submit" value="検索">
+            <button type="submit" value="検索" id="search-button">
               検索
+            </button>
+            <button
+              value="クリア"
+              onClick={this.radioDeselection}
+              id="search-clear"
+            >
+              検索条件をクリア
             </button>
           </div>
         </form>
