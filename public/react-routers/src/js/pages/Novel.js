@@ -24,6 +24,8 @@ class Novel extends React.Component {
       show_review: true,
       rating: '',
       isLoggedIn: true,
+      authorId: '',
+      site: '',
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -49,11 +51,14 @@ class Novel extends React.Component {
           const name = doc.data().name;
           const title = doc.data().title;
           const text = doc.data().text;
+          const authorId = doc.data().author_id;
           this.setState({
             name: name,
             title: title,
             text: text,
             rating: doc.data().rating,
+            authorId: authorId,
+            site: '/author?id=' + authorId,
           });
         } else {
           this.props.history.push('/404');
@@ -285,7 +290,9 @@ class Novel extends React.Component {
           <div class="novel-title-fav">
             <div class="novel-title"> {this.state.title} </div>
           </div>
-          <div class="author-name"> {this.state.name} </div>
+          <div class="author-name">
+            <Link to={this.state.site}>{this.state.name}</Link>
+          </div>
         </div>
         <div class="novel-content"> {this.state.text} </div>
         <form class="novel-evaluation" onSubmit={this.handleSubmit}>

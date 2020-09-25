@@ -4,6 +4,22 @@ import { Redirect } from 'react-router-dom';
 import firebase from '../connectDB';
 import LoadingOverlay from 'react-loading-overlay';
 import { Link } from 'react-router-dom';
+import { styled } from '../../../node_modules/@material-ui/core/styles';
+
+const MyButton = styled(Button)({
+  background: '#317eac',
+  fontSize: 18,
+
+  '&:hover': {
+    background: '#317eac',
+  },
+  border: 0,
+  borderRadius: 2,
+  boxShadow: '1px 1px 1px #022a50',
+  color: 'white',
+  height: 48,
+  padding: '10 10px',
+});
 
 class Auth extends React.Component {
   constructor(props) {
@@ -66,26 +82,14 @@ class Auth extends React.Component {
           <div class="tosignin">
             <h3>アカウントをお持ちの方</h3>
             <Link to="/signin">
-              <Button
-                style={{ fontSize: '20px' }}
-                variant="contained"
-                color="primary"
-              >
-                ログインする
-              </Button>
+              <MyButton>ログインする</MyButton>
             </Link>
           </div>
           <br></br>
           <div class="tosignup">
             <h3>アカウントをお持ちでない方</h3>
             <Link to="/signup">
-              <Button
-                style={{ fontSize: '20px' }}
-                variant="contained"
-                color="primary"
-              >
-                アカウントを作成する
-              </Button>
+              <MyButton>アカウントを作成する</MyButton>
             </Link>
           </div>
         </div>

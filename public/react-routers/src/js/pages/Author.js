@@ -3,7 +3,23 @@ import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import Article from '../components/Article';
+import Button from '../../../node_modules/@material-ui/core/Button';
+import { styled } from '../../../node_modules/@material-ui/core/styles';
 
+const MyButton = styled(Button)({
+  background: '#317eac',
+  fontSize: 18,
+
+  '&:hover': {
+    background: '#317eac',
+  },
+  border: 0,
+  borderRadius: 2,
+  boxShadow: '1px 1px 1px #022a50',
+  color: 'white',
+  height: 48,
+  padding: '10 10px',
+});
 class Author extends React.Component {
   constructor(props) {
     super(props);
@@ -78,6 +94,25 @@ class Author extends React.Component {
       return;
     }
 
+    db.collection('users')
+      .doc(author_id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const name = doc.data().username;
+          this.setState({
+            username: name,
+          });
+        } else {
+          this.props.history.push('/404');
+          return;
+          console.log('Cannot find user (in User)');
+        }
+      })
+      .catch(function (error) {
+        console.log('Error getting document in User getData:', error);
+      });
+
     var url = this.state.url;
     this.setState({ url: url + author_id });
 
@@ -132,9 +167,9 @@ class Author extends React.Component {
     return (
       <div>
         <h1 class="list-writer-name">{this.state.username}</h1>
-        <button onClick={this.handleFollow}>
-          {this.state.isFavorite ? 'お気に入り解除' : 'お気に入り登録'}
-        </button>
+        <MyButton onClick={this.handleFollow}>
+          {this.state.isFavorite ? 'フォロー解除' : 'フォローする'}
+        </MyButton>
         <div>
           <div class="authorpage-contents-title">お題箱</div>
           <div class="request-button-wrapper">
