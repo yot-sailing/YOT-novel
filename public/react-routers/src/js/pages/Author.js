@@ -29,6 +29,7 @@ class Author extends React.Component {
       url: 'createRequest?id=',
       id: '',
       isFavorite: false,
+      sameUser: false,
     };
 
     this.getData = this.getData.bind(this);
@@ -36,8 +37,9 @@ class Author extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  getData(uid) {
-    db.collection('novels')
+  async getData(uid) {
+    await db
+      .collection('novels')
       .where('author_id', '==', uid)
       .get()
       .then((querySnapshot) => {
@@ -61,14 +63,20 @@ class Author extends React.Component {
     // 今のフォロー状況を確認
     // 自分のID
     var my_uid = '';
-    var user = firebase.auth().currentUser;
+    var user = await firebase.auth().currentUser;
     if (user) {
       // ログインしている
-      my_uid = firebase.auth().currentUser.uid;
+      my_uid = await firebase.auth().currentUser.uid;
     } else {
       // ログインしていない
     }
-    db.collection('follows')
+
+    if (my_uid == uid) {
+      this.setState({ sameUser: true });
+    }
+
+    await db
+      .collection('follows')
       .where('user_id', '==', my_uid)
       .where('following', '==', uid)
       .get()
@@ -172,9 +180,17 @@ class Author extends React.Component {
         </MyButton>
         <div>
           <div class="authorpage-contents-title">お題箱</div>
-          <div class="request-button-wrapper">
-            <Link to={this.state.url}>お題箱はこちら</Link>
-          </div>
+
+          {this.state.sameUser ? (
+            <div class="novel-sameUser">
+              <hr align="center"></hr>
+              自分自身にお題をリクエストすることはできません。
+            </div>
+          ) : (
+            <div class="request-button-wrapper">
+              <Link to={this.state.url}>お題箱はこちら</Link>
+            </div>
+          )}
         </div>
         <div class="contents-list">
           <div class="authorpage-contents-title">投稿した小説</div>
