@@ -3,9 +3,8 @@ import firebase, { db } from '../connectDB';
 import { withRouter } from 'react-router';
 import ReactStarsRating from 'react-awesome-stars-rating';
 import { Link } from 'react-router-dom';
-import ReviewComponent from '../components/ReviewComponent';
-import News from '../components/News';
 import FavoriteIcon from '../../../node_modules/@material-ui/icons/Favorite';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
 import { styled } from '../../../node_modules/@material-ui/core/styles';
 import Button from '../../../node_modules/@material-ui/core/Button';
 import RubyText from '../components/RubyText';
@@ -33,6 +32,7 @@ const MyButton = styled(Button)({
   padding: '10 10px',
   margin: '10px',
 });
+
 
 class Novel extends React.Component {
   constructor(props) {
@@ -301,8 +301,14 @@ class Novel extends React.Component {
     }
   }
   Reviewer(reviews) {
-    const listReviews = reviews.map((review) => <li>{review}</li>);
-    return <ul>{listReviews}</ul>;
+    const listReviews = reviews.map((review) => (
+      <li>
+        <PersonIcon color="primary" />
+        {''}
+        {review}
+      </li>
+    ));
+    return <ul>a{listReviews}</ul>;
   }
 
   render() {
@@ -378,8 +384,12 @@ class Novel extends React.Component {
           　
           <br />
           {this.state.reviews.map((review) => (
-            <ul>{review}</ul>
-          ))}
+          <ul id="reviews-list">
+            <PersonPinIcon fontSize="large" id="review-person" /> {''}
+            {review}
+          </ul>
+        　))}
+         
           <div class="buck-button-wrapper">
             <button
               class="buck-button"

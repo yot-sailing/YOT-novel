@@ -120,7 +120,7 @@ export default class extends React.Component {
                   <option value="SF">SF</option>
                   <option value="ホラー">ホラー</option>
                   <option value="サスペンス">サスペンス</option>
-                  <option value="Fairy_tale">童話</option>
+                  <option value="童話">童話</option>
                   <option value="ファンタジー">ファンタジー</option>
                   <option value="comedy">comedy</option>
                   <option value="学園物語">学園物語</option>

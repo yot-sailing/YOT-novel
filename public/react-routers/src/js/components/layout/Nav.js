@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase';
+import Navbar from 'react-bootstrap/Navbar';
+import { Nav } from 'react-bootstrap';
 
 export default class extends React.Component {
   constructor() {
@@ -53,7 +55,75 @@ export default class extends React.Component {
 
     return (
       <header>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <Navbar className="navbar-color">
+          <Navbar.Brand href="/">
+            <img src="../../emblemmatic-roman-logo-237.png" width="100" />
+          </Navbar.Brand>
+          <Nav className="header-menu">
+            <li class={topClass}>
+              <Link to="/" onClick={this.toggleCollapse.bind(this)}>
+                トップページ
+              </Link>
+            </li>
+            <li class={rankingClass}>
+              <Link to="/ranking" onClick={this.toggleCollapse.bind(this)}>
+                ランキング
+              </Link>
+            </li>
+            <li class={searchClass}>
+              <Link to="/search" onClick={this.toggleCollapse.bind(this)}>
+                小説を探す
+              </Link>
+            </li>
+            <li class={bookmarkClass}>
+              <Link to="/bookmarks" onClick={this.toggleCollapse.bind(this)}>
+                お気に入り
+              </Link>
+            </li>
+            <li class={historyClass}>
+              <Link to="/history" onClick={this.toggleCollapse.bind(this)}>
+                閲覧履歴
+              </Link>
+            </li>
+            <li class={mypageClass}>
+              <Link to="/mypage" onClick={this.toggleCollapse.bind(this)}>
+                マイページ
+              </Link>
+            </li>
+          </Nav>
+          <ul class="nav navbar-nav sign-menu">
+            <li class={signInClass}>
+              {this.state.isLoggedIn ? (
+                <Link
+                  to="/"
+                  onClick={(this.toggleCollapse.bind(this), this.handleLogout)}
+                >
+                  ログアウト
+                </Link>
+              ) : (
+                <Link to="/signIn" onClick={this.toggleCollapse.bind(this)}>
+                  ログイン
+                </Link>
+              )}
+            </li>
+            <li class={signUpClass}>
+              {this.state.isLoggedIn ? (
+                ''
+              ) : (
+                <Link to="signUp" onClick={this.toggleCollapse.bind(this)}>
+                  登録する
+                </Link>
+              )}
+            </li>
+          </ul>
+        </Navbar>
+        <br />
+      </header>
+    );
+  }
+}
+{
+  /* <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
           <div class="container">
             <div class="navbar-header">
               <button
@@ -66,10 +136,6 @@ export default class extends React.Component {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-
-              <Link class="navbar-brand" to="/">
-                <img src="../../emblemmatic-roman-logo-237.png" width="100" />
-              </Link>
             </div>
             <div
               class={'navbar-collapse ' + navClass}
@@ -139,8 +205,5 @@ export default class extends React.Component {
               </ul>
             </div>
           </div>
-        </nav>
-      </header>
-    );
-  }
+        </nav> */
 }
