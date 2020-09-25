@@ -246,23 +246,43 @@ class Novel extends React.Component {
           console.log('No such document!');
           return;
         }
-        db.collection('novels')
-          .doc(novel_id)
-          .update({
-            rating: new_rate,
-            review: firebase.firestore.FieldValue.arrayUnion(review),
-            eval_num: firebase.firestore.FieldValue.increment(1),
-          })
-          .then(function () {
-            console.log('Document successfully updated!');
-            alert('投稿できました、ありがとうございます');
-          })
-          .catch(function (error) {
-            alert(
-              'レビューを投稿できませんでした、ログインしているか一度ご確認ください'
-            );
-            console.error('Error updating document: ', error);
-          });
+        if (review == '') {
+          db.collection('novels')
+            .doc(novel_id)
+            .update({
+              rating: new_rate,
+              review: firebase.firestore.FieldValue.arrayUnion(review),
+              eval_num: firebase.firestore.FieldValue.increment(1),
+            })
+            .then(function () {
+              console.log('Document successfully updated!');
+              alert('投稿できました、ありがとうございます');
+            })
+            .catch(function (error) {
+              alert(
+                'レビューを投稿できませんでした、ログインしているか一度ご確認ください'
+              );
+              console.error('Error updating document: ', error);
+            });
+        } else {
+          db.collection('novels')
+            .doc(novel_id)
+            .update({
+              rating: new_rate,
+              review: firebase.firestore.FieldValue.arrayUnion(review),
+              eval_num: firebase.firestore.FieldValue.increment(1),
+            })
+            .then(function () {
+              console.log('Document successfully updated!');
+              alert('投稿できました、ありがとうございます');
+            })
+            .catch(function (error) {
+              alert(
+                'レビューを投稿できませんでした、ログインしているか一度ご確認ください'
+              );
+              console.error('Error updating document: ', error);
+            });
+        }
       })
       .catch(function (error) {
         console.log('Error getting document:', error);

@@ -83,7 +83,14 @@ export default class extends React.Component {
             投稿する
           </button>
         </form>
-        <button onClick={() => this.props.history.goBack()}>戻る</button>
+        <div class="buck-button-wrapper">
+          <button
+            class="buck-button"
+            onClick={() => this.props.history.goBack()}
+          >
+            &lt;&lt;戻る
+          </button>
+        </div>
       </div>
     );
   }

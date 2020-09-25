@@ -90,9 +90,9 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div className="row write-novel" style={{ margin: '1em' }}>
+      <div style={{ margin: '1em' }}>
         <h2>小説を投稿する</h2>
-        <div className="col s12 m5 l5">
+        <div className="row write-novel">
           <form onSubmit={this.handleSubmit} style={{ marginTop: '4em' }}>
             <div class="novel-input-name">
               <div class="input-name">タイトル</div>
@@ -190,9 +190,14 @@ export default class extends React.Component {
             </div>
           </form>
         </div>
-        <button onClick={() => this.props.history.push('/mypage')}>
-          マイページへ
-        </button>
+        <div class="buck-button-wrapper">
+          <button
+            class="buck-button"
+            onClick={() => this.props.history.push('/mypage')}
+          >
+            &lt;&lt;マイページへ
+          </button>
+        </div>
       </div>
     );
   }

@@ -196,7 +196,14 @@ class Author extends React.Component {
           <div class="authorpage-contents-title">投稿した小説</div>
           <div class="box-list-yaxis">{this.state.novellist}</div>
         </div>
-        <button onClick={() => this.props.history.goBack()}>戻る</button>
+        <div class="buck-button-wrapper">
+          <button
+            class="buck-button"
+            onClick={() => this.props.history.goBack()}
+          >
+            &lt;&lt;戻る
+          </button>
+        </div>
       </div>
     );
   }
