@@ -720,6 +720,13 @@ div.novel-content {
   min-height: 30em;
 }
 
+.novel-input-name .view {
+  display: block;
+}
+.novel-input-name .noview {
+  display: none;
+}
+
 .write-novel button {
   font-size: 1.3em;
   border-radius: 2px;
