@@ -67,7 +67,6 @@ export default class extends React.Component {
 
     // 検索して、結果をresultsに保存
     const snapshots = novelRef.get();
-    console.log(snapshots);
     snapshots.then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.state.results.push(
@@ -82,9 +81,9 @@ export default class extends React.Component {
         );
         this.setState({ results: this.state.results });
       });
-      if (this.state.list.length == 0) {
-        this.state.list.push(<p key="test">検索結果はありません</p>);
-        this.setState({ list: this.state.list });
+      if (this.state.results.length == 0) {
+        this.state.results.push(<p key="test">検索結果はありません</p>);
+        this.setState({ results: this.state.results });
       }
     });
   }
