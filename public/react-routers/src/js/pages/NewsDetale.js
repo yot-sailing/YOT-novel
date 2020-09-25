@@ -23,7 +23,6 @@ class NewsDetale extends React.Component {
         } else {
           this.props.history.push('/404');
           return;
-          console.log('Cannot find news (in NewsDetail)');
         }
       })
       .catch(function (error) {
