@@ -1,5 +1,7 @@
 import React from 'react';
 import firebase, { db } from '../connectDB';
+import TextField from '../../../node_modules/@material-ui/core/TextField';
+import { sizing } from '../../../node_modules/@material-ui/system';
 
 export default class extends React.Component {
   constructor(props) {
@@ -28,19 +30,21 @@ export default class extends React.Component {
     if (this.state.user == '') {
       return;
     }
-    db.collection('users').where('email', '==', email).get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        request_user_id.push(doc.id);
-      });
+    db.collection('users')
+      .where('email', '==', email)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          request_user_id.push(doc.id);
+        });
 
-      db.collection('odaibako').add({
-        user: user,
-        request_content : request,
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-        request_user : request_user_id[0]
+        db.collection('odaibako').add({
+          user: user,
+          request_content: request,
+          created: firebase.firestore.FieldValue.serverTimestamp(),
+          request_user: request_user_id[0],
+        });
       });
-
-    });
     e.preventDefault();
     alert('投稿しました.');
     this.props.history.push('/mypage');
@@ -57,9 +61,14 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        ここにお題を投稿するページを作成します。
-        <br />
+        <h3>お題を投稿しよう</h3>
         <form onSubmit={this.handleSubmit}>
+          <TextField
+            id="standard-basic"
+            label="お題を入力"
+            fullWidth
+            style={{ fontSize: '2000px' }}
+          />
           <textarea
             type="text"
             id="request"

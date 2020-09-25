@@ -44,7 +44,14 @@ class Author extends React.Component {
       });
     // 今のフォロー状況を確認
     // 自分のID
-    var my_uid = firebase.auth().currentUser.uid;
+    var my_uid = '';
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // ログインしている
+      my_uid = firebase.auth().currentUser.uid;
+    } else {
+      // ログインしていない
+    }
     db.collection('follows')
       .where('user_id', '==', my_uid)
       .where('following', '==', uid)
@@ -83,7 +90,15 @@ class Author extends React.Component {
     e.preventDefault();
     const author_id = this.state.id;
     // 自分のID
-    var my_uid = firebase.auth().currentUser.uid;
+    // 自分のID
+    var my_uid = '';
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // ログインしている
+      my_uid = firebase.auth().currentUser.uid;
+    } else {
+      // ログインしていない
+    }
     // 今のフォロー状況を確認
     db.collection('follows')
       .where('user_id', '==', my_uid)
