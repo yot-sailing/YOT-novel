@@ -73,6 +73,7 @@ export default class extends React.Component {
     await event.preventDefault();
 
     // 書いた小説のページへ戻る
+    // fibase自体のエラーにより強制的にtimeout
     setTimeout(() => {
       const site = '/novel?id=' + newDocId;
       this.props.history.push(site);

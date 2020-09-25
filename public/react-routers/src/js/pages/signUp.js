@@ -18,8 +18,6 @@ export default class extends React.Component {
     this.password_handleChange = this.password_handleChange.bind(this);
     this.username_handleChange = this.username_handleChange.bind(this);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
-
-    //setTimeout('location.reload()', 10000);
   }
   toggleCollapse() {
     const collapsed = !this.state.collapsed;
