@@ -402,12 +402,16 @@ class Novel extends React.Component {
           </button>
           　
           <br />
-          {this.state.reviews.map((review) => (
-            <ul id="reviews-list">
-              <PersonPinIcon fontSize="large" id="review-person" /> {''}
-              {review}
-            </ul>
-          ))}
+          {!this.state.show_review && this.state.reviews.length == 0 ? (
+            <p>レビューがまだ投稿されていません</p>
+          ) : (
+            this.state.reviews.map((review) => (
+              <ul id="reviews-list">
+                <PersonPinIcon fontSize="large" id="review-person" /> {''}
+                {review}
+              </ul>
+            ))
+          )}
           <div class="buck-button-wrapper">
             <button
               class="buck-button"
