@@ -96,14 +96,14 @@ export default class extends React.Component {
                     カテゴリを選ぶ
                   </option>
                   <option value="SF">SF</option>
-                  <option value="horror">ホラー</option>
+                  <option value="ホラー">ホラー</option>
                   <option value="サスペンス">サスペンス</option>
                   <option value="Fairy_tale">童話</option>
-                  <option value="fantasy">ファンタジー</option>
+                  <option value="ファンタジー">ファンタジー</option>
                   <option value="comedy">comedy</option>
-                  <option value="school">学園物語</option>
-                  <option value="mystery">ミステリー</option>
-                  <option value="essay">エッセイ</option>
+                  <option value="学園物語">学園物語</option>
+                  <option value="ミステリー">ミステリー</option>
+                  <option value="エッセイ">エッセイ</option>
                 </select>
               </div>
             </div>
