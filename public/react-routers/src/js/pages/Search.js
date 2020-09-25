@@ -12,12 +12,22 @@ export default class extends React.Component {
       keyword: '',
       results: [],
       radio: '',
+      page: 1,
+      oldStartDoc: null,
+      oldEndDoc: null,
+      scrollPoint: React.createRef(),
     };
 
     // 一番初めは全件表示
     db.collection('novels')
+      .limit(10)
       .get()
       .then((querySnapshot) => {
+        // ページハンドリング用にセット
+        this.setState({
+          oldStartDoc: querySnapshot.docs[0],
+          oldEndDoc: querySnapshot.docs[9],
+        });
         querySnapshot.forEach((doc) => {
           this.state.results.push(
             <Article
@@ -33,6 +43,9 @@ export default class extends React.Component {
         });
       });
     this.radioDeselection = this.radioDeselection.bind(this);
+    this.handlePaging = this.handlePaging.bind(this);
+    this.handlePagingUp = this.handlePagingUp.bind(this);
+    this.handlePagingDown = this.handlePagingDown.bind(this);
   }
 
   // カテゴリー欄の値をstateに保存
@@ -78,6 +91,12 @@ export default class extends React.Component {
     // 検索して、結果をresultsに保存
     const snapshots = novelRef.get();
     snapshots.then((querySnapshot) => {
+      // ページハンドリング用にセット
+      this.setState({
+        oldStartDoc: querySnapshot.docs[0],
+        oldEndDoc: querySnapshot.docs[9],
+        page: 1,
+      });
       querySnapshot.forEach((doc) => {
         this.state.results.push(
           <Article
@@ -97,6 +116,116 @@ export default class extends React.Component {
       }
     });
   }
+
+  // 前に戻る用のハンドラ
+  handlePagingDown(event) {
+    event.preventDefault();
+    this.handlePaging(false);
+  }
+
+  // 次に進む用のハンドラ
+  handlePagingUp(event) {
+    event.preventDefault();
+    this.handlePaging(true);
+  }
+
+  //ページング用のハンドラ
+  handlePaging(isUp) {
+    // ページが１なら前には戻れない
+    if (
+      (this.state.page == 1 && !isUp) ||
+      (isUp && typeof this.state.oldEndDoc === 'undefined')
+    ) {
+      alert('これ以上検索結果はありません');
+      return;
+    }
+
+    // 指定された条件に沿ってクエリ設定
+    var novelRef;
+    if (
+      this.state.category != '' &&
+      this.state.keyword != '' &&
+      this.state.radio != ''
+    ) {
+      // キーワードとカテゴリーと検索範囲が指定されている
+      novelRef = db
+        .collection('novels')
+        .where('category', '==', this.state.category)
+        .where(this.state.radio, '==', this.state.keyword);
+    } else if (this.state.category != '') {
+      // カテゴリーだけが指定されている
+      novelRef = db
+        .collection('novels')
+        .where('category', '==', this.state.category);
+    } else if (this.state.keyword != '' && this.state.radio != '') {
+      // キーワードだけが指定されている
+      novelRef = db
+        .collection('novels')
+        .where(this.state.radio, '==', this.state.keyword);
+    } else {
+      // 何も指定されていない
+      novelRef = db.collection('novels');
+    }
+
+    // どの１０件を取るかを決める
+    var snapshots;
+    if (isUp) {
+      snapshots = novelRef.limit(10).startAfter(this.state.oldEndDoc).get();
+    } else {
+      snapshots = novelRef.limit(10).endBefore(this.state.oldStartDoc).get();
+    }
+
+    // 検索して、結果をresultsに保存
+    snapshots.then((querySnapshot) => {
+      if (querySnapshot.empty) {
+        // ページング後の検索結果なし
+        alert('これ以上検索結果はありません');
+      } else {
+        // ページング後の検索結果あり
+        // 次のページング用のドキュメント
+        this.setState({
+          oldStartDoc: querySnapshot.docs[0],
+          oldEndDoc: querySnapshot.docs[9],
+        });
+        // ページ番号更新
+        if (isUp) {
+          this.setState({ page: this.state.page + 1 });
+        } else {
+          this.setState({ page: this.state.page - 1 });
+        }
+        // 古い検索結果をresultsから消して新しいものをセット
+        // 必ず新しい値をセットする前に削除する
+        function deleteResult(t) {
+          return new Promise((resolve, reject) => {
+            t.setState({ results: [] });
+            resolve(t);
+          });
+        }
+        deleteResult(this).then(function (passedThis) {
+          querySnapshot.forEach((doc) => {
+            passedThis.state.results.push(
+              <Article
+                key={doc.id}
+                title={doc.data().title}
+                category={doc.data().category}
+                author={doc.data().name}
+                abstract={doc.data().overview}
+                id={doc.id}
+              />
+            );
+            passedThis.setState({
+              results: passedThis.state.results,
+            });
+            // 検索の上の方へ戻る
+            passedThis.state.scrollPoint.current.scrollIntoView({
+              behavior: 'smooth',
+            });
+          });
+        });
+      }
+    });
+  }
+
   radioDeselection(e) {
     this.setState({ radio: '', category: '', keyword: '' });
     for (const element of document.getElementsByName('radio')) {
@@ -191,9 +320,22 @@ export default class extends React.Component {
             </button>
           </div>
         </form>
+        <div class="scroll-point" ref={this.state.scrollPoint} />
         <div class="search-page contents-list search">
           <h1>検索結果</h1>
           <div class="box-list-yaxis">{this.state.results}</div>
+          <div class="paging">
+            <button
+              class="paging-button before"
+              onClick={this.handlePagingDown}
+            >
+              前へ
+            </button>
+            {this.state.page}
+            <button class="paging-button after" onClick={this.handlePagingUp}>
+              次へ
+            </button>
+          </div>
         </div>
       </div>
     );
