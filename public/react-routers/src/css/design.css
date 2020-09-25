@@ -209,19 +209,11 @@ header li {
   top: -18px;
   right: 0px;
 }
-.navlogin:hover a {
-  color:#293097 !important;
-  background: white !important;
+.navbar-nav > li > a:hover {
+  color: #022a50;
+  background-color: white;
+  text-decoration: none;
 }
-.navreg:hover a {
-  color:#293097 !important;
-  background: white !important;
-}
-.navlogout:hover a {
-  color:#293097 !important;
-  background: white !important;
-}
-
 /**
  * トップページ設定
  */
