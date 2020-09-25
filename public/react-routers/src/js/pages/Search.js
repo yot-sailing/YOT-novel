@@ -11,6 +11,7 @@ export default class extends React.Component {
       category: '',
       keyword: '',
       results: [],
+      radio: '',
     };
 
     // 一番初めは全件表示
@@ -31,6 +32,7 @@ export default class extends React.Component {
           this.setState({ results: this.state.results });
         });
       });
+    this.radioDeselection = this.radioDeselection.bind(this);
   }
 
   // カテゴリー欄の値をstateに保存
@@ -52,17 +54,25 @@ export default class extends React.Component {
 
     // 指定された条件に沿ってクエリ設定
     var novelRef;
-    if (this.state.category != '' && this.state.keyword != '') {
-      // キーワードとカテゴリーが指定されている
+    if (
+      this.state.category != '' &&
+      this.state.keyword != '' &&
+      this.state.radio != ''
+    ) {
+      // キーワードとカテゴリーと検索範囲が指定されている
       novelRef = db
         .collection('novels')
         .where('category', '==', this.state.category)
-        .where('title', '==', this.state.keyword);
+        .where(this.state.radio, '==', this.state.keyword);
     } else if (this.state.category != '') {
       // カテゴリーだけが指定されている
       novelRef = db
         .collection('novels')
         .where('category', '==', this.state.category);
+    } else if (this.state.keyword != '' && this.state.radio != '') {
+      novelRef = db
+        .collection('novels')
+        .where(this.state.radio, '==', this.state.keyword);
     }
 
     // 検索して、結果をresultsに保存
@@ -87,6 +97,12 @@ export default class extends React.Component {
       }
     });
   }
+  radioDeselection(e) {
+    this.setState({ radio: '' });
+    for (const element of document.getElementsByName('radio')) {
+      element.checked = false;
+    }
+  }
 
   render() {
     return (
@@ -94,62 +110,14 @@ export default class extends React.Component {
         <ScrollToTopOnMount />
         <h1>小説を探す</h1>
         <form onSubmit={this.handleSearch.bind(this)} class="search_container">
-          <div class="search-condition keyword-input">
-            <div class="search-condition-title">キーワード検索</div>
-            <input
-              type="text"
-              size="25"
-              placeholder="　キーワード検索"
-              value={this.state.keyword}
-              onChange={this.keyword_handleChange.bind(this)}
-            />
-          </div>
-          <div class="search-condition range-select">
-            <div class="search-condition-title">検索範囲</div>
-            <div class="radio-container">
-              <div class="radio-contents">
-                <input id="radio-1" name="radio" type="radio" />
-                <label for="radio-1" class="radio-label">
-                  全てから{' '}
-                </label>
-              </div>
-              <div class="radio-contents">
-                <input id="radio-2" name="radio" type="radio" />
-                <label for="radio-2" class="radio-label">
-                  タイトルから{' '}
-                </label>
-              </div>
-              <div class="radio-contents">
-                <input id="radio-3" name="radio" type="radio" />
-                <label for="radio-3" class="radio-label">
-                  著者から{' '}
-                </label>
-              </div>
-              <div class="radio-contents">
-                <input id="radio-4" name="radio" type="radio" />
-                <label for="radio-4" class="radio-label">
-                  概要から{' '}
-                </label>
-              </div>
-              <div class="radio-contents">
-                <input id="radio-5" name="radio" type="radio" />
-                <label for="radio-5" class="radio-label">
-                  タグから{' '}
-                </label>
-              </div>
-            </div>
-          </div>
           <div class="search-condition cat-select">
-            <div class="search-condition-title">カテゴリ指定</div>
+            <div class="search-condition-title">カテゴリ検索</div>
             <div class="cp_ipselect cp_sl01">
               <select
                 value={this.state.category}
                 onChange={this.category_handleChange.bind(this)}
-                required
               >
-                <option value="" hidden>
-                  カテゴリを選ぶ
-                </option>
+                <option value="">指定なし</option>
                 <option value="SF">SF</option>
                 <option value="ホラー">ホラー</option>
                 <option value="サスペンス">サスペンス</option>
@@ -161,6 +129,57 @@ export default class extends React.Component {
                 <option value="エッセイ">エッセイ</option>
               </select>
             </div>
+          </div>
+          <div class="search-condition keyword-input">
+            <div class="search-condition-title">キーワード検索</div>
+            <div class="radio-container">
+              <div class="radio-contents">
+                <input
+                  id="radio-1"
+                  name="radio"
+                  type="radio"
+                  checked={this.state.radio == 'title'}
+                  onChange={() => this.setState({ radio: 'title' })}
+                />
+                <label for="radio-1" class="radio-label">
+                  タイトルから{' '}
+                </label>
+              </div>
+              <div class="radio-contents">
+                <input
+                  id="radio-2"
+                  name="radio"
+                  type="radio"
+                  checked={this.state.radio == 'name'}
+                  onChange={() => this.setState({ radio: 'name' })}
+                />
+                <label for="radio-2" class="radio-label">
+                  著者から{' '}
+                </label>
+              </div>
+              <div class="radio-contents">
+                <input
+                  id="radio-3"
+                  name="radio"
+                  type="radio"
+                  checked={this.state.radio == 'overview'}
+                  onChange={() => this.setState({ radio: 'overview' })}
+                />
+                <label for="radio-3" class="radio-label">
+                  概要から{' '}
+                </label>
+              </div>
+              <button type="button" onclick={this.radioDeselection}>
+                選択解除
+              </button>
+            </div>
+            <input
+              type="text"
+              size="25"
+              placeholder="　キーワード検索"
+              value={this.state.keyword}
+              onChange={this.keyword_handleChange.bind(this)}
+            />
           </div>
           <div class="button_wrapper">
             <button type="submit" value="検索">
