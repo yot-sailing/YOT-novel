@@ -33,7 +33,6 @@ const MyButton = styled(Button)({
   margin: '10px',
 });
 
-
 class Novel extends React.Component {
   constructor(props) {
     super(props);
@@ -54,6 +53,7 @@ class Novel extends React.Component {
       authorId: '',
       site: '',
       sameUser: false,
+      selectedValue: '',
     };
 
     this.handleClickBookMark = this.handleClickBookMark.bind(this);
@@ -219,7 +219,12 @@ class Novel extends React.Component {
     const rate_one = this.state.selectedValue;
     const review = this.state.comment;
     var new_rate = 1;
+    console.log(rate_one);
     if (rate_one == '' && review == '') {
+      return;
+    } else if (rate_one == '') {
+      console.log('here');
+      alert('五段階評価もお願いします');
       return;
     }
     db.collection('novels')
@@ -229,7 +234,6 @@ class Novel extends React.Component {
         if (doc.exists) {
           var eval_num = doc.data().eval_num;
           if (eval_num == null || rate_one == '') {
-            eval_num = 1;
             new_rate = rate_one;
           } else {
             new_rate =
@@ -254,7 +258,9 @@ class Novel extends React.Component {
             alert('投稿できました、ありがとうございます');
           })
           .catch(function (error) {
-            // The document probably doesn't exist.
+            alert(
+              'レビューを投稿できませんでした、ログインしているか一度ご確認ください'
+            );
             console.error('Error updating document: ', error);
           });
       })
@@ -288,7 +294,11 @@ class Novel extends React.Component {
         .doc(novel_id)
         .get()
         .then((doc) => {
+          console.log(doc.data());
           lists = doc.data().review;
+          if (lists.length == 0) {
+            return;
+          }
           lists.forEach((review) => {
             this.state.reviews.push(review);
             this.setState({ reviews: this.state.reviews });
@@ -300,17 +310,6 @@ class Novel extends React.Component {
       this.setState({ reviews: [] });
     }
   }
-  Reviewer(reviews) {
-    const listReviews = reviews.map((review) => (
-      <li>
-        <PersonIcon color="primary" />
-        {''}
-        {review}
-      </li>
-    ));
-    return <ul>a{listReviews}</ul>;
-  }
-
   render() {
     const { isEdit, value, selectedValue } = this.state;
     return (
@@ -384,12 +383,11 @@ class Novel extends React.Component {
           　
           <br />
           {this.state.reviews.map((review) => (
-          <ul id="reviews-list">
-            <PersonPinIcon fontSize="large" id="review-person" /> {''}
-            {review}
-          </ul>
-        　))}
-         
+            <ul id="reviews-list">
+              <PersonPinIcon fontSize="large" id="review-person" /> {''}
+              {review}
+            </ul>
+          ))}
           <div class="buck-button-wrapper">
             <button
               class="buck-button"
