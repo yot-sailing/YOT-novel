@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import firebase, { db } from '../connectDB';
+import { Link } from 'react-router-dom';
 
 class Article extends React.Component {
   constructor(props) {
