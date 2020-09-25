@@ -17,6 +17,7 @@ export default class extends React.Component {
             <RequestComponent
               key={doc.id}
               request_content={doc.data().request_content}
+              id={doc.id}
             />
           );
           this.setState({ request: this.state.request });
@@ -26,7 +27,11 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <div>{this.state.request}</div>
+        <div>
+          {this.state.request.length == 0
+            ? '投稿されたお題はありません'
+            : this.state.request}
+        </div>
         <button onClick={() => this.props.history.goBack()}>戻る</button>
       </div>
     );

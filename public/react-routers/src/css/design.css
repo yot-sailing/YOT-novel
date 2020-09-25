@@ -825,3 +825,10 @@ div.novel-content {
 .star-fav:after {
   transform: rotate(-71deg);
 }
+
+#request-write {
+  margin-right: 25px;
+}
+#request-done {
+  margin-left: 25px;
+}
