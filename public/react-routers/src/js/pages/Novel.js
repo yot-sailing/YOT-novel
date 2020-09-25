@@ -56,6 +56,8 @@ class Novel extends React.Component {
             rating: doc.data().rating,
           });
         } else {
+          this.props.history.push('/404');
+          return;
           console.log('Cannot find novel (in Novel)');
         }
       })
