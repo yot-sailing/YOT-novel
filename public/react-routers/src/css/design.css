@@ -22,8 +22,27 @@ html {
 body {
   background-color: #f3f3f2;
 }
-.navbar-fixed-top {
+.navbar-color {
   background-color: #293097;
+}
+/* override bootstrap navbar colors */
+.navbar,
+.navbar-default {
+  background-image: linear-gradient(
+    to bottom,
+    #293097 0,
+    #293097 100%
+  ) !important; /* override background image gradient w/ flat color */
+}
+.navbar-brand {
+  float: left;
+  padding: 10px 10px;
+  font-size: 18px;
+  line-height: 20px;
+  height: 50px;
+}
+.navbar-nav {
+  margin-top: 17px;
 }
 /* 縦に要素並ぶやつ全体 */
 .contents-list {
@@ -154,11 +173,25 @@ body {
   display: inline;
   text-align: end;
   color: white;
-  margin: 0 10px;
 }
-.sign-menu {
-  /* ログインボタンは右側に */
-  float: right;
+header li {
+  display: inline;
+  text-align: end;
+  color: white;
+}
+
+.navbar-nav > li > a {
+  color: white;
+  padding: 16px;
+}
+
+.navbar {
+  background-repeat: no-repeat;
+  -webkit-filter: none;
+  filter: none;
+  -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+  background-image: #293097;
 }
 
 .navbar-nav li.active a {
@@ -167,6 +200,14 @@ body {
   color: #022f5a !important;
   font-weight: bold;
   box-shadow: 2px 2px 1px inset;
+}
+.sign-menu {
+  /* ログインボタンは右側に */
+  float: top;
+  color: white;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 
 /**
@@ -220,7 +261,7 @@ ul.footer-menu a {
 }
 footer {
   width: 100%;
-  background-color: #022a50;
+  background-image: linear-gradient(#293097 0, #293097 100%);
   color: white;
   text-align: center;
   font-size: 15px;
