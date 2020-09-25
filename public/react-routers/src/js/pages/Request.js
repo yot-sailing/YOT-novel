@@ -27,7 +27,7 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <div>
+        <div class="lis-request">
           {this.state.request.length == 0
             ? '投稿されたお題はありません'
             : this.state.request}

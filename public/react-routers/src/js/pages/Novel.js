@@ -329,8 +329,8 @@ class Novel extends React.Component {
         {this.state.rating}
         <br />
         {this.state.reviews.map((review) => (
-          <ul>
-            <PersonPinIcon fontSize="large" /> {''}
+          <ul id="reviews-list">
+            <PersonPinIcon fontSize="large" id="review-person" /> {''}
             {review}
           </ul>
         ))}

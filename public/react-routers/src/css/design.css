@@ -828,7 +828,21 @@ div.novel-content {
 
 #request-write {
   margin-right: 25px;
+  margin-bottom: -6px;
 }
 #request-done {
-  margin-left: 25px;
+  margin-bottom: -6px;
+}
+#request-done-string {
+  position: relative;
+  left: 700px;
+  top: -30px;
+}
+#review-person {
+  margin-right: 4px;
+  padding-top: 0;
+  margin-bottom: -6px;
+}
+#reviews-list {
+  margin-top: 14px;
 }
