@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import ReviewComponent from '../components/ReviewComponent';
 import News from '../components/News';
 import FavoriteIcon from '../../../node_modules/@material-ui/icons/Favorite';
+import RubyText from '../components/RubyText';
 
 class Novel extends React.Component {
   constructor(props) {
@@ -294,7 +295,9 @@ class Novel extends React.Component {
             <Link to={this.state.site}>{this.state.name}</Link>
           </div>
         </div>
-        <div class="novel-content"> {this.state.text} </div>
+        <div class="novel-content">
+          <RubyText plainText={this.state.text}></RubyText>
+        </div>
         <form class="novel-evaluation" onSubmit={this.handleSubmit}>
           <div class="novel-evaluation-title">評価を投稿する</div>
           <div class="novel-evaluation-rating">
