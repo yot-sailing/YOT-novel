@@ -36,53 +36,6 @@ export default class extends React.Component {
     this.setState({ overview: event.target.value });
   }
 
-  // // 小説投稿処理、マイページへの遷移
-  // async handleSubmit(event) {
-  //   const val = this.state.value;
-  //   const title = this.state.title;
-  //   const category = this.state.category;
-  //   const overview = this.state.overview;
-
-  //   // 小説の本文が空なら投稿しない
-  //   if (val === '') {
-  //     return;
-  //   }
-
-  //   var newDocRef;
-  //   var uid = firebase.auth().currentUser.uid;
-  //   // 小説投稿処理
-  //   await db
-  //     .collection('users')
-  //     .doc(uid)
-  //     .get()
-  //     .then((doc) => {
-  //       newDocRef = doc;
-  //       // db.collection('novels').add({
-  //       //   author_id: uid,
-  //       //   name: doc.data().username,
-  //       //   title: title,
-  //       //   category: category,
-  //       //   overview: overview,
-  //       //   text: val,
-  //       //   created: firebase.firestore.FieldValue.serverTimestamp(),
-  //       // });
-  //     });
-  //   await db.collection('novels').add({
-  //     author_id: uid,
-  //     name: newDocRef.data().username,
-  //     title: title,
-  //     category: category,
-  //     overview: overview,
-  //     text: val,
-  //     created: firebase.firestore.FieldValue.serverTimestamp(),
-  //   });
-
-  //   //event.preventDefault();
-
-  //   // マイページへ戻る
-  //   this.props.history.push('/mypage');
-  // }
-
   // 小説投稿処理、マイページへの遷移
   async handleSubmit(event) {
     const val = this.state.value;
