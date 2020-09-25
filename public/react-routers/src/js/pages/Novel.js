@@ -329,7 +329,7 @@ class Novel extends React.Component {
             <Link to={this.state.site}>{this.state.name}</Link>
           </div>
         </div>
-       <div class="novel-content">
+        <div class="novel-content">
           <RubyText plainText={this.state.text}></RubyText>
         </div>
         <br />
@@ -337,25 +337,6 @@ class Novel extends React.Component {
           <div class="novel-sameUser">
             <hr align="center"></hr>
             自分が書いた小説にレビューすることはできません。
-        <form class="novel-evaluation" onSubmit={this.handleSubmit}>
-          <div class="novel-evaluation-title">評価を投稿する</div>
-          <div class="novel-evaluation-rating">
-            <ReactStarsRating
-              onChange={this.onChange}
-              isEdit={isEdit}
-              value={value}
-              selectedValue={selectedValue}
-            />
-            <div>Selected value: {selectedValue}</div>
-          </div>
-          <div class="novel-evaluation-comment">
-            <textarea
-              type="text"
-              id="comment"
-              placeholder="コメント"
-              value={this.state.comment}
-              onChange={this.handleChange}
-            />
           </div>
         ) : (
           <form class="novel-evaluation" onSubmit={this.handleSubmit}>
