@@ -32,7 +32,9 @@ export default class extends React.Component {
         </div>
         <div class="row">
           <div class="col-lg-12">
-            <h2 class="footer-main">YOT</h2>
+            <h2 class="footer-main">
+              <img src="../../emblemmatic-roman-logo-237.png" width="150" />
+            </h2>
             <ul class="footer-menu">
               <li class={topClass}>
                 <Link to="/ranking" onClick={this.toggleCollapse.bind(this)}>

@@ -36,7 +36,7 @@ body {
 }
 .navbar-brand {
   float: left;
-  padding: 10px 10px;
+  padding: 5px 10px;
   font-size: 18px;
   line-height: 20px;
   height: 50px;
@@ -238,6 +238,9 @@ div.to-the-top-container {
   text-align: right;
   background-color: #f3f3f2;
   padding-right: 3em;
+}
+#footer-img {
+  float: left;
 }
 ul.footer-menu li {
   display: inline;
