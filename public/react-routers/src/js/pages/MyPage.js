@@ -111,7 +111,7 @@ export default class extends React.Component {
         <div class="mypage-contents-title  read-novel-title">小説を読む</div>
         <div class="user-information">
           <div class="contents-list favorite-writer">
-            <h3>お気に入りユーザー</h3>
+            <h3>フォロー中のユーザー</h3>
             <div class="box-list-yaxis">{this.state.writerList}</div>
           </div>
           <div class="contents-list wrote-novel">

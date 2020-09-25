@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase, { db } from '../connectDB';
+import RubyText from '../components/RubyText';
 
 export default class extends React.Component {
   constructor(props) {
@@ -9,6 +10,8 @@ export default class extends React.Component {
       category: '',
       overview: '',
       value: '',
+      isTempView: false,
+      rubyText: null,
     };
 
     this.val_handleChange = this.val_handleChange.bind(this);
@@ -16,6 +19,8 @@ export default class extends React.Component {
     this.category_handleChange = this.category_handleChange.bind(this);
     this.overview_handleChange = this.overview_handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.areaChange = this.areaChange.bind(this);
+    this.insertRuby = this.insertRuby.bind(this);
   }
 
   val_handleChange(event) {
@@ -64,6 +69,23 @@ export default class extends React.Component {
 
     // マイページへ戻る
     this.props.history.push('/mypage');
+  }
+
+  // プレビューと編集を切り替える
+  areaChange() {
+    this.setState({ isTempView: !this.state.isTempView });
+    this.setState({
+      rubyText: <RubyText plainText={this.state.value}></RubyText>,
+    });
+  }
+
+  // 編集画面の時にルビ用の記号を入れる
+  insertRuby() {
+    if (!this.state.isTempView) {
+      var inputarea = document.getElementById('text');
+      var str = inputarea.textContent;
+      this.setState({ value: str + '|ルビを振りたい文字|ルビ|' });
+    }
   }
 
   render() {
@@ -120,13 +142,43 @@ export default class extends React.Component {
             </div>
             <div class="novel-input-name">
               <div class="input-name">本文</div>
-              <textarea
-                type="text"
-                id="text"
-                value={this.state.value}
-                onChange={this.val_handleChange}
-                placeholder="本文"
-              />
+              <button
+                type="button"
+                class="edit-area-change"
+                onClick={this.areaChange}
+              >
+                {this.state.isTempView ? '編集に戻る' : 'プレビュー'}
+              </button>
+              <button
+                type="button"
+                class="insert-ruby"
+                onClick={this.insertRuby}
+              >
+                ルビ記号を入れる
+              </button>
+              <div class="edit-area">
+                <textarea
+                  type="text"
+                  id="text"
+                  class={
+                    this.state.isTempView
+                      ? 'edit-area noview'
+                      : 'edit-area view'
+                  }
+                  value={this.state.value}
+                  onChange={this.val_handleChange}
+                  placeholder="本文"
+                />
+                <div
+                  class={
+                    this.state.isTempView
+                      ? 'temp-view-area view'
+                      : 'temp-view-area noview'
+                  }
+                >
+                  {this.state.rubyText}
+                </div>
+              </div>
             </div>
             <div class="submit-button-wrapper">
               <button
