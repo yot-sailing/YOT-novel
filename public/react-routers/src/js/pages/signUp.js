@@ -18,6 +18,8 @@ export default class extends React.Component {
     this.password_handleChange = this.password_handleChange.bind(this);
     this.username_handleChange = this.username_handleChange.bind(this);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
+
+    //setTimeout('location.reload()', 10000);
   }
   toggleCollapse() {
     const collapsed = !this.state.collapsed;
@@ -37,7 +39,7 @@ export default class extends React.Component {
     this.setState({ username: event.target.value });
   }
 
-  handleOnSubmit(e) {
+  async handleOnSubmit(e) {
     // 入力欄に記入された値
     const username = this.state.username;
     const email = this.state.email;
@@ -49,17 +51,24 @@ export default class extends React.Component {
 
     e.preventDefault();
 
-    // authに追加
-    firebase
+    var userResult;
+    await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        db.collection('users').doc(result.user.uid).set({ username: username });
-        if (this.state._isMounted) {
-          this.setState({ loading: false }); //正常終了
-          this.props.history.push('/myPage');
-          alert('アカウント登録に成功しました');
-        }
+        userResult = result;
+        console.log(result.user.uid);
+        console.log(username);
+      });
+
+    await db
+      .collection('users')
+      .doc(userResult.user.uid)
+      .set({ username: username })
+      .then(() => {
+        this.setState({ loading: false }); //正常終了
+        this.props.history.push('/myPage');
+        alert('アカウント登録に成功しました');
       })
       .catch((error) => {
         if (this.state._isMounted) {
