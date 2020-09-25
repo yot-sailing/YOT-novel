@@ -7,7 +7,7 @@ class Layout extends React.Component {
   render() {
     const { location } = this.props;
     const containterStyle = {
-      paddingTop: '100px',
+      paddingTop: '0px',
       marginBottom: '8em',
     };
 
