@@ -1,7 +1,5 @@
 import React from 'react';
 import firebase, { db } from '../connectDB';
-import TextField from '../../../node_modules/@material-ui/core/TextField';
-import { sizing } from '../../../node_modules/@material-ui/system';
 
 export default class extends React.Component {
   constructor(props) {
@@ -63,12 +61,6 @@ export default class extends React.Component {
       <div>
         <h3>お題を投稿しよう</h3>
         <form onSubmit={this.handleSubmit}>
-          <TextField
-            id="standard-basic"
-            label="お題を入力"
-            fullWidth
-            style={{ fontSize: '2000px' }}
-          />
           <textarea
             type="text"
             id="request"
